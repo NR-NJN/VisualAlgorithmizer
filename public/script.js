@@ -1,4 +1,4 @@
-// Initialize AOS (Animate on Scroll)
+ 
 document.addEventListener('DOMContentLoaded', function() {
     AOS.init({
         duration: 800,
@@ -7,10 +7,10 @@ document.addEventListener('DOMContentLoaded', function() {
         mirror: false
     });
 
-    // Initialize GSAP and ScrollTrigger
+     
     gsap.registerPlugin(ScrollTrigger);
 
-    // Custom cursor
+     
     const cursor = document.querySelector('.cursor-follower');
     
     document.addEventListener('mousemove', e => {
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
         cursor.style.transform = 'translate(-50%, -50%) scale(1)';
     });
 
-    // Links and buttons hover effect for cursor
+     
     const links = document.querySelectorAll('a, button, .btn');
     
     links.forEach(link => {
@@ -46,16 +46,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Navigation toggle for mobile
+     
     const burger = document.querySelector('.burger');
     const nav = document.querySelector('.nav-links');
     const navLinks = document.querySelectorAll('.nav-links li');
 
     burger.addEventListener('click', () => {
-        // Toggle navigation
+         
         nav.classList.toggle('nav-active');
         
-        // Animate links
+         
         navLinks.forEach((link, index) => {
             if (link.style.animation) {
                 link.style.animation = '';
@@ -64,11 +64,11 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        // Burger animation
+         
         burger.classList.toggle('toggle');
     });
 
-    // Navbar scroll effect
+     
     window.addEventListener('scroll', () => {
         const navbar = document.querySelector('.navbar');
         if (window.scrollY > 50) {
@@ -78,9 +78,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Typing animation
+     
     const typingText = document.querySelector('.typing-text');
-    const text = " Do not mess with the Lion, for he might not concern himself with the opinion of a toyota camry owner";
+    const text = "Interactive visualizations of fundamental data structures and algorithms.";
     let i = 0;
     
     function typeWriter() {
@@ -93,117 +93,76 @@ document.addEventListener('DOMContentLoaded', function() {
     
     typeWriter();
 
-    // Matrix rain animation
+     
     const canvas = document.getElementById('matrix-canvas');
-    const ctx = canvas.getContext('2d');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-    const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
-    const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const nums = '0123456789';
-    const binary = '01';
-    
-    const alphabet = binary;
-    
-    const fontSize = 16;
-    const columns = canvas.width / fontSize;
-    
-    const rainDrops = [];
-    
-    for (let x = 0; x < columns; x++) {
-        rainDrops[x] = 1;
-    }
-    
-    const draw = () => {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        const binary = '01';
         
-        ctx.fillStyle = '#0aefff';
-        ctx.font = fontSize + 'px monospace';
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
         
-        for (let i = 0; i < rainDrops.length; i++) {
-            const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
-            ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
-            
-            if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                rainDrops[i] = 0;
-            }
-            rainDrops[i]++;
+        const rainDrops = [];
+        
+        for (let x = 0; x < columns; x++) {
+            rainDrops[x] = 1;
         }
-    };
-    
-    setInterval(draw, 30);
-
-    // Skill bar animation
-    const skillBars = document.querySelectorAll('.progress-bar');
-    
-    skillBars.forEach(bar => {
-        const width = bar.getAttribute('data-width');
         
-        ScrollTrigger.create({
-            trigger: bar,
-            start: "top 80%",
-            onEnter: () => {
-                bar.style.width = width;
+        const draw = () => {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#0aefff';
+            ctx.font = fontSize + 'px monospace';
+            
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = binary.charAt(Math.floor(Math.random() * binary.length));
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+                
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
             }
-        });
-    });
-
-    // Counter animation
-    const counters = document.querySelectorAll('.counter');
-    
-    counters.forEach(counter => {
-        const target = +counter.getAttribute('data-target');
-        const duration = 2000; // 2 seconds
-        const increment = target / (duration / 16); // 60fps
+        };
         
-        ScrollTrigger.create({
-            trigger: counter,
-            start: "top 80%",
-            onEnter: () => {
-                let count = 0;
-                const updateCounter = () => {
-                    count += increment;
-                    if (count < target) {
-                        counter.innerText = Math.ceil(count);
-                        requestAnimationFrame(updateCounter);
-                    } else {
-                        counter.innerText = target;
-                    }
-                };
-                updateCounter();
-            }
-        });
-    });
+        setInterval(draw, 30);
+    }
 
-    // Form highlight animation
+     
     const formInputs = document.querySelectorAll('input, textarea');
     
     formInputs.forEach(input => {
         input.addEventListener('focus', () => {
             const highlight = input.nextElementSibling;
-            highlight.style.width = '100%';
-            highlight.style.left = '0';
+            if (highlight && highlight.classList.contains('form-highlight')) {
+                highlight.style.width = '100%';
+                highlight.style.left = '0';
+            }
         });
         
         input.addEventListener('blur', () => {
             const highlight = input.nextElementSibling;
-            highlight.style.width = '0';
-            highlight.style.left = '50%';
+            if (highlight && highlight.classList.contains('form-highlight')) {
+                highlight.style.width = '0';
+                highlight.style.left = '50%';
+            }
         });
     });
 
-    // Form submission
+     
     const contactForm = document.getElementById('contactForm');
     
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Here you would normally send the form data to your server
-            // For now, let's just show a success message
+             
+             
             const formElements = contactForm.elements;
             for (let i = 0; i < formElements.length; i++) {
                 if (formElements[i].type !== 'submit') {
@@ -215,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Smooth scrolling for anchor links
+     
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
@@ -229,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     behavior: 'smooth'
                 });
                 
-                // Close mobile menu if open
+                 
                 if (nav.classList.contains('nav-active')) {
                     nav.classList.remove('nav-active');
                     burger.classList.remove('toggle');
@@ -242,12 +201,272 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Window resize handler
+     
     window.addEventListener('resize', () => {
-        // Update matrix canvas dimensions
+         
         if (canvas) {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         }
     });
+
+     
+    
+     
+    const arrayContainer = document.getElementById('array-container');
+    let arrayData = [];
+    
+     
+    function generateRandomArray(size = 10, min = 1, max = 99) {
+        arrayData = [];
+        for (let i = 0; i < size; i++) {
+            arrayData.push(Math.floor(Math.random() * (max - min + 1)) + min);
+        }
+        renderArray();
+        updateArrayInfo('Array initialized', 'O(1)', 'O(n)');
+    }
+    
+     
+    function renderArray() {
+        if (!arrayContainer) return;
+        
+        arrayContainer.innerHTML = '';
+        arrayData.forEach((value, index) => {
+            const element = document.createElement('div');
+            element.className = 'array-element';
+            element.textContent = value;
+            element.dataset.index = index;
+            arrayContainer.appendChild(element);
+        });
+    }
+    
+     
+    function updateArrayInfo(operation, timeComplexity, spaceComplexity) {
+        const operationElement = document.getElementById('array-operation');
+        const complexityElement = document.getElementById('array-complexity');
+        const spaceElement = document.getElementById('array-space');
+        
+        if (operationElement) operationElement.textContent = operation;
+        if (complexityElement) complexityElement.textContent = timeComplexity;
+        if (spaceElement) spaceElement.textContent = spaceComplexity;
+    }
+    
+     
+    async function animateArrayTraversal() {
+        updateArrayInfo('Array Traversal', 'O(n)', 'O(1)');
+        
+        const elements = document.querySelectorAll('.array-element');
+        for (let i = 0; i < elements.length; i++) {
+            elements.forEach(el => el.classList.remove('current'));
+            elements[i].classList.add('current');
+            
+            await new Promise(resolve => setTimeout(resolve, 500));
+        }
+        
+        elements.forEach(el => el.classList.remove('current'));
+        updateArrayInfo('Traversal Complete', 'O(n)', 'O(1)');
+    }
+    
+     
+    async function animateArraySearch(value) {
+        const searchValue = parseInt(value);
+        if (isNaN(searchValue)) {
+            alert('Please enter a valid number');
+            return;
+        }
+        
+        updateArrayInfo(`Searching for ${searchValue}`, 'O(n)', 'O(1)');
+        
+        const elements = document.querySelectorAll('.array-element');
+        let found = false;
+        
+        for (let i = 0; i < elements.length; i++) {
+            elements.forEach(el => el.classList.remove('current', 'found'));
+            elements[i].classList.add('current');
+            
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            if (parseInt(elements[i].textContent) === searchValue) {
+                elements[i].classList.remove('current');
+                elements[i].classList.add('found');
+                found = true;
+                break;
+            }
+        }
+        
+        if (!found) {
+            elements.forEach(el => el.classList.remove('current'));
+            updateArrayInfo(`Value ${searchValue} not found`, 'O(n)', 'O(1)');
+        } else {
+            updateArrayInfo(`Value ${searchValue} found`, 'O(n)', 'O(1)');
+        }
+    }
+    
+     
+    async function animateBubbleSort() {
+        updateArrayInfo('Bubble Sort', 'O(n²)', 'O(1)');
+        
+        const elements = document.querySelectorAll('.array-element');
+        const n = elements.length;
+        
+        for (let i = 0; i < n; i++) {
+            for (let j = 0; j < n - i - 1; j++) {
+                elements.forEach(el => el.classList.remove('current', 'compared'));
+                elements[j].classList.add('compared');
+                elements[j + 1].classList.add('compared');
+                
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                const val1 = parseInt(elements[j].textContent);
+                const val2 = parseInt(elements[j + 1].textContent);
+                
+                if (val1 > val2) {
+                     
+                    arrayData[j] = val2;
+                    arrayData[j + 1] = val1;
+                    
+                     
+                    elements[j].textContent = val2;
+                    elements[j + 1].textContent = val1;
+                    
+                     
+                    gsap.to(elements[j], { y: -30, duration: 0.2, ease: "power1.out" });
+                    gsap.to(elements[j + 1], { y: 30, duration: 0.2, ease: "power1.out" });
+                    await new Promise(resolve => setTimeout(resolve, 200));
+                    gsap.to(elements[j], { y: 0, duration: 0.2, ease: "power1.in" });
+                    gsap.to(elements[j + 1], { y: 0, duration: 0.2, ease: "power1.in" });
+                    await new Promise(resolve => setTimeout(resolve, 200));
+                }
+            }
+            
+             
+            elements[n - i - 1].classList.add('sorted');
+        }
+        
+        updateArrayInfo('Bubble Sort Complete', 'O(n²)', 'O(1)');
+    }
+    
+     
+    async function animateSelectionSort() {
+        updateArrayInfo('Selection Sort', 'O(n²)', 'O(1)');
+        
+        const elements = document.querySelectorAll('.array-element');
+        const n = elements.length;
+        
+        for (let i = 0; i < n; i++) {
+            let minIndex = i;
+            elements[i].classList.add('current');
+            
+            for (let j = i + 1; j < n; j++) {
+                elements.forEach((el, idx) => {
+                    if (idx !== minIndex && idx !== i && idx >= i) {
+                        el.classList.remove('compared');
+                    }
+                });
+                
+                elements[j].classList.add('compared');
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
+                const val1 = parseInt(elements[minIndex].textContent);
+                const val2 = parseInt(elements[j].textContent);
+                
+                if (val2 < val1) {
+                    elements[minIndex].classList.remove('compared');
+                    minIndex = j;
+                    elements[minIndex].classList.add('compared');
+                }
+            }
+            
+            if (minIndex !== i) {
+                 
+                const temp = arrayData[i];
+                arrayData[i] = arrayData[minIndex];
+                arrayData[minIndex] = temp;
+                
+                 
+                elements[i].textContent = arrayData[i];
+                elements[minIndex].textContent = arrayData[minIndex];
+                
+                 
+                gsap.to(elements[i], { y: -30, duration: 0.2, ease: "power1.out" });
+                gsap.to(elements[minIndex], { y: 30, duration: 0.2, ease: "power1.out" });
+                await new Promise(resolve => setTimeout(resolve, 200));
+                gsap.to(elements[i], { y: 0, duration: 0.2, ease: "power1.in" });
+                gsap.to(elements[minIndex], { y: 0, duration: 0.2, ease: "power1.in" });
+                await new Promise(resolve => setTimeout(resolve, 200));
+            }
+            
+            elements.forEach(el => el.classList.remove('current', 'compared'));
+            elements[i].classList.add('sorted');
+        }
+        
+        updateArrayInfo('Selection Sort Complete', 'O(n²)', 'O(1)');
+    }
+    
+     
+    async function animateInsertionSort() {
+        updateArrayInfo('Insertion Sort', 'O(n²)', 'O(1)');
+        
+        const elements = document.querySelectorAll('.array-element');
+        const n = elements.length;
+        
+        elements[0].classList.add('sorted');
+        
+        for (let i = 1; i < n; i++) {
+            const key = arrayData[i];
+            elements[i].classList.add('current');
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            let j = i - 1;
+            while (j >= 0 && arrayData[j] > key) {
+                elements[j].classList.add('compared');
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
+                 
+                arrayData[j + 1] = arrayData[j];
+                elements[j + 1].textContent = arrayData[j];
+                
+                 
+                gsap.to(elements[j + 1], { y: 30, duration: 0.3, ease: "power1.out" });
+                gsap.to(elements[j], { y: -30, duration: 0.3, ease: "power1.out" });
+                
+                await new Promise(resolve => setTimeout(resolve, 300));
+                
+                gsap.to(elements[j + 1], { y: 0, duration: 0.3, ease: "power1.in" });
+                gsap.to(elements[j], { y: 0, duration: 0.3, ease: "power1.in" });
+                
+                elements[j].classList.remove('compared');
+                j--;
+            }
+            
+             
+            arrayData[j + 1] = key;
+            elements[j + 1].textContent = key;
+            elements[i].classList.remove('current');
+            
+             
+            for (let k = 0; k <= i; k++) {
+                elements[k].classList.add('sorted');
+            }
+        }
+        
+        updateArrayInfo('Insertion Sort Complete', 'O(n²)', 'O(1)');
+    }
+    if (arrayContainer) {
+        generateRandomArray();
+        
+         
+        document.getElementById('array-traverse-btn')?.addEventListener('click', animateArrayTraversal);
+        document.getElementById('array-search-btn')?.addEventListener('click', () => {
+            const value = document.getElementById('array-search-input').value;
+            animateArraySearch(value);
+        });
+        document.getElementById('array-sort-btn')?.addEventListener('click', () => {
+            const sortType = document.getElementById('array-sort-select').value;
+            if (sortType === 'bubble') animateBubbleSort();
+            else if (sortType === 'selection') animateSelectionSort();
+            else if (sortType === 'insertion') animateInsertionSort();
+        });
+        document.getElementById('array-reset-btn')?.addEventListener('click', generateRandomArray);
+    }
 });

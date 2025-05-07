@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Cybersecurity Journey</title>
+    <title>Data Structure Visualizer</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -13,17 +13,17 @@
 <body>
     <div class="cursor-follower"></div>
     
-    <!-- Navigation -->
+   
     <nav class="navbar">
         <div class="logo">
-            <span class="logo-text">NILLU HUB</span>
+            <span class="logo-text">DSVisualizer</span>
         </div>
         <ul class="nav-links">
             <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#certifications">Certifications</a></li>
+            <li><a href="#arrays">Arrays</a></li>
+            <li><a href="#linked-lists">Linked Lists</a></li>
+            <li><a href="#trees">Trees</a></li>
+            <li><a href="#graphs">Graphs</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
         <div class="burger">
@@ -33,16 +33,16 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
+   
     <section id="home" class="hero">
         <div class="glitch-container">
-            <h1 class="glitch" data-text="AJGAONKAR">NIRANJAN</h1>
+            <h1 class="glitch" data-text="Data Structure Visualizer">Data Structure Visualizer</h1>
         </div>
         <div class="hero-content">
-            <p class="typing-text">Number 1 Vikram Royaler everytime during MadMax event, Smart feller vs Fart smeller competition winner.<br></p>
+            <p class="typing-text">Interactive visualizations of fundamental data structures and algorithms.</p>
             <div class="cta-buttons">
-                <a href="#projects" class="btn primary-btn">Send Money</a>
-                <a href="#contact" class="btn secondary-btn">Send Butt Pics</a>
+                <a href="#arrays" class="btn primary-btn">Explore Visualizations</a>
+                <a href="#contact" class="btn secondary-btn">Contact Me</a>
             </div>
         </div>
         <div class="hero-background">
@@ -50,179 +50,170 @@
         </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="about">
-        <h2 data-aos="fade-up">About Me</h2>
-        <div class="about-content">
-            <div class="about-image" data-aos="fade-right">
-                <div class="image-container">
-                    <!-- Replace with your image -->
-                    <div class="placeholder-image">Your Image</div>
+   
+    <section id="arrays" class="arrays">
+        <h2 data-aos="fade-up">Array Visualizations</h2>
+        <div class="visualization-container" data-aos="fade-up">
+            <div class="controls">
+                <div class="control-group">
+                    <button id="array-traverse-btn" class="action-btn">Traverse</button>
+                    <button id="array-search-btn" class="action-btn">Search</button>
+                    <button id="array-sort-btn" class="action-btn">Sort</button>
+                    <button id="array-reset-btn" class="action-btn">Reset</button>
                 </div>
-            </div>
-            <div class="about-text" data-aos="fade-left">
-                <p>Replace this with your personal cybersecurity journey and background. Describe your passion for cybersecurity, how you got started, and what drives you in this field.</p>
-                <p>Include information about your specializations, approach to security, and professional philosophy.</p>
-                <div class="stats-container">
-                    <div class="stat-item" data-aos="zoom-in" data-aos-delay="100">
-                        <span class="counter" data-target="5">0</span>
-                        <span>Years Experience</span>
-                    </div>
-                    <div class="stat-item" data-aos="zoom-in" data-aos-delay="200">
-                        <span class="counter" data-target="20">0</span>
-                        <span>Projects Completed</span>
-                    </div>
-                    <div class="stat-item" data-aos="zoom-in" data-aos-delay="300">
-                        <span class="counter" data-target="10">0</span>
-                        <span>Certifications</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section id="skills" class="skills">
-        <h2 data-aos="fade-up">Technical Skills</h2>
-        <div class="skills-container">
-            <div class="skill-category" data-aos="fade-up">
-                <h3>Offensive Security</h3>
-                <div class="skill-bars">
-                    <div class="skill-bar">
-                        <div class="skill-name">Penetration Testing</div>
-                        <div class="skill-progress">
-                            <div class="progress-bar" data-width="90%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-bar">
-                        <div class="skill-name">Vulnerability Assessment</div>
-                        <div class="skill-progress">
-                            <div class="progress-bar" data-width="85%"></div>
-                        </div>
-                    </div>
-                    <!-- Add more skills as needed -->
+                <div class="control-group">
+                    <input type="number" id="array-search-input" placeholder="Search value" min="1" max="99">
+                    <select id="array-sort-select">
+                        <option value="bubble">Bubble Sort</option>
+                        <option value="selection">Selection Sort</option>
+                        <option value="insertion">Insertion Sort</option>
+                    </select>
                 </div>
             </div>
             
-            <div class="skill-category" data-aos="fade-up" data-aos-delay="100">
-                <h3>Defensive Security</h3>
-                <div class="skill-bars">
-                    <div class="skill-bar">
-                        <div class="skill-name">SIEM Implementation</div>
-                        <div class="skill-progress">
-                            <div class="progress-bar" data-width="80%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-bar">
-                        <div class="skill-name">Incident Response</div>
-                        <div class="skill-progress">
-                            <div class="progress-bar" data-width="75%"></div>
-                        </div>
-                    </div>
-                    <!-- Add more skills as needed -->
-                </div>
-            </div>
-            
-            <div class="skill-category" data-aos="fade-up" data-aos-delay="200">
-                <h3>Tools & Technologies</h3>
-                <div class="tools-grid">
-                    <div class="tool-item">Kali Linux</div>
-                    <div class="tool-item">Metasploit</div>
-                    <div class="tool-item">Wireshark</div>
-                    <div class="tool-item">Burp Suite</div>
-                    <div class="tool-item">Nmap</div>
-                    <div class="tool-item">OWASP ZAP</div>
-                    <!-- Add more tools as needed -->
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section id="projects" class="projects">
-        <h2 data-aos="fade-up">Featured Projects</h2>
-        <div class="projects-grid">
-            <!-- Project Card 1 -->
-            <div class="project-card" data-aos="flip-left">
-                <div class="project-image">
-                    <div class="image-overlay">
-                        <div class="overlay-content">
-                            <a href="#" class="btn view-btn">View Details</a>
-                        </div>
-                    </div>
-                    <!-- Replace with project image -->
-                    <div class="placeholder-image">Project Image</div>
-                </div>
-                <div class="project-info">
-                    <h3>Network Vulnerability Assessment</h3>
-                    <p>Brief description of the project, methodologies used, and outcomes achieved.</p>
-                    <div class="project-tags">
-                        <span>Penetration Testing</span>
-                        <span>Network Security</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Project Card 2 -->
-            <div class="project-card" data-aos="flip-left" data-aos-delay="100">
-                <div class="project-image">
-                    <div class="image-overlay">
-                        <div class="overlay-content">
-                            <a href="#" class="btn view-btn">View Details</a>
-                        </div>
-                    </div>
-                    <!-- Replace with project image -->
-                    <div class="placeholder-image">Project Image</div>
-                </div>
-                <div class="project-info">
-                    <h3>Web Application Security Audit</h3>
-                    <p>Brief description of the project, methodologies used, and outcomes achieved.</p>
-                    <div class="project-tags">
-                        <span>Web Security</span>
-                        <span>OWASP</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Add more project cards as needed -->
-        </div>
-    </section>
-
-    <!-- Certifications Section -->
-    <section id="certifications" class="certifications">
-        <h2 data-aos="fade-up">Certifications & Achievements</h2>
-        <div class="certifications-container">
-            <div class="cert-timeline">
-                <!-- Certification 1 -->
-                <div class="cert-item" data-aos="fade-up">
-                    <div class="cert-icon">
-                        <i class="cert-badge">🏆</i>
-                    </div>
-                    <div class="cert-content">
-                        <h3>Certified Ethical Hacker (CEH)</h3>
-                        <p class="cert-date">Obtained: January 2023</p>
-                        <p>Description of what you learned and accomplished with this certification.</p>
-                    </div>
-                </div>
+            <div class="array-container" id="array-container">
                 
-                <!-- Certification 2 -->
-                <div class="cert-item" data-aos="fade-up" data-aos-delay="100">
-                    <div class="cert-icon">
-                        <i class="cert-badge">🏆</i>
-                    </div>
-                    <div class="cert-content">
-                        <h3>CompTIA Security+</h3>
-                        <p class="cert-date">Obtained: June 2022</p>
-                        <p>Description of what you learned and accomplished with this certification.</p>
-                    </div>
+            </div>
+            
+            <div class="visualization-info">
+                <div class="info-panel">
+                    <h3>Current Operation:</h3>
+                    <p id="array-operation">No operation in progress</p>
                 </div>
-                
-                <!-- Add more certifications as needed -->
+                <div class="info-panel">
+                    <h3>Time Complexity:</h3>
+                    <p id="array-complexity">-</p>
+                </div>
+                <div class="info-panel">
+                    <h3>Space Complexity:</h3>
+                    <p id="array-space">-</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
+    
+    <section id="linked-lists" class="linked-lists">
+        <h2 data-aos="fade-up">Linked List Visualizations</h2>
+        <div class="visualization-container" data-aos="fade-up">
+            <div class="controls">
+                <div class="control-group">
+                    <button id="list-traverse-btn" class="action-btn">Traverse</button>
+                    <button id="list-insert-btn" class="action-btn">Insert</button>
+                    <button id="list-delete-btn" class="action-btn">Delete</button>
+                    <button id="list-reset-btn" class="action-btn">Reset</button>
+                </div>
+                <div class="control-group">
+                    <input type="number" id="list-value-input" placeholder="Value" min="1" max="99">
+                    <input type="number" id="list-position-input" placeholder="Position" min="0" max="10">
+                </div>
+            </div>
+            
+            <div class="list-container" id="list-container">
+               
+            </div>
+            
+            <div class="visualization-info">
+                <div class="info-panel">
+                    <h3>Current Operation:</h3>
+                    <p id="list-operation">No operation in progress</p>
+                </div>
+                <div class="info-panel">
+                    <h3>Time Complexity:</h3>
+                    <p id="list-complexity">-</p>
+                </div>
+                <div class="info-panel">
+                    <h3>Space Complexity:</h3>
+                    <p id="list-space">-</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+    <section id="trees" class="trees">
+        <h2 data-aos="fade-up">Binary Tree Visualizations</h2>
+        <div class="visualization-container" data-aos="fade-up">
+            <div class="controls">
+                <div class="control-group">
+                    <button id="tree-insert-btn" class="action-btn">Insert</button>
+                    <button id="tree-delete-btn" class="action-btn">Delete</button>
+                    <button id="tree-traverse-btn" class="action-btn">Traverse</button>
+                    <button id="tree-reset-btn" class="action-btn">Reset</button>
+                </div>
+                <div class="control-group">
+                    <input type="number" id="tree-value-input" placeholder="Value" min="1" max="99">
+                    <select id="tree-traverse-select">
+                        <option value="inorder">In-order</option>
+                        <option value="preorder">Pre-order</option>
+                        <option value="postorder">Post-order</option>
+                        <option value="levelorder">Level-order</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="tree-container" id="tree-container">
+                
+            </div>
+            
+            <div class="visualization-info">
+                <div class="info-panel">
+                    <h3>Current Operation:</h3>
+                    <p id="tree-operation">No operation in progress</p>
+                </div>
+                <div class="info-panel">
+                    <h3>Time Complexity:</h3>
+                    <p id="tree-complexity">-</p>
+                </div>
+                <div class="info-panel">
+                    <h3>Space Complexity:</h3>
+                    <p id="tree-space">-</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <section id="graphs" class="graphs">
+        <h2 data-aos="fade-up">Graph Visualizations</h2>
+        <div class="visualization-container" data-aos="fade-up">
+            <div class="controls">
+                <div class="control-group">
+                    <button id="graph-add-node-btn" class="action-btn">Add Node</button>
+                    <button id="graph-add-edge-btn" class="action-btn">Add Edge</button>
+                    <button id="graph-bfs-btn" class="action-btn">BFS</button>
+                    <button id="graph-dfs-btn" class="action-btn">DFS</button>
+                    <button id="graph-reset-btn" class="action-btn">Reset</button>
+                </div>
+                <div class="control-group">
+                    <input type="text" id="graph-node-input" placeholder="Node name">
+                    <input type="text" id="graph-edge-from" placeholder="From node">
+                    <input type="text" id="graph-edge-to" placeholder="To node">
+                </div>
+            </div>
+            
+            <div class="graph-container" id="graph-container">
+               
+            </div>
+            
+            <div class="visualization-info">
+                <div class="info-panel">
+                    <h3>Current Operation:</h3>
+                    <p id="graph-operation">No operation in progress</p>
+                </div>
+                <div class="info-panel">
+                    <h3>Time Complexity:</h3>
+                    <p id="graph-complexity">-</p>
+                </div>
+                <div class="info-panel">
+                    <h3>Space Complexity:</h3>
+                    <p id="graph-space">-</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
     <section id="contact" class="contact">
         <h2 data-aos="fade-up">Get In Touch</h2>
         <div class="contact-container">
@@ -274,11 +265,11 @@
         </div>
     </section>
 
-    <!-- Footer -->
+
     <footer>
         <div class="footer-content">
             <div class="footer-logo">
-                <span class="logo-text">CyberPortfolio</span>
+                <span class="logo-text">DSVisualizer</span>
             </div>
             <div class="social-links">
                 <a href="#" class="social-icon">LinkedIn</a>
