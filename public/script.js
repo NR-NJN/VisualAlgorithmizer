@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
      
     const typingText = document.querySelector('.typing-text');
-    const text = "Interactive visualizations of fundamental data structures and algorithms.";
+    const text = " BUT DSA ALWAYS CATCHES UP";
     let i = 0;
     
     function typeWriter() {
@@ -222,14 +222,19 @@ document.addEventListener('DOMContentLoaded', function() {
         for (let i = 0; i < size; i++) {
             arrayData.push(Math.floor(Math.random() * (max - min + 1)) + min);
         }
+        console.log("Generated array:", arrayData);
         renderArray();
         updateArrayInfo('Array initialized', 'O(1)', 'O(n)');
+
     }
     
      
     function renderArray() {
-        if (!arrayContainer) return;
-        
+        if (!arrayContainer){
+            console.log("Array container not found");
+            return;
+        } 
+        console.log("Rendering array to container:", arrayContainer);
         arrayContainer.innerHTML = '';
         arrayData.forEach((value, index) => {
             const element = document.createElement('div');
@@ -238,6 +243,7 @@ document.addEventListener('DOMContentLoaded', function() {
             element.dataset.index = index;
             arrayContainer.appendChild(element);
         });
+        console.log("Array rendering complete");
     }
     
      
