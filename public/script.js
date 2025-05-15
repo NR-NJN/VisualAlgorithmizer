@@ -475,4 +475,145 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         document.getElementById('array-reset-btn')?.addEventListener('click', generateRandomArray);
     }
+
+    const listContainer = document.getElementById('list-container');
+let linkedList = [];
+
+// Generate a random linked list
+function generateRandomLinkedList(size = 5, min = 1, max = 99) {
+    linkedList = [];
+    for (let i = 0; i < size; i++) {
+        linkedList.push(Math.floor(Math.random() * (max - min + 1)) + min);
+    }
+    console.log("Generated linked list:", linkedList);
+    renderLinkedList();
+    updateListInfo('Linked List initialized', 'O(1)', 'O(n)');
+}
+
+// Render the linked list to the DOM
+function renderLinkedList() {
+    if (!listContainer) {
+        console.log("List container not found");
+        return;
+    }
+    
+    listContainer.innerHTML = '';
+    linkedList.forEach((value, index) => {
+        // Create node container
+        const nodeContainer = document.createElement('div');
+        nodeContainer.className = 'list-node';
+        nodeContainer.dataset.index = index;
+        
+        // Create data element
+        const dataElement = document.createElement('div');
+        dataElement.className = 'node-data';
+        dataElement.textContent = value;
+        nodeContainer.appendChild(dataElement);
+        
+        // Add pointer if not the last element
+        if (index < linkedList.length - 1) {
+            const pointer = document.createElement('div');
+            pointer.className = 'node-pointer';
+            nodeContainer.appendChild(pointer);
+        }
+        
+        listContainer.appendChild(nodeContainer);
+    });
+}
+
+// Update info panel
+function updateListInfo(operation, timeComplexity, spaceComplexity) {
+    const operationElement = document.getElementById('list-operation');
+    const complexityElement = document.getElementById('list-complexity');
+    const spaceElement = document.getElementById('list-space');
+    
+    if (operationElement) operationElement.textContent = operation;
+    if (complexityElement) complexityElement.textContent = timeComplexity;
+    if (spaceElement) spaceElement.textContent = spaceComplexity;
+}
+
+// Linked list traversal animation
+async function animateListTraversal() {
+    updateListInfo('Linked List Traversal', 'O(n)', 'O(1)');
+    
+    const nodes = document.querySelectorAll('.list-node');
+    for (let i = 0; i < nodes.length; i++) {
+        nodes.forEach(node => node.classList.remove('current'));
+        nodes[i].classList.add('current');
+        
+        await new Promise(resolve => setTimeout(resolve, 800));
+    }
+    
+    nodes.forEach(node => node.classList.remove('current'));
+    updateListInfo('Traversal Complete', 'O(n)', 'O(1)');
+}
+
+// Linked list insertion animation
+async function animateListInsertion() {
+    const value = parseInt(document.getElementById('list-value-input').value);
+    const position = parseInt(document.getElementById('list-position-input').value);
+    
+    if (isNaN(value)) {
+        alert('Please enter a valid value');
+        return;
+    }
+    
+    if (isNaN(position) || position < 0 || position > linkedList.length) {
+        alert(`Please enter a valid position between 0 and ${linkedList.length}`);
+        return;
+    }
+    
+    updateListInfo(`Inserting ${value} at position ${position}`, 'O(n)', 'O(1)');
+    
+    // Insert into the array
+    linkedList.splice(position, 0, value);
+    
+    // Re-render the list
+    renderLinkedList();
+    
+    // Animate the insertion
+    const nodes = document.querySelectorAll('.list-node');
+    await new Promise(resolve => setTimeout(resolve, 300));
+    
+    nodes[position].classList.add('inserting');
+    
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    nodes[position].classList.remove('inserting');
+    
+    updateListInfo(`Inserted ${value} at position ${position}`, 'O(n)', 'O(1)');
+}
+
+// Linked list deletion animation
+async function animateListDeletion() {
+    const position = parseInt(document.getElementById('list-position-input').value);
+    
+    if (isNaN(position) || position < 0 || position >= linkedList.length) {
+        alert(`Please enter a valid position between 0 and ${linkedList.length - 1}`);
+        return;
+    }
+    
+    updateListInfo(`Deleting node at position ${position}`, 'O(n)', 'O(1)');
+    
+    const nodes = document.querySelectorAll('.list-node');
+    nodes[position].classList.add('deleting');
+    
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    // Remove from the array
+    const deletedValue = linkedList.splice(position, 1)[0];
+    
+    // Re-render the list
+    renderLinkedList();
+    
+    updateListInfo(`Deleted node with value ${deletedValue} from position ${position}`, 'O(n)', 'O(1)');
+}
+if (listContainer) {
+    generateRandomLinkedList();
+    
+    // Add event listeners for linked list controls
+    document.getElementById('list-traverse-btn')?.addEventListener('click', animateListTraversal);
+    document.getElementById('list-insert-btn')?.addEventListener('click', animateListInsertion);
+    document.getElementById('list-delete-btn')?.addEventListener('click', animateListDeletion);
+    document.getElementById('list-reset-btn')?.addEventListener('click', generateRandomLinkedList);
+}
 });
