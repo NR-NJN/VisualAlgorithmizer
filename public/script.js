@@ -88,6 +88,8 @@ document.addEventListener('DOMContentLoaded', function() {
             typingText.innerHTML += text.charAt(i);
             i++;
             setTimeout(typeWriter, 50);
+            
+    
         }
     }
     
@@ -616,4 +618,447 @@ if (listContainer) {
     document.getElementById('list-delete-btn')?.addEventListener('click', animateListDeletion);
     document.getElementById('list-reset-btn')?.addEventListener('click', generateRandomLinkedList);
 }
+
+
+// Binary Tree Implementation
+const treeContainer = document.getElementById('tree-container');
+let treeData = null;
+
+// Node class for binary tree
+class TreeNode {
+    constructor(value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+// Create a binary search tree
+function createBinarySearchTree(values) {
+    if (!values || values.length === 0) return null;
+    
+    const root = new TreeNode(values[0]);
+    
+    for (let i = 1; i < values.length; i++) {
+        insertNode(root, values[i]);
+    }
+    
+    return root;
+}
+
+// Insert a node into the binary search tree
+function insertNode(root, value) {
+    if (value < root.value) {
+        if (root.left === null) {
+            root.left = new TreeNode(value);
+        } else {
+            insertNode(root.left, value);
+        }
+    } else {
+        if (root.right === null) {
+            root.right = new TreeNode(value);
+        } else {
+            insertNode(root.right, value);
+        }
+    }
+}
+
+// Generate a random binary search tree
+function generateRandomTree(size = 7, min = 1, max = 99) {
+    const values = [];
+    // Generate unique random values
+    while (values.length < size) {
+        const value = Math.floor(Math.random() * (max - min + 1)) + min;
+        if (!values.includes(value)) {
+            values.push(value);
+        }
+    }
+    
+    treeData = createBinarySearchTree(values);
+    console.log("Generated tree:", treeData);
+    renderTree();
+    updateTreeInfo('Binary Tree initialized', 'O(log n)', 'O(n)');
+}
+
+// Calculate the height of the tree
+function getTreeHeight(node) {
+    if (node === null) return 0;
+    return 1 + Math.max(getTreeHeight(node.left), getTreeHeight(node.right));
+}
+
+// Render the binary tree to the DOM
+function renderTree() {
+    if (!treeContainer) {
+        console.log("Tree container not found");
+        return;
+    }
+    
+    treeContainer.innerHTML = '';
+    
+    if (!treeData) {
+        console.log("No tree data to render");
+        return;
+    }
+    
+    const height = getTreeHeight(treeData);
+    console.log("Tree height:", height);
+    
+    // Create levels with proper spacing
+    for (let i = 0; i < height; i++) {
+        const levelDiv = document.createElement('div');
+        levelDiv.className = 'tree-level';
+        levelDiv.dataset.level = i;
+        treeContainer.appendChild(levelDiv);
+    }
+    
+    // Calculate width based on the number of possible nodes at the deepest level
+    const maxWidth = Math.pow(2, height - 1) * 80;
+    treeContainer.style.width = `${maxWidth}px`;
+    
+    // Render nodes starting with the root
+    renderNode(treeData, 0, maxWidth / 2, maxWidth / 4);
+}
+
+// Render a node and its children recursively
+function renderNode(node, level, xPos, spacing) {
+    if (!node) return;
+    
+    const levelDiv = document.querySelector(`.tree-level[data-level="${level}"]`);
+    
+    // Create node element
+    const nodeElement = document.createElement('div');
+    nodeElement.className = 'tree-node';
+    if (level === 0) nodeElement.classList.add('root');
+    nodeElement.textContent = node.value;
+    
+    // Position node with absolute positioning
+    nodeElement.style.position = 'absolute';
+    nodeElement.style.left = `${xPos - 30}px`; // Center the node (60px width / 2)
+    
+    levelDiv.appendChild(nodeElement);
+    
+    // Draw connecting lines
+    if (level > 0) {
+        const lineElement = document.createElement('div');
+        lineElement.className = 'tree-line';
+        lineElement.style.position = 'absolute';
+        lineElement.style.width = `${spacing}px`;
+        lineElement.style.height = '40px';
+        lineElement.style.top = '-40px';
+        lineElement.style.left = node.value < node.parent?.value ? 
+            '30px' : `${-spacing + 30}px`;
+        nodeElement.appendChild(lineElement);
+    }
+    
+    // Store parent reference for line drawing
+    if (node.left) node.left.parent = node;
+    if (node.right) node.right.parent = node;
+    
+    // Render children with updated positions
+    if (node.left) {
+        renderNode(node.left, level + 1, xPos - spacing, spacing / 2);
+    }
+    
+    if (node.right) {
+        renderNode(node.right, level + 1, xPos + spacing, spacing / 2);
+    }
+}
+
+// Update info panel
+function updateTreeInfo(operation, timeComplexity, spaceComplexity) {
+    const operationElement = document.getElementById('tree-operation');
+    const complexityElement = document.getElementById('tree-complexity');
+    const spaceElement = document.getElementById('tree-space');
+    
+    if (operationElement) operationElement.textContent = operation;
+    if (complexityElement) complexityElement.textContent = timeComplexity;
+    if (spaceElement) spaceElement.textContent = spaceComplexity;
+}
+
+
+// Insert a value into the tree with animation
+async function animateTreeInsertion() {
+    const value = parseInt(document.getElementById('tree-value-input').value);
+    
+    if (isNaN(value)) {
+        alert('Please enter a valid number');
+        return;
+    }
+    
+    updateTreeInfo(`Inserting ${value}`, 'O(log n)', 'O(1)');
+    
+    if (!treeData) {
+        treeData = new TreeNode(value);
+        renderTree();
+        updateTreeInfo(`Inserted ${value} as root`, 'O(1)', 'O(1)');
+        return;
+    }
+    
+    // Find the path to insertion point
+    const path = [];
+    let current = treeData;
+    
+    while (true) {
+        path.push(current);
+        
+        if (value < current.value) {
+            if (current.left === null) {
+                current.left = new TreeNode(value);
+                break;
+            }
+            current = current.left;
+        } else {
+            if (current.right === null) {
+                current.right = new TreeNode(value);
+                break;
+            }
+            current = current.right;
+        }
+    }
+    
+    // Render the updated tree
+    renderTree();
+    
+    // Animate the insertion path
+    const nodes = document.querySelectorAll('.tree-node');
+    for (let i = 0; i < path.length; i++) {
+        // Find the DOM node that corresponds to the current tree node
+        const nodeElement = Array.from(nodes).find(el => parseInt(el.textContent) === path[i].value);
+        
+        if (nodeElement) {
+            nodeElement.classList.add('current');
+            await new Promise(resolve => setTimeout(resolve, 500));
+            nodeElement.classList.remove('current');
+        }
+    }
+    
+    // Highlight the newly inserted node
+    const insertedNode = Array.from(nodes).find(el => parseInt(el.textContent) === value);
+    if (insertedNode) {
+        insertedNode.classList.add('inserting');
+        await new Promise(resolve => setTimeout(resolve, 800));
+        insertedNode.classList.remove('inserting');
+    }
+    
+    updateTreeInfo(`Inserted ${value}`, 'O(log n)', 'O(1)');
+}
+
+// Tree traversal animation
+async function animateTreeTraversal() {
+    const traversalType = document.getElementById('tree-traverse-select').value;
+    const nodes = document.querySelectorAll('.tree-node');
+    
+    updateTreeInfo(`${traversalType} Traversal`, 'O(n)', 'O(n)');
+    
+    // Clear any previous highlighting
+    nodes.forEach(node => node.classList.remove('current', 'visited'));
+    
+    const visitedNodes = [];
+    
+    // Perform the selected traversal
+    switch (traversalType) {
+        case 'inorder':
+            await inOrderTraversal(treeData, visitedNodes);
+            break;
+        case 'preorder':
+            await preOrderTraversal(treeData, visitedNodes);
+            break;
+        case 'postorder':
+            await postOrderTraversal(treeData, visitedNodes);
+            break;
+        case 'levelorder':
+            await levelOrderTraversal(treeData, visitedNodes);
+            break;
+    }
+    
+    // Animate the traversal
+    for (let i = 0; i < visitedNodes.length; i++) {
+        const nodeElement = Array.from(nodes).find(el => parseInt(el.textContent) === visitedNodes[i]);
+        
+        if (nodeElement) {
+            nodeElement.classList.add('current');
+            await new Promise(resolve => setTimeout(resolve, 800));
+            nodeElement.classList.remove('current');
+            nodeElement.classList.add('visited');
+        }
+    }
+    
+    // Reset after animation
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    nodes.forEach(node => node.classList.remove('visited'));
+    
+    updateTreeInfo(`${traversalType} Traversal Complete`, 'O(n)', 'O(n)');
+}
+
+// In-order traversal (Left, Root, Right)
+async function inOrderTraversal(node, visitedNodes) {
+    if (node === null) return;
+    
+    await inOrderTraversal(node.left, visitedNodes);
+    visitedNodes.push(node.value);
+    await inOrderTraversal(node.right, visitedNodes);
+}
+
+// Pre-order traversal (Root, Left, Right)
+async function preOrderTraversal(node, visitedNodes) {
+    if (node === null) return;
+    
+    visitedNodes.push(node.value);
+    await preOrderTraversal(node.left, visitedNodes);
+    await preOrderTraversal(node.right, visitedNodes);
+}
+
+// Post-order traversal (Left, Right, Root)
+async function postOrderTraversal(node, visitedNodes) {
+    if (node === null) return;
+    
+    await postOrderTraversal(node.left, visitedNodes);
+    await postOrderTraversal(node.right, visitedNodes);
+    visitedNodes.push(node.value);
+}
+
+// Level-order traversal (BFS)
+async function levelOrderTraversal(node, visitedNodes) {
+    if (node === null) return;
+    
+    const queue = [node];
+    
+    while (queue.length > 0) {
+        const current = queue.shift();
+        visitedNodes.push(current.value);
+        
+        if (current.left) queue.push(current.left);
+        if (current.right) queue.push(current.right);
+    }
+}
+
+// Delete a node from the tree
+async function animateTreeDeletion() {
+    const value = parseInt(document.getElementById('tree-value-input').value);
+    
+    if (isNaN(value)) {
+        alert('Please enter a valid number');
+        return;
+    }
+    
+    updateTreeInfo(`Deleting ${value}`, 'O(log n)', 'O(1)');
+    
+    if (!treeData) {
+        alert('Tree is empty');
+        return;
+    }
+    
+    // Find the node to delete and its parent
+    let current = treeData;
+    let parent = null;
+    let isLeftChild = false;
+    
+    // Search for the node
+    while (current && current.value !== value) {
+        parent = current;
+        
+        if (value < current.value) {
+            current = current.left;
+            isLeftChild = true;
+        } else {
+            current = current.right;
+            isLeftChild = false;
+        }
+    }
+    
+    if (!current) {
+        alert(`Value ${value} not found in the tree`);
+        updateTreeInfo(`Value ${value} not found`, 'O(log n)', 'O(1)');
+        return;
+    }
+    
+    // Highlight the node to be deleted
+    const nodes = document.querySelectorAll('.tree-node');
+    const nodeToDelete = Array.from(nodes).find(el => parseInt(el.textContent) === value);
+    
+    if (nodeToDelete) {
+        nodeToDelete.classList.add('deleting');
+        await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+    
+    // Case 1: Node has no children
+    if (!current.left && !current.right) {
+        if (current === treeData) {
+            treeData = null;
+        } else if (isLeftChild) {
+            parent.left = null;
+        } else {
+            parent.right = null;
+        }
+    }
+    // Case 2: Node has one child
+    else if (!current.left) {
+        if (current === treeData) {
+            treeData = current.right;
+        } else if (isLeftChild) {
+            parent.left = current.right;
+        } else {
+            parent.right = current.right;
+        }
+    }
+    else if (!current.right) {
+        if (current === treeData) {
+            treeData = current.left;
+        } else if (isLeftChild) {
+            parent.left = current.left;
+        } else {
+            parent.right = current.left;
+        }
+    }
+    // Case 3: Node has two children
+    else {
+        // Find the successor (minimum value in right subtree)
+        let successor = current.right;
+        let successorParent = current;
+        
+        while (successor.left) {
+            successorParent = successor;
+            successor = successor.left;
+        }
+        
+        // Highlight the successor
+        const successorNode = Array.from(nodes).find(el => parseInt(el.textContent) === successor.value);
+        if (successorNode) {
+            successorNode.classList.add('current');
+            await new Promise(resolve => setTimeout(resolve, 800));
+        }
+        
+        // Replace current with successor
+        if (successor !== current.right) {
+            successorParent.left = successor.right;
+            successor.right = current.right;
+        }
+        
+        if (current === treeData) {
+            treeData = successor;
+        } else if (isLeftChild) {
+            parent.left = successor;
+        } else {
+            parent.right = successor;
+        }
+        
+        successor.left = current.left;
+    }
+    
+    // Render the updated tree
+    renderTree();
+    updateTreeInfo(`Deleted ${value}`, 'O(log n)', 'O(1)');
+}
+
+// Initialize binary tree when the page loads
+if (treeContainer) {
+    generateRandomTree();
+    
+    // Add event listeners for tree controls
+    document.getElementById('tree-insert-btn')?.addEventListener('click', animateTreeInsertion);
+    document.getElementById('tree-delete-btn')?.addEventListener('click', animateTreeDeletion);
+    document.getElementById('tree-traverse-btn')?.addEventListener('click', animateTreeTraversal);
+    document.getElementById('tree-reset-btn')?.addEventListener('click', generateRandomTree);
+}
+
 });
