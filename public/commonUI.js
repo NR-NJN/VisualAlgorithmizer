@@ -84,13 +84,13 @@ export function initTypewriter(selector, textToType) {
             setTimeout(type, 50);
         }
     }
-    type(); // Start the animation
+    type();  
 }
 
 
 export function initMatrixAnimation(canvasId) {
     const canvas = document.getElementById(canvasId);
-    if (!canvas || typeof canvas.getContext !== 'function') { // Ensure it's a canvas element
+    if (!canvas || typeof canvas.getContext !== 'function') {  
         console.error(`Element with id "${canvasId}" is not a canvas or not found.`);
         return;
     }
@@ -128,7 +128,7 @@ export function initMatrixAnimation(canvasId) {
     window.addEventListener('resize', () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        // Recalculate columns if needed, though rainDrops array size is fixed
+         
     });
 }
 
@@ -174,12 +174,12 @@ export function setupSmoothScrolling() {
             e.preventDefault();
             const targetId = this.getAttribute('href');
             const targetElement = document.querySelector(targetId);
-            const nav = document.querySelector('.nav-links'); // For closing mobile menu
-            const burger = document.querySelector('.burger'); // For toggling burger
+            const nav = document.querySelector('.nav-links');  
+            const burger = document.querySelector('.burger');  
 
             if (targetElement) {
                 window.scrollTo({
-                    top: targetElement.offsetTop - 100, // Adjust offset as needed
+                    top: targetElement.offsetTop - 100,  
                     behavior: 'smooth'
                 });
 

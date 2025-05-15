@@ -34,23 +34,23 @@ import {
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize common UI elements
+     
     initAOS();
-    if (typeof gsap !== 'undefined') { // GSAP is global via CDN
+    if (typeof gsap !== 'undefined') {  
         gsap.registerPlugin(ScrollTrigger);
     }
     setupCursor();
     setupNavigation();
-    initTypewriter('.typing-text', "BUT DSA ALWAYS CATCHES UP"); // Pass your actual text
+    initTypewriter('.typing-text', "BUT DSA ALWAYS CATCHES UP");  
     initMatrixAnimation('matrix-canvas');
     setupFormHighlights();
     setupContactForm('contactForm');
     setupSmoothScrolling();
 
-    // Array Visualization Setup
+     
     const arraySection = document.getElementById('arrays');
     if (arraySection) {
-        generateRandomArray(); // Initial array
+        generateRandomArray();  
         document.getElementById('array-traverse-btn')?.addEventListener('click', animateArrayTraversal);
         document.getElementById('array-search-btn')?.addEventListener('click', () => {
             const searchInput = document.getElementById('array-search-input');
@@ -68,25 +68,25 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('array-reset-btn')?.addEventListener('click', generateRandomArray);
     }
 
-    // Linked List Visualization Setup
+     
     const linkedListSection = document.getElementById('linked-lists');
     if (linkedListSection) {
-        generateRandomLinkedList(); // Initial list
+        generateRandomLinkedList();  
         document.getElementById('list-traverse-btn')?.addEventListener('click', animateListTraversal);
         document.getElementById('list-insert-btn')?.addEventListener('click', animateListInsertion);
         document.getElementById('list-delete-btn')?.addEventListener('click', animateListDeletion);
         document.getElementById('list-reset-btn')?.addEventListener('click', generateRandomLinkedList);
     }
 
-    // Binary Tree Visualization Setup
+     
     const treeSection = document.getElementById('trees');
     if (treeSection) {
-        generateRandomTree(); // Initial tree
+        generateRandomTree();  
         document.getElementById('tree-insert-btn')?.addEventListener('click', animateTreeInsertion);
         document.getElementById('tree-delete-btn')?.addEventListener('click', animateTreeDeletion);
         document.getElementById('tree-traverse-btn')?.addEventListener('click', animateTreeTraversal);
         document.getElementById('tree-reset-btn')?.addEventListener('click', generateRandomTree);
     }
 
-    // Graph Setup
+     
 });

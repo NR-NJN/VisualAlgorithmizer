@@ -1,4 +1,4 @@
-// treeVisualizer.js
+ 
 
 let treeData = null;
 const treeContainer = document.getElementById('tree-container');
@@ -8,7 +8,7 @@ class TreeNode {
         this.value = value;
         this.left = null;
         this.right = null;
-        // this.parent = null; // Add if your line drawing logic needs it
+         
     }
 }
 
@@ -26,7 +26,7 @@ function createBinarySearchTree(values) {
     if (!values || values.length === 0) return null;
     const root = new TreeNode(values[0]);
     for (let i = 1; i < values.length; i++) {
-        insertNodeRecursive(root, values[i]); // Use a recursive helper
+        insertNodeRecursive(root, values[i]);  
     }
     return root;
 }
@@ -38,7 +38,7 @@ function insertNodeRecursive(node, value) {
         } else {
             insertNodeRecursive(node.left, value);
         }
-    } else if (value > node.value) { // Prevent duplicates or handle them
+    } else if (value > node.value) {  
         if (node.right === null) {
             node.right = new TreeNode(value);
         } else {
@@ -52,7 +52,7 @@ export function getTreeHeight(node) {
     return 1 + Math.max(getTreeHeight(node.left), getTreeHeight(node.right));
 }
 
-// THIS RENDER FUNCTION NEEDS THE FIXES WE DISCUSSED EARLIER FOR CORRECT POSITIONING AND LINES
+ 
 export function renderTree() {
     if (!treeContainer) {
         console.error("Tree container not found in treeVisualizer.js");
@@ -87,7 +87,7 @@ export function renderTree() {
         nodeElement.style.transform = 'translateX(-50%)';
 
         treeContainer.appendChild(nodeElement);
-        nodeElementsMap.set(node, {element: nodeElement, x, y: yOffset + 30 }); // Store center bottom
+        nodeElementsMap.set(node, {element: nodeElement, x, y: yOffset + 30 });  
 
         const nextYOffset = yOffset + 100; 
         if (node.left) {
@@ -99,21 +99,21 @@ export function renderTree() {
     }
     
     const initialX = parseFloat(treeContainer.style.width) / 2;
-    const initialHorizontalSpacing = parseFloat(treeContainer.style.width) / 2.5; // Adjust this
+    const initialHorizontalSpacing = parseFloat(treeContainer.style.width) / 2.5;  
     renderNodeRecursive(treeData, 0, initialX, 20, initialHorizontalSpacing);
-    drawTreeLines(treeData, nodeElementsMap); // Make sure drawTreeLines is defined
+    drawTreeLines(treeData, nodeElementsMap);  
 }
 
-// You'll need to define drawTreeLines and createLineElement as discussed before
-// For brevity, I'm not re-pasting them here, but they are crucial.
-// Placeholder:
+ 
+ 
+ 
 function drawTreeLines(node, nodeElementsMap) {
     if (!node || !nodeElementsMap.has(node)) return;
     const parentData = nodeElementsMap.get(node);
 
     if (node.left && nodeElementsMap.has(node.left)) {
         const childData = nodeElementsMap.get(node.left);
-        createLineElement(parentData.x, parentData.y, childData.x, childData.y - 30); // child Y is top
+        createLineElement(parentData.x, parentData.y, childData.x, childData.y - 30);  
         drawTreeLines(node.left, nodeElementsMap);
     }
     if (node.right && nodeElementsMap.has(node.right)) {
@@ -124,12 +124,12 @@ function drawTreeLines(node, nodeElementsMap) {
 }
 
 function createLineElement(x1, y1, x2, y2) {
-    // ... (implementation from previous response) ...
+     
     const length = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
     const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
     
     const line = document.createElement('div');
-    // Use a unique class to avoid conflict if '.tree-line' was for pseudo-elements
+     
     line.className = 'tree-connector-line'; 
     line.style.position = 'absolute';
     line.style.height = '2px'; 
@@ -174,7 +174,7 @@ export async function animateTreeInsertion() {
     } else {
         insertNodeRecursive(treeData, value);
     }
-    renderTree(); // Re-render
+    renderTree();  
 
     if (!treeContainer) return;
     const nodes = treeContainer.querySelectorAll('.tree-node');
@@ -187,8 +187,8 @@ export async function animateTreeInsertion() {
     updateTreeInfo(`Inserted ${value}`, 'O(log n) avg', 'O(1)');
 }
 
-// ... (animateTreeTraversal, inOrderTraversal, etc. from your script) ...
-// Make sure to export them. Example:
+ 
+ 
 export async function animateTreeTraversal() { /* ... */ }
 export async function inOrderTraversal(node, visitedNodes) { /* ... */ }
 export async function preOrderTraversal(node, visitedNodes) { /* ... */ }

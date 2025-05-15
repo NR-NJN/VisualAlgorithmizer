@@ -1,7 +1,7 @@
-// arrayVisualizer.js
+ 
 
 let arrayData = [];
-const arrayContainer = document.getElementById('array-container'); // Module-specific container
+const arrayContainer = document.getElementById('array-container');  
 
 function updateArrayInfo(operation, timeComplexity, spaceComplexity) {
     const operationElement = document.getElementById('array-operation');
