@@ -497,75 +497,62 @@ input:focus, select:focus {
 }
 
  
-.tree-container {
+#trees { /* This is your <section id="trees"> */
+    min-height: 70vh; /* Or more, adjust as needed */
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 300px;
-    padding: 20px;
-    background-color: rgba(10, 239, 255, 0.05);
-    border-radius: 10px;
-    position: relative;
+    justify-content: center; /* Centers .tree-container if its width is less than section width */
+    align-items: flex-start; /* Aligns .tree-container to the top */
+    padding-top: 30px; /* Some space from the top */
+    width: 100%; /* Section should span width */
+    overflow-x: auto; /* If .tree-container itself becomes very wide and you want the whole page section to scroll */
 }
 
-.tree-level {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 40px;
-    position: relative;
-    width: 100%;
+.tree-container {
+    min-height: 500px; /* Minimum vertical space for the tree drawing area */
+    /* width is now set by JavaScript (e.g., based on tree height) */
+    overflow-x: auto;   /* CRITICAL: Allows horizontal scrolling WITHIN the tree container */
+    position: relative; /* CRITICAL: Anchor for absolutely positioned child nodes and lines */
+    background-color: rgba(10, 239, 255, 0.05); /* Your "green canvas" */
+    border-radius: 10px;
+    padding: 20px;      /* Inner padding */
+    margin: 20px auto;  /* Centers the container if the #trees section is wider and using flex */
+    border: 1px solid var(--border-color); /* Optional: to see bounds clearly */
 }
 
 .tree-node {
-    width: 60px;
-    height: 60px;
+    width: 50px;  /* Node size */
+    height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: var(--card-bg);
     border: 2px solid var(--border-color);
-    border-radius: 50%;
-    font-size: 1.2rem;
+    border-radius: 50%; /* Circular nodes */
+    font-size: 1rem;   /* Adjust font size as needed */
     font-weight: 600;
-    margin: 0 20px;
-    position: relative;
-    transition: all 0.3s ease;
+    color: var(--light-text); /* Ensure text is visible */
+    
+    position: absolute; /* CRITICAL: Nodes will be positioned by JavaScript */
+    /* transform: translateX(-50%); is set by JS to center the node on its x-coordinate */
+    
+    transition: all 0.3s ease, background-color 0.5s, transform 0.5s;
+    z-index: 2; /* Nodes should appear on top of lines */
 }
 
-.tree-node:before,
-.tree-node:after {
-    content: '';
+/* New class for lines drawn by JavaScript */
+.tree-connector-line {
     position: absolute;
-    top: -40px;
-    width: 2px;
-    height: 40px;
-    background-color: var(--primary-color);
+    height: 2px; /* Thickness of the line */
+    background-color: var(--primary-color); /* Line color */
+    transform-origin: 0 0; /* Important for rotation */
+    z-index: 1; /* Lines should be behind nodes */
 }
 
-.tree-node:before {
-    transform: rotate(-45deg);
-    transform-origin: bottom left;
-}
-
-.tree-node:after {
-    transform: rotate(45deg);
-    transform-origin: bottom right;
-}
-
-.tree-node:first-child:before,
-.tree-node:last-child:after {
-    display: none;
-}
-
-.tree-node.root:before,
-.tree-node.root:after {
-    display: none;
-}
-
+/* Keep your existing animation/state classes for .tree-node: */
 .tree-node.current {
     background-color: var(--primary-color);
     color: var(--dark-bg);
-    transform: scale(1.1);
+    transform: scale(1.1) translateX(-50%) !important; /* Ensure transform for centering is maintained */
     box-shadow: 0 0 20px rgba(10, 239, 255, 0.4);
 }
 
@@ -575,16 +562,17 @@ input:focus, select:focus {
 }
 
 .tree-node.inserting {
-    animation: bounce 0.5s ease;
+    animation: bounce 0.5s ease; /* Make sure 'bounce' animation is defined elsewhere */
     background-color: var(--warning-color);
     color: var(--dark-bg);
 }
 
 .tree-node.deleting {
-    animation: fadeOut 1s ease forwards;
+    animation: fadeOut 1s ease forwards; /* Make sure 'fadeOut' animation is defined */
     background-color: var(--error-color);
     color: var(--dark-bg);
 }
+
 
  
 .graph-container {

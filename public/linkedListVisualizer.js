@@ -1,5 +1,3 @@
- 
-
 let linkedList = [];
 const listContainer = document.getElementById('list-container');
 

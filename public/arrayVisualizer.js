@@ -1,5 +1,3 @@
- 
-
 let arrayData = [];
 const arrayContainer = document.getElementById('array-container');  
 

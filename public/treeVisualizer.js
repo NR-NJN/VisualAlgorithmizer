@@ -1,5 +1,3 @@
- 
-
 let treeData = null;
 const treeContainer = document.getElementById('tree-container');
 
