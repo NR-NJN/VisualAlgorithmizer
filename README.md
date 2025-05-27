@@ -4,3 +4,6 @@ This isn't hosted on anything as of now, but will be uploaded up using Vercel re
 
 ## Running
 As of now you can only clone it to run it on node locally
+```
+node index.js
+```
