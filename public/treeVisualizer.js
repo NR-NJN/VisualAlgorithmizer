@@ -306,8 +306,58 @@ export async function animateTreeDeletion() {
 
  
  
-export async function animateTreeTraversal() { /* ... */ }
-export async function inOrderTraversal(node, visitedNodes) { /* ... */ }
+export async function animateTreeTraversal() { 
+    const traversalSelect = document.getElementById('tree-traverse-select');
+    if (!traversalSelect) return;
+    const traversalType = traversalSelect.value;
+
+    if (traversalType !== 'inorder') {
+        alert('Only In-order traversal is implemented for now.');
+        return;
+    }
+
+    if (!treeData) {
+        alert('Tree is empty. Please add nodes first.');
+        return;
+    }
+    
+    updateTreeInfo('In-order Traversal', 'O(n)', 'O(n)');
+
+    const visitedNodes = [];
+    inOrderTraversal(treeData, visitedNodes);
+
+    const allDomNodes = treeContainer.querySelectorAll('.tree-node');
+    
+    allDomNodes.forEach(n => n.classList.remove('visited', 'current'));
+    
+    for (const nodeToHighlight of visitedNodes) {
+        const domElement = Array.from(allDomNodes).find(el => parseInt(el.textContent) === nodeToHighlight.value);
+
+        if (domElement) {
+            domElement.classList.add('current');
+            await new Promise(resolve => setTimeout(resolve, 800)); 
+
+            domElement.classList.remove('current');
+            domElement.classList.add('visited');
+        }
+    }
+
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    allDomNodes.forEach(n => n.classList.remove('visited'));
+
+    updateTreeInfo('Traversal Complete', '', '');
+ }
+export async function inOrderTraversal(node, visitedNodes) { 
+    if (node === null) {
+        return; 
+    }
+    inOrderTraversal(node.left, visitedNodes);
+    
+   
+    visitedNodes.push(node); 
+    
+    inOrderTraversal(node.right, visitedNodes);
+}    
 export async function preOrderTraversal(node, visitedNodes) { /* ... */ }
 export async function postOrderTraversal(node, visitedNodes) { /* ... */ }
 export async function levelOrderTraversal(node, visitedNodes) { /* ... */ }

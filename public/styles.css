@@ -542,7 +542,7 @@ input:focus, select:focus {
     z-index: 2; /* Nodes should appear on top of lines */
 }
 
-/* New class for lines drawn by JavaScript */
+
 .tree-connector-line {
     position: absolute;
     height: 2px; /* Thickness of the line */
@@ -571,7 +571,7 @@ input:focus, select:focus {
 }
 
 .tree-node.deleting {
-    animation: fadeOut 1s ease forwards; /* Make sure 'fadeOut' animation is defined */
+    animation: fadeOut 1s ease forwards; 
     background-color: var(--error-color);
     color: var(--dark-bg);
 }
