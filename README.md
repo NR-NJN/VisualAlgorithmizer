@@ -34,6 +34,7 @@ Below are a few operations that have been incorporated into the website. The sta
 ---
 **Inorder Traversal**
 
+<img width="966" alt="inorder_traversal_BST" src="https://github.com/user-attachments/assets/42d28737-2f5d-4b16-856e-b12a2910defa" />
 
 ---
 ## Running
