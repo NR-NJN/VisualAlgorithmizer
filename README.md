@@ -37,6 +37,11 @@ Below are a few operations that have been incorporated into the website. The sta
 <img width="966" alt="inorder_traversal_BST" src="https://github.com/user-attachments/assets/42d28737-2f5d-4b16-856e-b12a2910defa" />
 
 ---
+**Preorder Traversal**
+
+<img width="1019" alt="pre-orderTraversalBST" src="https://github.com/user-attachments/assets/4fe1275c-0d1e-45c5-a6b3-b6965de10b47" />
+
+---
 ## Running
 As of now you can only clone it to run it on node locally
 ```
