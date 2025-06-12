@@ -311,20 +311,32 @@ export async function animateTreeTraversal() {
     if (!traversalSelect) return;
     const traversalType = traversalSelect.value;
 
-    if (traversalType !== 'inorder') {
-        alert('Only In-order traversal is implemented for now.');
-        return;
-    }
 
     if (!treeData) {
         alert('Tree is empty. Please add nodes first.');
         return;
     }
-    
-    updateTreeInfo('In-order Traversal', 'O(n)', 'O(n)');
+   const operationName = traversalType.charAt(0).toUpperCase() + traversalType.slice(1);
+    updateTreeInfo(`${operationName} Traversal`, 'O(n)', 'O(n)');
 
     const visitedNodes = [];
-    inOrderTraversal(treeData, visitedNodes);
+    switch (traversalType) {
+        case 'inorder':
+            inOrderTraversal(treeData, visitedNodes);
+            break;
+        case 'preorder':
+            preOrderTraversal(treeData, visitedNodes);
+            break;
+        case 'postorder':
+            postOrderTraversal(treeData, visitedNodes);
+            break;
+        case 'levelorder':
+            levelOrderTraversal(treeData, visitedNodes);
+            break;
+        default:
+            console.error('Unknown traversal type:', traversalType);
+            return;
+    }
 
     const allDomNodes = treeContainer.querySelectorAll('.tree-node');
     
@@ -347,18 +359,23 @@ export async function animateTreeTraversal() {
 
     updateTreeInfo('Traversal Complete', '', '');
  }
+ 
 export async function inOrderTraversal(node, visitedNodes) { 
     if (node === null) {
         return; 
     }
     inOrderTraversal(node.left, visitedNodes);
-    
-   
-    visitedNodes.push(node); 
-    
+    visitedNodes.push(node);  
     inOrderTraversal(node.right, visitedNodes);
 }    
-export async function preOrderTraversal(node, visitedNodes) { /* ... */ }
-export async function postOrderTraversal(node, visitedNodes) { /* ... */ }
+export async function preOrderTraversal(node, visitedNodes) { 
+     if (node === null) return;
+    visitedNodes.push(node); 
+    preOrderTraversal(node.left, visitedNodes);
+    preOrderTraversal(node.right, visitedNodes);
+ }
+export async function postOrderTraversal(node, visitedNodes) { 
+
+ }
 export async function levelOrderTraversal(node, visitedNodes) { /* ... */ }
 
