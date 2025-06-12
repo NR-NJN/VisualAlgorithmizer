@@ -32,7 +32,10 @@ Below are a few operations that have been incorporated into the website. The sta
 <img width="995" alt="bstInsert" src="https://github.com/user-attachments/assets/33081bd4-3ba6-472e-a2d9-147da1d43164" />
 
 ---
+**Inorder Traversal**
 
+
+---
 ## Running
 As of now you can only clone it to run it on node locally
 ```
