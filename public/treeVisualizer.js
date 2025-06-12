@@ -45,6 +45,40 @@ function insertNodeRecursive(node, value) {
         }
     }
 }
+
+function deleteNodeRecursive(node, value) {
+   
+    if (node === null) {
+        return null;
+    }
+
+   
+    if (value < node.value) {
+        node.left = deleteNodeRecursive(node.left, value);
+        return node;
+    } else if (value > node.value) {
+        node.right = deleteNodeRecursive(node.right, value);
+        return node;
+    } else {
+        
+        if (node.left === null && node.right === null) {
+            return null; 
+        }
+
+        
+        if (node.left === null) {
+            return node.right; 
+        }
+        if (node.right === null) {
+            return node.left; 
+        }
+
+        const successor = findMinNode(node.right);
+        node.value = successor.value;
+        node.right = deleteNodeRecursive(node.right, successor.value);
+        return node;
+    }
+}
 function findInsertionDepth(node, value, currentDepth = 1) {
     if (value === node.value) {
         return -1; 
@@ -55,11 +89,19 @@ function findInsertionDepth(node, value, currentDepth = 1) {
             return currentDepth + 1; 
         }
         return findInsertionDepth(node.left, value, currentDepth + 1);
-    } else { // value > node.value
+    } else { 
         if (node.right === null) {
             return currentDepth + 1; 
         }
         return findInsertionDepth(node.right, value, currentDepth + 1);
+    }
+}
+
+function findMinNode(node) {
+    if (node.left === null) {
+        return node;
+    } else {
+        return findMinNode(node.left);
     }
 }
 
@@ -227,6 +269,41 @@ export async function animateTreeInsertion() {
     updateTreeInfo(`Inserted ${value}`, 'O(log n) avg', 'O(1)');
 }
 
+export async function animateTreeDeletion() {
+    const valueInput = document.getElementById('tree-value-input');
+    if (!valueInput) return;
+    const value = parseInt(valueInput.value);
+
+    if (isNaN(value)) {
+        alert('Please enter a valid number');
+        return;
+    }
+
+    updateTreeInfo(`Deleting node with value ${value}`, 'O(log n) avg', 'O(1)');
+    
+    // Animate highlighting the node to be deleted
+    if (!treeContainer) return;
+    const nodes = treeContainer.querySelectorAll('.tree-node');
+    const nodeToDeleteElement = Array.from(nodes).find(el => parseInt(el.textContent) === value);
+
+    if (nodeToDeleteElement) {
+        nodeToDeleteElement.classList.add('deleting');
+        await new Promise(resolve => setTimeout(resolve, 1000));
+    } else {
+        alert(`Node with value ${value} not found.`);
+        updateTreeInfo('Deletion failed: Node not found', '', '');
+        return;
+    }
+
+    // Perform the actual deletion on the data structure
+    treeData = deleteNodeRecursive(treeData, value);
+
+    // Re-render the tree to show the updated structure
+    renderTree();
+
+    updateTreeInfo(`Deleted node ${value}`, 'O(log n) avg', 'O(1)');
+}
+
  
  
 export async function animateTreeTraversal() { /* ... */ }
@@ -234,4 +311,4 @@ export async function inOrderTraversal(node, visitedNodes) { /* ... */ }
 export async function preOrderTraversal(node, visitedNodes) { /* ... */ }
 export async function postOrderTraversal(node, visitedNodes) { /* ... */ }
 export async function levelOrderTraversal(node, visitedNodes) { /* ... */ }
-export async function animateTreeDeletion() { /* ... */ }
+
