@@ -508,16 +508,19 @@ input:focus, select:focus {
 }
 
 .tree-container {
-    min-height: 500px; /* Minimum vertical space for the tree drawing area */
-    /* width is now set by JavaScript (e.g., based on tree height) */
+    min-height: 450px; /* Good height for 4 levels */
+    width: 90%;       
+    max-width: 900px;
     overflow-x: auto;   /* CRITICAL: Allows horizontal scrolling WITHIN the tree container */
     position: relative; /* CRITICAL: Anchor for absolutely positioned child nodes and lines */
     background-color: rgba(10, 239, 255, 0.05); /* Your "green canvas" */
     border-radius: 10px;
     padding: 20px;      /* Inner padding */
     margin: 20px auto;  /* Centers the container if the #trees section is wider and using flex */
-    border: 1px solid var(--border-color); /* Optional: to see bounds clearly */
+    border: 1px solid var(--border-color);
+    transition: width 0.3s ease;
 }
+
 
 .tree-node {
     width: 50px;  /* Node size */

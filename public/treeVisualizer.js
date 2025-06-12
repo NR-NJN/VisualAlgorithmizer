@@ -1,3 +1,4 @@
+const MAX_HEIGHT = 15;
 let treeData = null;
 const treeContainer = document.getElementById('tree-container');
 
@@ -44,6 +45,23 @@ function insertNodeRecursive(node, value) {
         }
     }
 }
+function findInsertionDepth(node, value, currentDepth = 1) {
+    if (value === node.value) {
+        return -1; 
+    }
+
+    if (value < node.value) {
+        if (node.left === null) {
+            return currentDepth + 1; 
+        }
+        return findInsertionDepth(node.left, value, currentDepth + 1);
+    } else { // value > node.value
+        if (node.right === null) {
+            return currentDepth + 1; 
+        }
+        return findInsertionDepth(node.right, value, currentDepth + 1);
+    }
+}
 
 export function getTreeHeight(node) {
     if (node === null) return 0;
@@ -63,6 +81,8 @@ export function renderTree() {
     }
 
     const height = getTreeHeight(treeData);
+    //const maxWidth = Math.pow(2, height - 1) * 150; 
+    //treeContainer.style.width = `${maxWidth}px`;
     if (height === 0) return;
 
     const maxNodesAtBottom = Math.pow(2, height - 1);
@@ -100,6 +120,7 @@ export function renderTree() {
     const initialHorizontalSpacing = parseFloat(treeContainer.style.width) / 2.5;  
     renderNodeRecursive(treeData, 0, initialX, 20, initialHorizontalSpacing);
     drawTreeLines(treeData, nodeElementsMap);  
+    
 }
 
  
@@ -142,8 +163,9 @@ function createLineElement(x1, y1, x2, y2) {
 
 
 export function generateRandomTree(size = 7, min = 1, max = 99) {
+    const nodeCount = Math.floor(Math.random() * 9) + 7;
     const values = [];
-    while (values.length < size) {
+    while (values.length < nodeCount) {
         const value = Math.floor(Math.random() * (max - min + 1)) + min;
         if (!values.includes(value)) {
             values.push(value);
@@ -165,6 +187,26 @@ export async function animateTreeInsertion() {
         alert('Please enter a valid number');
         return;
     }
+
+    if (!treeData) {
+        treeData = new TreeNode(value);
+        renderTree();
+        updateTreeInfo(`Inserted ${value} as root`, 'O(1)', 'O(1)');
+        return;
+    }
+    
+   
+    const newDepth = findInsertionDepth(treeData, value);
+
+    if (newDepth === -1) {
+        alert(`Value ${value} already exists in the tree.`);
+        return; // Don't insert duplicates
+    }
+    if (newDepth > MAX_HEIGHT) {
+        alert(`Cannot insert node. Maximum tree height of ${MAX_HEIGHT} would be exceeded.`);
+        return; 
+    }
+
     updateTreeInfo(`Inserting ${value}`, 'O(log n) avg', 'O(1)');
 
     if (!treeData) {
