@@ -123,8 +123,8 @@ export function renderTree() {
     }
 
     const height = getTreeHeight(treeData);
-    //const maxWidth = Math.pow(2, height - 1) * 150; 
-    //treeContainer.style.width = `${maxWidth}px`;
+     
+     
     if (height === 0) return;
 
     const maxNodesAtBottom = Math.pow(2, height - 1);
@@ -242,7 +242,7 @@ export async function animateTreeInsertion() {
 
     if (newDepth === -1) {
         alert(`Value ${value} already exists in the tree.`);
-        return; // Don't insert duplicates
+        return;  
     }
     if (newDepth > MAX_HEIGHT) {
         alert(`Cannot insert node. Maximum tree height of ${MAX_HEIGHT} would be exceeded.`);
@@ -281,7 +281,7 @@ export async function animateTreeDeletion() {
 
     updateTreeInfo(`Deleting node with value ${value}`, 'O(log n) avg', 'O(1)');
     
-    // Animate highlighting the node to be deleted
+     
     if (!treeContainer) return;
     const nodes = treeContainer.querySelectorAll('.tree-node');
     const nodeToDeleteElement = Array.from(nodes).find(el => parseInt(el.textContent) === value);
@@ -295,10 +295,10 @@ export async function animateTreeDeletion() {
         return;
     }
 
-    // Perform the actual deletion on the data structure
+     
     treeData = deleteNodeRecursive(treeData, value);
 
-    // Re-render the tree to show the updated structure
+     
     renderTree();
 
     updateTreeInfo(`Deleted node ${value}`, 'O(log n) avg', 'O(1)');
@@ -330,9 +330,6 @@ export async function animateTreeTraversal() {
         case 'postorder':
             postOrderTraversal(treeData, visitedNodes);
             break;
-        case 'levelorder':
-            levelOrderTraversal(treeData, visitedNodes);
-            break;
         default:
             console.error('Unknown traversal type:', traversalType);
             return;
@@ -359,8 +356,8 @@ export async function animateTreeTraversal() {
 
     updateTreeInfo('Traversal Complete', '', '');
  }
- 
-export async function inOrderTraversal(node, visitedNodes) { 
+
+async function inOrderTraversal(node, visitedNodes) { 
     if (node === null) {
         return; 
     }
@@ -368,14 +365,17 @@ export async function inOrderTraversal(node, visitedNodes) {
     visitedNodes.push(node);  
     inOrderTraversal(node.right, visitedNodes);
 }    
-export async function preOrderTraversal(node, visitedNodes) { 
+ async function preOrderTraversal(node, visitedNodes) { 
      if (node === null) return;
     visitedNodes.push(node); 
     preOrderTraversal(node.left, visitedNodes);
     preOrderTraversal(node.right, visitedNodes);
  }
-export async function postOrderTraversal(node, visitedNodes) { 
-
+ async function postOrderTraversal(node, visitedNodes) { 
+    if (node === null) return;
+    postOrderTraversal(node.left, visitedNodes);
+    postOrderTraversal(node.right, visitedNodes);
+    visitedNodes.push(node);
  }
-export async function levelOrderTraversal(node, visitedNodes) { /* ... */ }
+
 
