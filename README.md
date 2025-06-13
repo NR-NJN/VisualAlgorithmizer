@@ -42,6 +42,12 @@ Below are a few operations that have been incorporated into the website. The sta
 <img width="1019" alt="pre-orderTraversalBST" src="https://github.com/user-attachments/assets/4fe1275c-0d1e-45c5-a6b3-b6965de10b47" />
 
 ---
+**Postorder traversal**
+
+<img width="889" alt="bst_postorder" src="https://github.com/user-attachments/assets/0284c337-9150-4f6f-a8dd-5a609d952d0a" />
+
+---
+
 ## Running
 As of now you can only clone it to run it on node locally
 ```
