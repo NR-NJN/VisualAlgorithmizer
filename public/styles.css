@@ -579,35 +579,41 @@ input:focus, select:focus {
 
  
 .graph-container {
-    min-height: 400px;
+    min-height: 500px;
+    width: 90%;
+    max-width: 900px;
+    margin: 20px auto;
     padding: 20px;
     background-color: rgba(10, 239, 255, 0.05);
+    border: 1px solid var(--border-color);
     border-radius: 10px;
-    position: relative;
+    position: relative; 
 }
 
 .graph-node {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: var(--card-bg);
     border: 2px solid var(--border-color);
     border-radius: 50%;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 600;
-    position: absolute;
-    transition: all 0.3s ease;
-    cursor: move;
+    color: var(--light-text);
+    position: absolute; 
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    cursor: move; 
+    z-index: 10
 }
 
 .graph-edge {
     position: absolute;
     height: 2px;
     background-color: var(--primary-color);
-    transform-origin: left center;
-    pointer-events: none;
+    transform-origin: 0 0; 
+    z-index: 1;
 }
 
 .graph-edge:after {

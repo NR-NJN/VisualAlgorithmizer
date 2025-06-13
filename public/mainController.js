@@ -32,6 +32,12 @@ import {
     animateTreeTraversal
 } from './treeVisualizer.js';
 
+import {
+    generateRandomGraph,
+    animateBfs,
+    animateDfs
+} from './graphVisualizer.js';
+
 
 document.addEventListener('DOMContentLoaded', function() {
      
@@ -65,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 else if (sortType === 'insertion') animateInsertionSort();
             }
         });
-        document.getElementById('array-reset-btn')?.addEventListener('click', generateRandomArray);
+        document.getElementById('array-reset-btn')?.addEventListener('click', () => generateRandomArray());
     }
 
      
@@ -75,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('list-traverse-btn')?.addEventListener('click', animateListTraversal);
         document.getElementById('list-insert-btn')?.addEventListener('click', animateListInsertion);
         document.getElementById('list-delete-btn')?.addEventListener('click', animateListDeletion);
-        document.getElementById('list-reset-btn')?.addEventListener('click', generateRandomLinkedList);
+        document.getElementById('list-reset-btn')?.addEventListener('click', () => generateRandomLinkedList());
     }
 
      
@@ -86,6 +92,14 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('tree-delete-btn')?.addEventListener('click', animateTreeDeletion);
         document.getElementById('tree-traverse-btn')?.addEventListener('click', animateTreeTraversal);
         document.getElementById('tree-reset-btn')?.addEventListener('click', generateRandomTree);
+    }
+
+    const graphSection = document.getElementById('graphs');
+    if (graphSection) {
+        generateRandomGraph();
+        document.getElementById('graph-reset-btn')?.addEventListener('click', generateRandomGraph);
+        document.getElementById('graph-bfs-btn')?.addEventListener('click', animateBfs);
+        document.getElementById('graph-dfs-btn')?.addEventListener('click', animateDfs);
     }
 
      
