@@ -10,7 +10,7 @@ Below are a few operations that have been incorporated into the website. The sta
 <img width="1265" alt="arraysearch" src="https://github.com/user-attachments/assets/09860dce-412c-4c80-89f5-af072f17de73" />
 
 ---
-**One sort operation**
+**Sort operation**
 
 <img width="1262" alt="bubblesort" src="https://github.com/user-attachments/assets/fc38c513-efd0-4b7d-9ca2-a62ae2d658ee" />
 
