@@ -15,7 +15,9 @@ import {
     animateArraySearch,
     animateBubbleSort,
     animateSelectionSort,
-    animateInsertionSort
+    animateInsertionSort,
+    animateMergeSort,
+    animateQuickSort 
 } from './arrayVisualizer.js';
 
 import {
@@ -45,7 +47,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (typeof gsap !== 'undefined') {  
         gsap.registerPlugin(ScrollTrigger);
     }
-    //setupCursor();
     setupNavigation();
     initTypewriter('.typing-text', "BUT DSA ALWAYS CATCHES UP");  
     initMatrixAnimation('matrix-canvas');
@@ -69,6 +70,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (sortType === 'bubble') animateBubbleSort();
                 else if (sortType === 'selection') animateSelectionSort();
                 else if (sortType === 'insertion') animateInsertionSort();
+                else if (sortType === 'merge') animateMergeSort();
+                else if (sortType === 'quick') animateQuickSort();
             }
         });
         document.getElementById('array-reset-btn')?.addEventListener('click', () => generateRandomArray());

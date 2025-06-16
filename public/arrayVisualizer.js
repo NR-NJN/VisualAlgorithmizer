@@ -210,3 +210,190 @@ export async function animateInsertionSort() {
     }
     updateArrayInfo('Insertion Sort Complete', 'O(n²)', 'O(1)');
 }
+
+ 
+
+ 
+async function merge(elements, left, mid, right) {
+    const n1 = mid - left + 1;
+    const n2 = right - mid;
+    let L = new Array(n1);
+    let R = new Array(n2);
+
+     
+    for (let i = 0; i < n1; i++) {
+        L[i] = arrayData[left + i];
+        if (elements[left + i]) elements[left + i].classList.add('sub-array-left');
+    }
+    for (let j = 0; j < n2; j++) {
+        R[j] = arrayData[mid + 1 + j];
+        if (elements[mid + 1 + j]) elements[mid + 1 + j].classList.add('sub-array-right');
+    }
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    let i = 0, j = 0, k = left;
+
+     
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+             
+            if (elements[k]) elements[k].classList.add('merging');
+            await new Promise(resolve => setTimeout(resolve, 400));
+            
+            arrayData[k] = L[i];
+            if (elements[k]) elements[k].textContent = L[i];
+            i++;
+        } else {
+            if (elements[k]) elements[k].classList.add('merging');
+            await new Promise(resolve => setTimeout(resolve, 400));
+
+            arrayData[k] = R[j];
+            if (elements[k]) elements[k].textContent = R[j];
+            j++;
+        }
+        if (elements[k]) elements[k].classList.remove('merging');
+        k++;
+    }
+
+     
+    while (i < n1) {
+        if (elements[k]) elements[k].classList.add('merging');
+        await new Promise(resolve => setTimeout(resolve, 400));
+        arrayData[k] = L[i];
+        if (elements[k]) elements[k].textContent = L[i];
+        if (elements[k]) elements[k].classList.remove('merging');
+        i++;
+        k++;
+    }
+    while (j < n2) {
+        if (elements[k]) elements[k].classList.add('merging');
+        await new Promise(resolve => setTimeout(resolve, 400));
+        arrayData[k] = R[j];
+        if (elements[k]) elements[k].textContent = R[j];
+        if (elements[k]) elements[k].classList.remove('merging');
+        j++;
+        k++;
+    }
+
+     
+    for (let idx = left; idx <= right; idx++) {
+        if (elements[idx]) {
+            elements[idx].classList.remove('sub-array-left', 'sub-array-right');
+            elements[idx].classList.add('sorted');
+        }
+    }
+}
+
+async function mergeSortRecursive(elements, left, right) {
+    if (left >= right) {
+        if(elements[left]) elements[left].classList.add('sorted');
+        return;
+    }
+    const mid = left + Math.floor((right - left) / 2);
+    await mergeSortRecursive(elements, left, mid);
+    await mergeSortRecursive(elements, mid + 1, right);
+    await merge(elements, left, mid, right);
+}
+
+export async function animateMergeSort() {
+    updateArrayInfo('Merge Sort', 'O(n log n)', 'O(n)');
+    if (!arrayContainer) return;
+    const elements = arrayContainer.querySelectorAll('.array-element');
+    elements.forEach(el => el.classList.remove('found', 'sorted', 'current', 'compared'));
+
+    await mergeSortRecursive(elements, 0, arrayData.length - 1);
+    
+    updateArrayInfo('Merge Sort Complete', 'O(n log n)', 'O(n)');
+}
+
+
+async function partition(elements, low, high) {
+     
+    const currentElements = arrayContainer.querySelectorAll('.array-element');
+    const pivotValue = arrayData[high];
+    
+    if (currentElements[high]) {
+        currentElements[high].classList.add('pivot');
+    }
+    
+    let i = low - 1;  
+
+    for (let j = low; j < high; j++) {
+         
+        if (currentElements[j]) currentElements[j].classList.add('compared');
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        if (arrayData[j] < pivotValue) {
+            i++;
+            
+            const el_i = currentElements[i];
+            const el_j = currentElements[j];
+
+            if (el_i && el_j) {
+                 
+                await gsap.timeline()
+                    .to([el_i, el_j], { y: -40, duration: 0.3, ease: 'power2.out' })
+                    .to(el_i, { x: el_j.offsetLeft - el_i.offsetLeft, duration: 0.4, ease: 'power2.inOut' }, "<")
+                    .to(el_j, { x: el_i.offsetLeft - el_j.offsetLeft, duration: 0.4, ease: 'power2.inOut' }, "<")
+                    .to([el_i, el_j], { y: 0, duration: 0.3, ease: 'power2.in' });
+            }
+
+             
+            [arrayData[i], arrayData[j]] = [arrayData[j], arrayData[i]];
+            renderArray();
+        }
+        
+         
+        const fresh_el_j = arrayContainer.querySelector(`.array-element:nth-child(${j + 1})`);
+        if (fresh_el_j) fresh_el_j.classList.remove('compared');
+    }
+
+     
+    const pivotNewIndex = i + 1;
+    const finalElements = arrayContainer.querySelectorAll('.array-element');
+    const el_pivot = finalElements[high];
+    const el_swap = finalElements[pivotNewIndex];
+
+    if (el_pivot && el_swap) {
+         await gsap.timeline()
+            .to([el_pivot, el_swap], { y: -40, duration: 0.3, ease: 'power2.out' })
+            .to(el_pivot, { x: el_swap.offsetLeft - el_pivot.offsetLeft, duration: 0.4, ease: 'power2.inOut' }, "<")
+            .to(el_swap, { x: el_pivot.offsetLeft - el_swap.offsetLeft, duration: 0.4, ease: 'power2.inOut' }, "<")
+            .to([el_pivot, el_swap], { y: 0, duration: 0.3, ease: 'power2.in' });
+    }
+    
+    [arrayData[pivotNewIndex], arrayData[high]] = [arrayData[high], arrayData[pivotNewIndex]];
+    renderArray();
+
+     
+    const finalPivotElement = arrayContainer.querySelector(`.array-element:nth-child(${pivotNewIndex + 1})`);
+    if (finalPivotElement) finalPivotElement.classList.add('sorted');
+    
+    const allElements = arrayContainer.querySelectorAll('.array-element');
+    allElements.forEach(el => el.classList.remove('pivot', 'compared'));
+
+    return pivotNewIndex;
+}
+
+async function quickSortRecursive(elements, low, high) {
+    if (low < high) {
+        let pi = await partition(elements, low, high);
+        await quickSortRecursive(elements, low, pi - 1);
+        await quickSortRecursive(elements, pi + 1, high);
+    } else {
+        
+        if (elements[low]) elements[low].classList.add('sorted');
+    }
+}
+
+export async function animateQuickSort() {
+    updateArrayInfo('Quick Sort', 'O(n log n) avg', 'O(log n)');
+    if (!arrayContainer) return;
+    const elements = arrayContainer.querySelectorAll('.array-element');
+    elements.forEach(el => el.classList.remove('found', 'sorted', 'current', 'compared', 'pivot'));
+
+    await quickSortRecursive(elements, 0, arrayData.length - 1);
+    
+    updateArrayInfo('Quick Sort Complete', 'O(n log n) avg', 'O(log n)');
+}
+
