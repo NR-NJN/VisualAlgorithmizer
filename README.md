@@ -53,6 +53,11 @@ Below are a few operations that have been incorporated into the website. The sta
 <img width="1153" alt="dfs" src="https://github.com/user-attachments/assets/3abfd570-d0b6-466c-b774-a7a9d36e39a9" />
 
 ---
+**Breadth First Search**
+
+<img width="1152" alt="bfs" src="https://github.com/user-attachments/assets/3e523105-3528-4265-9a0b-91297a7dab0b" />
+
+---
 ## Running
 As of now you can only clone it to run it on node locally
 ```
