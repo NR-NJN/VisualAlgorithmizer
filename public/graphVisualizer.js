@@ -13,7 +13,7 @@ const graphContainer = document.getElementById('graph-container');
 
 function runForceSimulation() {
     if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId); // Stop any previous simulation
+        cancelAnimationFrame(animationFrameId);  
     }
 
     nodes.forEach(node => {
@@ -22,7 +22,7 @@ function runForceSimulation() {
     });
 
     function simulationStep() {
-        // 1. Calculate Repulsive Forces (every node pushes every other node)
+         
         for (let i = 0; i < nodes.length; i++) {
             for (let j = i + 1; j < nodes.length; j++) {
                 const nodeA = nodes[i];
@@ -42,7 +42,7 @@ function runForceSimulation() {
             }
         }
 
-        // 2. Calculate Attractive Forces (edges pull nodes together)
+         
         adjacencyList.forEach((neighbors, nodeId) => {
             const nodeA = nodes.find(n => n.id === nodeId);
             neighbors.forEach(neighborId => {
@@ -58,7 +58,7 @@ function runForceSimulation() {
             });
         });
 
-        // 3. Apply forces to move nodes
+         
         let totalMovement = 0;
         nodes.forEach(node => {
             node.forceX *= DAMPING_FACTOR;
@@ -66,17 +66,17 @@ function runForceSimulation() {
             node.x += node.forceX;
             node.y += node.forceY;
             
-            // Keep nodes within the container bounds
+             
             const containerRect = graphContainer.getBoundingClientRect();
             node.x = Math.max(25, Math.min(containerRect.width - 25, node.x));
             node.y = Math.max(25, Math.min(containerRect.height - 25, node.y));
             totalMovement += Math.abs(node.forceX) + Math.abs(node.forceY);
         });
         
-        // 4. Re-render the graph with the new positions
+         
         updateNodePositions();
 
-        // 5. Continue simulation if nodes are still moving
+         
         if (totalMovement > 1) {
             animationFrameId = requestAnimationFrame(simulationStep);
         }
@@ -140,7 +140,7 @@ function drawEdge(fromNode, toNode) {
 }
 
 function updateNodePositions() {
-    // Update node positions
+     
     nodes.forEach(node => {
         const nodeElement = document.getElementById(`graph-node-${node.id}`);
         if (nodeElement) {
@@ -149,7 +149,7 @@ function updateNodePositions() {
         }
     });
 
-    // Update edge positions by clearing and redrawing only the edges
+     
     const edges = graphContainer.querySelectorAll('.graph-edge');
     edges.forEach(edge => edge.remove());
 
@@ -172,7 +172,7 @@ function renderGraph() {
         nodeElement.className = 'graph-node';
         nodeElement.id = `graph-node-${node.id}`;
         nodeElement.textContent = node.id;
-        // The positions will be set by the simulation loop
+         
         graphContainer.appendChild(nodeElement);
     });
 }
@@ -205,7 +205,7 @@ function makeDraggable(element) {
             node.x = newLeft;
             node.y = newTop;
         }
-        //renderGraph();
+         
         runForceSimulation();
     }
     function closeDragElement() {
@@ -215,17 +215,17 @@ function makeDraggable(element) {
 }
 
 function initializeGraph() {
-    // This function sets everything up in the correct order.
-    // 1. Create the DOM elements for the nodes
+     
+     
     renderGraph();
-    // 2. Make the newly created nodes draggable
+     
     nodes.forEach(node => {
         const nodeElement = document.getElementById(`graph-node-${node.id}`);
         if (nodeElement) {
             makeDraggable(nodeElement, node.id);
         }
     });
-    // 3. Run the physics simulation to arrange them
+     
     runForceSimulation();
 }
 
@@ -235,7 +235,7 @@ export function generateRandomGraph() {
     adjacencyList.clear();
     nodes = [];
 
-     const numNodes = 8;
+     const numNodes = 5;
     const nodeIds = Array.from({ length: numNodes }, (_, i) => String.fromCharCode(65 + i));  
 
      
@@ -347,6 +347,64 @@ export async function animateBfs() {
     updateGraphInfo('BFS Complete', '', '');
 }
 
+function dfsRecursive(nodeId, visited, animationOrder) {
+     
+    visited.add(nodeId);
+    
+     
+    animationOrder.push(nodeId);
+
+     
+    const neighbors = adjacencyList.get(nodeId);
+
+     
+    for (const neighborId of neighbors) {
+        if (!visited.has(neighborId)) {
+            dfsRecursive(neighborId, visited, animationOrder);
+        }
+    }
+}
+
 export async function animateDfs() {
-    alert('DFS traversal animation not implemented yet.');
+    if (adjacencyList.size === 0) {
+        alert('Graph is empty. Please generate a new graph first.');
+        return;
+    }
+
+     
+    const startNodeId = prompt('Enter the starting node for DFS (e.g., "A"):');
+    
+    if (!startNodeId || !adjacencyList.has(startNodeId)) {
+        alert(`Invalid start node. Please enter a valid node name like "A", "B", etc.`);
+        return;
+    }
+
+    updateGraphInfo('Depth-First Search (DFS)', 'O(V + E)', 'O(V)');
+
+     
+    const visited = new Set();
+    const animationOrder = [];  
+
+     
+    dfsRecursive(startNodeId, visited, animationOrder);
+
+     
+    
+     
+    const allDomNodes = graphContainer.querySelectorAll('.graph-node');
+    allDomNodes.forEach(n => n.classList.remove('visited', 'current'));
+
+    for (const currentNodeId of animationOrder) {
+         
+        const domElement = document.getElementById(`graph-node-${currentNodeId}`);
+        if (domElement) {
+            domElement.classList.add('current');
+            await new Promise(resolve => setTimeout(resolve, 800));
+
+            domElement.classList.remove('current');
+            domElement.classList.add('visited');
+        }
+    }
+
+    updateGraphInfo('DFS Complete', '', '');
 }
