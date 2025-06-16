@@ -7,40 +7,8 @@ export function initAOS() {
     });
 }
 
-export function setupCursor() {
-    const cursor = document.querySelector('.cursor-follower');
-    if (!cursor) return;
+  
 
-    document.addEventListener('mousemove', e => {
-        gsap.to(cursor, {
-            x: e.clientX,
-            y: e.clientY,
-            duration: 0.1
-        });
-    });
-
-    document.addEventListener('mousedown', () => {
-        cursor.style.transform = 'translate(-50%, -50%) scale(0.8)';
-    });
-
-    document.addEventListener('mouseup', () => {
-        cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-    });
-
-    const links = document.querySelectorAll('a, button, .btn');
-    links.forEach(link => {
-        link.addEventListener('mouseenter', () => {
-            cursor.style.width = '50px';
-            cursor.style.height = '50px';
-            cursor.style.mixBlendMode = 'screen';
-        });
-        link.addEventListener('mouseleave', () => {
-            cursor.style.width = '20px';
-            cursor.style.height = '20px';
-            cursor.style.mixBlendMode = 'difference';
-        });
-    });
-}
 
 export function setupNavigation() {
     const burger = document.querySelector('.burger');

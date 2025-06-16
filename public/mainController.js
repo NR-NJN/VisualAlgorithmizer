@@ -1,6 +1,6 @@
 import {
     initAOS,
-    setupCursor,
+    //setupCursor,
     setupNavigation,
     initTypewriter,
     initMatrixAnimation,
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (typeof gsap !== 'undefined') {  
         gsap.registerPlugin(ScrollTrigger);
     }
-    setupCursor();
+    //setupCursor();
     setupNavigation();
     initTypewriter('.typing-text', "BUT DSA ALWAYS CATCHES UP");  
     initMatrixAnimation('matrix-canvas');

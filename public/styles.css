@@ -28,19 +28,6 @@ body {
     overflow-x: hidden;
 }
 
- 
-.cursor-follower {
-    position: fixed;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: rgba(10, 239, 255, 0.5);
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease;
-    mix-blend-mode: difference;
-}
 
  
 h1, h2, h3, h4, h5, h6 {
@@ -321,6 +308,7 @@ section {
 
  
 .visualization-container {
+    position: relative;
     background-color: var(--card-bg);
     border-radius: 10px;
     padding: 30px;
@@ -661,6 +649,10 @@ input:focus, select:focus {
     animation: spin 1s linear infinite;
     z-index: 20; 
 }
+.graph-loader.hidden {
+    display: none;
+}
+
 
 .loading-text {
     text-align: center;

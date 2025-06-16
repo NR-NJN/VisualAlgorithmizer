@@ -9,9 +9,11 @@ let animationFrameId = null;
 
 const adjacencyList = new Map();    
 let nodes = [];
-const graphContainer = document.getElementById('graph-container');
+//const graphContainer = document.getElementById('graph-container');
 
 function runForceSimulation() {
+    const graphContainer = document.getElementById('graph-container');
+    if (!graphContainer) return;
     if (animationFrameId) {
         cancelAnimationFrame(animationFrameId);  
     }
@@ -82,13 +84,15 @@ function runForceSimulation() {
         }
         else {
             
+            const loader = document.getElementById('graph-loader');
             const loadingText = document.getElementById('graph-loading-text');
             if (loadingText) {
                 loadingText.classList.add('hidden');
             }
-            if (graphContainer) {
-                graphContainer.style.visibility = 'visible';
+            if (loader) {
+                loader.classList.add('hidden');
             }
+           
             updateGraphInfo('Generated New Graph', '', `V=8, E=8`);
         }
     }
@@ -105,6 +109,7 @@ function updateGraphInfo(operation, timeComplexity, spaceComplexity) {
 }
 
 function findSafePosition() {
+    const graphContainer = document.getElementById('graph-container');
     if (!graphContainer) return null;
     let position = null;
     let attempts = 0;
@@ -131,6 +136,8 @@ function findSafePosition() {
 }
 
 function drawEdge(fromNode, toNode) {
+    const graphContainer = document.getElementById('graph-container');
+    if (!graphContainer) return;
     if (!fromNode || !toNode || !graphContainer) return;
     const fromRect = fromNode.getBoundingClientRect();
     const toRect = toNode.getBoundingClientRect();
@@ -151,7 +158,8 @@ function drawEdge(fromNode, toNode) {
 }
 
 function updateNodePositions() {
-     
+    const graphContainer = document.getElementById('graph-container');
+    if (!graphContainer) return;  
     nodes.forEach(node => {
         const nodeElement = document.getElementById(`graph-node-${node.id}`);
         if (nodeElement) {
@@ -176,6 +184,7 @@ function updateNodePositions() {
 }
 
 function renderGraph() {
+    const graphContainer = document.getElementById('graph-container'); 
     if (!graphContainer) return;
     graphContainer.innerHTML = '';
     nodes.forEach(node => {
@@ -242,17 +251,12 @@ function initializeGraph() {
 
 
 export function generateRandomGraph() {
-
+    //const graphContainer = document.getElementById('graph-container');
+    const loader = document.getElementById('graph-loader');
     const loadingText = document.getElementById('graph-loading-text');
-    if (loadingText) {
-        loadingText.classList.remove('hidden');
-    }
-    
-    
-    if (graphContainer) {
-        graphContainer.style.visibility = 'hidden';
-    }
-    
+
+    if (loadingText) loadingText.classList.remove('hidden');
+    if (loader) loader.classList.remove('hidden');
     adjacencyList.clear();
     nodes = [];
 
@@ -312,6 +316,8 @@ export function generateRandomGraph() {
 
 
 export async function animateBfs() {
+    const graphContainer = document.getElementById('graph-container');
+    if (!graphContainer) return;
     if (adjacencyList.size === 0) {
         alert('Graph is empty. Please generate a new graph first.');
         return;
@@ -387,6 +393,8 @@ function dfsRecursive(nodeId, visited, animationOrder) {
 }
 
 export async function animateDfs() {
+    const graphContainer = document.getElementById('graph-container');
+    if (!graphContainer) return;
     if (adjacencyList.size === 0) {
         alert('Graph is empty. Please generate a new graph first.');
         return;
