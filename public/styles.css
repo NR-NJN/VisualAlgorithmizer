@@ -485,65 +485,65 @@ input:focus, select:focus {
 }
 
  
-#trees { /* This is your <section id="trees"> */
-    min-height: 70vh; /* Or more, adjust as needed */
+#trees {  
+    width: 100%;
+    min-height: 70vh;  
     display: flex;
-    justify-content: center; /* Centers .tree-container if its width is less than section width */
-    align-items: flex-start; /* Aligns .tree-container to the top */
-    padding-top: 30px; /* Some space from the top */
-    width: 100%; /* Section should span width */
-    overflow-x: auto; /* If .tree-container itself becomes very wide and you want the whole page section to scroll */
+    justify-content: center;  
+    align-items: flex-start;  
+    padding-top: 30px;    
+    overflow-x: auto;  
 }
 
 .tree-container {
-    min-height: 450px; /* Good height for 4 levels */
+    min-height: 450px;  
     width: 90%;       
-    max-width: 900px;
-    overflow-x: auto;   /* CRITICAL: Allows horizontal scrolling WITHIN the tree container */
-    position: relative; /* CRITICAL: Anchor for absolutely positioned child nodes and lines */
-    background-color: rgba(10, 239, 255, 0.05); /* Your "green canvas" */
+    max-width: 1200px;
+    overflow-x: auto;    
+    position: relative;  
+    background-color: rgba(10, 239, 255, 0.05);  
     border-radius: 10px;
-    padding: 20px;      /* Inner padding */
-    margin: 20px auto;  /* Centers the container if the #trees section is wider and using flex */
+    padding: 20px;       
+    margin: 20px auto;   
     border: 1px solid var(--border-color);
     transition: width 0.3s ease;
 }
 
 
 .tree-node {
-    width: 50px;  /* Node size */
+    width: 50px;   
     height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: var(--card-bg);
     border: 2px solid var(--border-color);
-    border-radius: 50%; /* Circular nodes */
-    font-size: 1rem;   /* Adjust font size as needed */
+    border-radius: 50%;  
+    font-size: 1rem;    
     font-weight: 600;
-    color: var(--light-text); /* Ensure text is visible */
+    color: var(--light-text);  
     
-    position: absolute; /* CRITICAL: Nodes will be positioned by JavaScript */
-    /* transform: translateX(-50%); is set by JS to center the node on its x-coordinate */
+    position: absolute;  
+     
     
     transition: all 0.3s ease, background-color 0.5s, transform 0.5s;
-    z-index: 2; /* Nodes should appear on top of lines */
+    z-index: 2;  
 }
 
 
 .tree-connector-line {
     position: absolute;
-    height: 2px; /* Thickness of the line */
-    background-color: var(--primary-color); /* Line color */
-    transform-origin: 0 0; /* Important for rotation */
-    z-index: 1; /* Lines should be behind nodes */
+    height: 2px;  
+    background-color: var(--primary-color);  
+    transform-origin: 0 0;  
+    z-index: 1;  
 }
 
-/* Keep your existing animation/state classes for .tree-node: */
+ 
 .tree-node.current {
     background-color: var(--primary-color);
     color: var(--dark-bg);
-    transform: scale(1.1) translateX(-50%) !important; /* Ensure transform for centering is maintained */
+    transform: scale(1.1) translateX(-50%) !important;  
     box-shadow: 0 0 20px rgba(10, 239, 255, 0.4);
 }
 
@@ -553,7 +553,7 @@ input:focus, select:focus {
 }
 
 .tree-node.inserting {
-    animation: bounce 0.5s ease; /* Make sure 'bounce' animation is defined elsewhere */
+    animation: bounce 0.5s ease;  
     background-color: var(--warning-color);
     color: var(--dark-bg);
 }
