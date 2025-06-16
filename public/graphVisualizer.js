@@ -71,7 +71,7 @@ function renderGraph() {
         nodeElement.textContent = node.id;
         nodeElement.style.left = `${node.x}px`;
         nodeElement.style.top = `${node.y}px`;
-        makeDraggable(nodeElement); // Keep nodes draggable
+        makeDraggable(nodeElement);  
         graphContainer.appendChild(nodeElement);
     });
     adjacencyList.forEach((neighbors, nodeId) => {
@@ -127,10 +127,10 @@ export function generateRandomGraph() {
     adjacencyList.clear();
     nodes = [];
 
-    const numNodes = Math.floor(Math.random() * 6) + 7; 
-    const nodeIds = Array.from({ length: numNodes }, (_, i) => String.fromCharCode(65 + i)); 
+     const numNodes = 8;
+    const nodeIds = Array.from({ length: numNodes }, (_, i) => String.fromCharCode(65 + i));  
 
-    
+     
     nodeIds.forEach(id => {
         adjacencyList.set(id, []);
         const position = findSafePosition();
@@ -139,35 +139,105 @@ export function generateRandomGraph() {
         }
     });
 
-    
+     
     const connected = [nodeIds[0]];
     const unconnected = nodeIds.slice(1);
 
     while (unconnected.length > 0) {
-       
+         
         const unconnectedIndex = Math.floor(Math.random() * unconnected.length);
         const uNode = unconnected[unconnectedIndex];
         
-        
+         
         const vNode = connected[Math.floor(Math.random() * connected.length)];
 
-        
+         
         adjacencyList.get(uNode).push(vNode);
         adjacencyList.get(vNode).push(uNode);
 
-       
+         
         connected.push(uNode);
         unconnected.splice(unconnectedIndex, 1);
     }
     
-   
+     
+     
+     
+    let nodeA, nodeB;
+    do {
+         
+        const indexA = Math.floor(Math.random() * numNodes);
+        const indexB = Math.floor(Math.random() * numNodes);
+        nodeA = nodeIds[indexA];
+        nodeB = nodeIds[indexB];
+        
+         
+    } while (nodeA === nodeB || adjacencyList.get(nodeA).includes(nodeB));
+    
+     
+    adjacencyList.get(nodeA).push(nodeB);
+    adjacencyList.get(nodeB).push(nodeA);
     renderGraph();
-    updateGraphInfo('Generated New Graph', '', `V=${numNodes}, E=${numNodes - 1}`);
+     
+    updateGraphInfo('Generated New Graph', '', `V=8, E=8`);
 }
 
-// Placeholders for traversal animations
+
 export async function animateBfs() {
-    alert('BFS traversal animation not implemented yet.');
+    if (adjacencyList.size === 0) {
+        alert('Graph is empty. Please generate a new graph first.');
+        return;
+    }
+
+     
+     
+    const startNodeId = prompt('Enter the starting node for BFS (e.g., "A"):');
+    
+    if (!startNodeId || !adjacencyList.has(startNodeId)) {
+        alert(`Invalid start node. Please enter a valid node name like "A", "B", etc.`);
+        return;
+    }
+
+    updateGraphInfo('Breadth-First Search (BFS)', 'O(V + E)', 'O(V)');
+
+     
+    const queue = [startNodeId];
+    const visited = new Set([startNodeId]);  
+
+     
+    const allDomNodes = graphContainer.querySelectorAll('.graph-node');
+    allDomNodes.forEach(n => n.classList.remove('visited', 'current'));
+
+     
+    while (queue.length > 0) {
+         
+        const currentNodeId = queue.shift();
+
+         
+        const domElement = document.getElementById(`graph-node-${currentNodeId}`);
+        if (domElement) {
+             
+            domElement.classList.add('current');
+            await new Promise(resolve => setTimeout(resolve, 800));  
+
+             
+            domElement.classList.remove('current');
+            domElement.classList.add('visited');
+        }
+
+         
+        const neighbors = adjacencyList.get(currentNodeId);
+
+         
+        for (const neighborId of neighbors) {
+            if (!visited.has(neighborId)) {
+                visited.add(neighborId);  
+                queue.push(neighborId);
+            }
+        }
+    }
+
+    updateGraphInfo('BFS Complete', '', '');
 }
 
 export async function animateDfs() {
