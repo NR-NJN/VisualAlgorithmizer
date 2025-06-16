@@ -1,4 +1,5 @@
 let arrayData = [];
+let isSorting = false;
 const arrayContainer = document.getElementById('array-container');  
 
 function updateArrayInfo(operation, timeComplexity, spaceComplexity) {
@@ -28,13 +29,23 @@ export function renderArray() {
 }
 
 export function generateRandomArray(size = 10, min = 1, max = 99) {
-    arrayData = [];
-    for (let i = 0; i < size; i++) {
-        arrayData.push(Math.floor(Math.random() * (max - min + 1)) + min);
-    }
-    console.log("Generated array:", arrayData);
-    renderArray();
-    updateArrayInfo('Array initialized', 'O(1)', 'O(n)');
+    isSorting = false;
+
+    // Use a small timeout to allow any active async loops to read the flag
+    // and terminate before we proceed with the reset.
+    setTimeout(() => {
+        // Stop any active GSAP animations to prevent them from finishing on new elements
+        if (typeof gsap !== 'undefined') {
+            gsap.killTweensOf('.array-element');
+        }
+        arrayData = [];
+        for (let i = 0; i < size; i++) {
+            arrayData.push(Math.floor(Math.random() * (max - min + 1)) + min);
+        }
+
+        renderArray(); // Renders the new array and clears old styles
+        updateArrayInfo('Array initialized', 'O(1)', 'O(n)');
+    }, 100);
 }
 
 export async function animateArrayTraversal() {
@@ -307,93 +318,140 @@ export async function animateMergeSort() {
 }
 
 
-async function partition(elements, low, high) {
-     
-    const currentElements = arrayContainer.querySelectorAll('.array-element');
+async function partition(low, high) {
+    let elements = arrayContainer.querySelectorAll('.array-element');
     const pivotValue = arrayData[high];
+    if (elements[high]) elements[high].classList.add('pivot');
     
-    if (currentElements[high]) {
-        currentElements[high].classList.add('pivot');
-    }
-    
-    let i = low - 1;  
+    let i = low - 1;
 
     for (let j = low; j < high; j++) {
-         
-        if (currentElements[j]) currentElements[j].classList.add('compared');
-        await new Promise(resolve => setTimeout(resolve, 500));
+        if (!isSorting) return -1;
+        elements = arrayContainer.querySelectorAll('.array-element');
+        if (elements[j]) elements[j].classList.add('compared');
+        await new Promise(resolve => setTimeout(resolve, 400));
 
         if (arrayData[j] < pivotValue) {
             i++;
-            
-            const el_i = currentElements[i];
-            const el_j = currentElements[j];
+            if (i !== j) {
+                const el_i = elements[i];
+                const el_j = elements[j];
 
-            if (el_i && el_j) {
-                 
-                await gsap.timeline()
-                    .to([el_i, el_j], { y: -40, duration: 0.3, ease: 'power2.out' })
-                    .to(el_i, { x: el_j.offsetLeft - el_i.offsetLeft, duration: 0.4, ease: 'power2.inOut' }, "<")
-                    .to(el_j, { x: el_i.offsetLeft - el_j.offsetLeft, duration: 0.4, ease: 'power2.inOut' }, "<")
-                    .to([el_i, el_j], { y: 0, duration: 0.3, ease: 'power2.in' });
+                if (el_i && el_j) {
+                    await gsap.timeline()
+                        .to([el_i, el_j], { y: -50, duration: 0.3, ease: 'circ.out' })
+                        .to(el_i, { x: el_j.offsetLeft - el_i.offsetLeft, duration: 0.5, ease: 'power2.inOut' }, "<")
+                        .to(el_j, { x: el_i.offsetLeft - el_j.offsetLeft, duration: 0.5, ease: 'power2.inOut' }, "<")
+                        .to([el_i, el_j], { y: 0, duration: 0.3, ease: 'circ.in' });
+                    
+                    // Physically swap the DOM nodes instead of re-rendering
+                    swapDOMElements(el_i, el_j);
+                    // Reset GSAP transforms after physical swap
+                    gsap.set([el_i, el_j], { clearProps: "transform" });
+
+                    [arrayData[i], arrayData[j]] = [arrayData[j], arrayData[i]];
+                }
             }
-
-             
-            [arrayData[i], arrayData[j]] = [arrayData[j], arrayData[i]];
-            renderArray();
         }
-        
-         
-        const fresh_el_j = arrayContainer.querySelector(`.array-element:nth-child(${j + 1})`);
-        if (fresh_el_j) fresh_el_j.classList.remove('compared');
+        if (elements[j]) elements[j].classList.remove('compared');
     }
 
-     
     const pivotNewIndex = i + 1;
-    const finalElements = arrayContainer.querySelectorAll('.array-element');
-    const el_pivot = finalElements[high];
-    const el_swap = finalElements[pivotNewIndex];
+    if (pivotNewIndex !== high) {
+        elements = arrayContainer.querySelectorAll('.array-element');
+        const el_pivot = elements[high];
+        const el_swap = elements[pivotNewIndex];
 
-    if (el_pivot && el_swap) {
-         await gsap.timeline()
-            .to([el_pivot, el_swap], { y: -40, duration: 0.3, ease: 'power2.out' })
-            .to(el_pivot, { x: el_swap.offsetLeft - el_pivot.offsetLeft, duration: 0.4, ease: 'power2.inOut' }, "<")
-            .to(el_swap, { x: el_pivot.offsetLeft - el_swap.offsetLeft, duration: 0.4, ease: 'power2.inOut' }, "<")
-            .to([el_pivot, el_swap], { y: 0, duration: 0.3, ease: 'power2.in' });
+        if (el_pivot && el_swap) {
+            await gsap.timeline()
+                .to([el_pivot, el_swap], { y: -50, duration: 0.3, ease: 'circ.out' })
+                .to(el_pivot, { x: el_swap.offsetLeft - el_pivot.offsetLeft, duration: 0.5, ease: 'power2.inOut' }, "<")
+                .to(el_swap, { x: el_swap.offsetLeft - el_pivot.offsetLeft, duration: 0.5, ease: 'power2.inOut' }, "<")
+                .to([el_pivot, el_swap], { y: 0, duration: 0.3, ease: 'circ.in' });
+
+            swapDOMElements(el_pivot, el_swap);
+            gsap.set([el_pivot, el_swap], { clearProps: "transform" });
+
+            [arrayData[pivotNewIndex], arrayData[high]] = [arrayData[high], arrayData[pivotNewIndex]];
+        }
     }
     
-    [arrayData[pivotNewIndex], arrayData[high]] = [arrayData[high], arrayData[pivotNewIndex]];
-    renderArray();
-
-     
-    const finalPivotElement = arrayContainer.querySelector(`.array-element:nth-child(${pivotNewIndex + 1})`);
-    if (finalPivotElement) finalPivotElement.classList.add('sorted');
-    
-    const allElements = arrayContainer.querySelectorAll('.array-element');
-    allElements.forEach(el => el.classList.remove('pivot', 'compared'));
+    elements = arrayContainer.querySelectorAll('.array-element');
+    elements.forEach(el => el.classList.remove('pivot', 'compared'));
+    if (elements[pivotNewIndex]) elements[pivotNewIndex].classList.add('sorted');
 
     return pivotNewIndex;
 }
 
-async function quickSortRecursive(elements, low, high) {
+async function quickSortRecursive(low, high, lowMarker, highMarker) {
+    if (!isSorting) return;
+    const elements = arrayContainer.querySelectorAll('.array-element');
+
+    // Animate markers to their new positions
+    if (lowMarker && elements[low]) {
+        gsap.to(lowMarker, { left: elements[low].offsetLeft + (elements[low].offsetWidth / 2) - 10, duration: 0.4 });
+    }
+    if (highMarker && elements[high]) {
+        gsap.to(highMarker, { left: elements[high].offsetLeft + (elements[high].offsetWidth / 2) - 10, duration: 0.4 });
+    }
+    await new Promise(resolve => setTimeout(resolve, 400));
+
     if (low < high) {
-        let pi = await partition(elements, low, high);
-        await quickSortRecursive(elements, low, pi - 1);
-        await quickSortRecursive(elements, pi + 1, high);
-    } else {
-        
-        if (elements[low]) elements[low].classList.add('sorted');
+        let pi = await partition(low, high);
+        if (!isSorting) return; // Check after partitioning
+        await quickSortRecursive(low, pi - 1, lowMarker, highMarker);
+        if (!isSorting) return; // Check after the left-side recursion
+        await quickSortRecursive(pi + 1, high, lowMarker, highMarker);
     }
 }
 
-export async function animateQuickSort() {
-    updateArrayInfo('Quick Sort', 'O(n log n) avg', 'O(log n)');
-    if (!arrayContainer) return;
-    const elements = arrayContainer.querySelectorAll('.array-element');
-    elements.forEach(el => el.classList.remove('found', 'sorted', 'current', 'compared', 'pivot'));
+function swapDOMElements(el1, el2) {
+    const parent = el1.parentNode;
+    const next_el1 = el1.nextSibling;
+    const next_el2 = el2.nextSibling;
 
-    await quickSortRecursive(elements, 0, arrayData.length - 1);
+    if (next_el1) parent.insertBefore(el2, next_el1);
+    else parent.appendChild(el2);
+
+    if (next_el2) parent.insertBefore(el1, next_el2);
+    else parent.appendChild(el1);
+}
+
+export async function animateQuickSort() {
+    if (isSorting) return; // Prevent starting a new sort if one is already running
+    isSorting = true;
+
+    updateArrayInfo('Quick Sort', 'O(n log n) avg', 'O(log n)');
+    if (!arrayContainer) {
+        isSorting = false;
+        return;
+    }
     
-    updateArrayInfo('Quick Sort Complete', 'O(n log n) avg', 'O(log n)');
+    // Clear previous highlights
+    arrayContainer.querySelectorAll('.array-element').forEach(el => el.classList.remove('found', 'sorted', 'current', 'compared', 'pivot'));
+
+    const lowMarker = document.createElement('div');
+    lowMarker.className = 'marker marker-low';
+    const highMarker = document.createElement('div');
+    highMarker.className = 'marker marker-high';
+    
+    try {
+        arrayContainer.appendChild(lowMarker);
+        arrayContainer.appendChild(highMarker);
+
+        // Start the recursive sort
+        await quickSortRecursive(0, arrayData.length - 1, lowMarker, highMarker);
+        
+        if (isSorting) { // Only run completion logic if it wasn't interrupted
+            const finalElements = arrayContainer.querySelectorAll('.array-element');
+            finalElements.forEach(el => el.classList.add('sorted'));
+            updateArrayInfo('Quick Sort Complete', 'O(n log n) avg', 'O(log n)');
+        }
+    } finally {
+        // This block runs regardless of how the try block exits
+        isSorting = false;
+        if (lowMarker.parentNode) arrayContainer.removeChild(lowMarker);
+        if (highMarker.parentNode) arrayContainer.removeChild(highMarker);
+    }
 }
 

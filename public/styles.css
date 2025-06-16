@@ -371,10 +371,11 @@ input:focus, select:focus {
     justify-content: center;
     gap: 10px;
     flex-wrap: wrap;
-    min-height: 100px;
+    min-height: 100px; 
     padding: 20px;
     background-color: rgba(10, 239, 255, 0.05);
     border-radius: 10px;
+    position: relative;
 }
 
 .array-element {
@@ -434,6 +435,25 @@ input:focus, select:focus {
     background-color: var(--secondary-color);  
     color: var(--light-text);
     box-shadow: 0 0 20px rgba(153, 69, 255, 0.6);
+}
+
+.marker {
+    position: absolute;
+    bottom: -25px; 
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    transition: left 0.4s ease-in-out; 
+    z-index: 10;
+}
+
+.marker-low {
+    border-bottom: 15px solid var(--primary-color);
+}
+
+.marker-high {
+    border-bottom: 15px solid var(--secondary-color);
 }
 
  
