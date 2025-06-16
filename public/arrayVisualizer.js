@@ -173,8 +173,8 @@ export async function animateInsertionSort() {
     updateArrayInfo('Insertion Sort', 'O(n²)', 'O(1)');
     if (!arrayContainer) return;
     const elements = arrayContainer.querySelectorAll('.array-element');
-    elements.forEach(el => el.classList.remove('found', 'sorted', 'current', 'compared'));
     const n = elements.length;
+    elements.forEach(el => el.classList.remove('found', 'sorted', 'current', 'compared'));
 
     if (elements[0]) elements[0].classList.add('sorted');
 
