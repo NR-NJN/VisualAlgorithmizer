@@ -41,6 +41,7 @@ export async function animateArrayTraversal() {
     updateArrayInfo('Array Traversal', 'O(n)', 'O(1)');
     if (!arrayContainer) return;
     const elements = arrayContainer.querySelectorAll('.array-element');
+    elements.forEach(el => el.classList.remove('found', 'sorted'));
     for (let i = 0; i < elements.length; i++) {
         elements.forEach(el => el.classList.remove('current'));
         elements[i].classList.add('current');
@@ -85,6 +86,7 @@ export async function animateBubbleSort() {
     updateArrayInfo('Bubble Sort', 'O(n²)', 'O(1)');
     if (!arrayContainer) return;
     const elements = arrayContainer.querySelectorAll('.array-element');
+    elements.forEach(el => el.classList.remove('found', 'sorted', 'current', 'compared'));
     const n = elements.length;
 
     for (let i = 0; i < n; i++) {
@@ -120,6 +122,7 @@ export async function animateSelectionSort() {
     updateArrayInfo('Selection Sort', 'O(n²)', 'O(1)');
     if (!arrayContainer) return;
     const elements = arrayContainer.querySelectorAll('.array-element');
+    elements.forEach(el => el.classList.remove('found', 'sorted', 'current', 'compared'));
     const n = elements.length;
 
     for (let i = 0; i < n; i++) {
@@ -170,6 +173,7 @@ export async function animateInsertionSort() {
     updateArrayInfo('Insertion Sort', 'O(n²)', 'O(1)');
     if (!arrayContainer) return;
     const elements = arrayContainer.querySelectorAll('.array-element');
+    elements.forEach(el => el.classList.remove('found', 'sorted', 'current', 'compared'));
     const n = elements.length;
 
     if (elements[0]) elements[0].classList.add('sorted');
