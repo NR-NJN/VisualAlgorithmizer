@@ -648,7 +648,24 @@ input:focus, select:focus {
     border-left-color: var(--success-color);
 }
 
- 
+.graph-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(10, 239, 255, 0.2); 
+    border-top-color: var(--primary-color); 
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: spin 1s linear infinite;
+    z-index: 20; 
+}
+
+.graph-loader.hidden {
+    display: none;
+}
+
 .contact-container {
     display: flex;
     gap: 50px;
@@ -1102,6 +1119,12 @@ footer {
     to {
         opacity: 1;
         transform: translateX(0);
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
     }
 }
 
