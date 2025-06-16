@@ -82,14 +82,14 @@ function runForceSimulation() {
         }
         else {
             
-            const loader = document.getElementById('graph-loader');
-            if (loader) {
-                loader.classList.add('hidden');
+            const loadingText = document.getElementById('graph-loading-text');
+            if (loadingText) {
+                loadingText.classList.add('hidden');
             }
             if (graphContainer) {
                 graphContainer.style.visibility = 'visible';
             }
-            updateGraphInfo('Generated New Graph', '', `V=8, E=8`)
+            updateGraphInfo('Generated New Graph', '', `V=8, E=8`);
         }
     }
     simulationStep();
@@ -243,11 +243,12 @@ function initializeGraph() {
 
 export function generateRandomGraph() {
 
-    const loader = document.getElementById('graph-loader');
-    if (loader) {
-        loader.classList.remove('hidden');
+    const loadingText = document.getElementById('graph-loading-text');
+    if (loadingText) {
+        loadingText.classList.remove('hidden');
     }
-
+    
+    
     if (graphContainer) {
         graphContainer.style.visibility = 'hidden';
     }
