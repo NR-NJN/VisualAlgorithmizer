@@ -1,11 +1,89 @@
 
 
 const MIN_DISTANCE = 85; 
+const REPULSION_STRENGTH = 8000;  
+const ATTRACTION_STRENGTH = 0.04; 
+const DAMPING_FACTOR = 0.95; 
 
+let animationFrameId = null;
 
-const adjacencyList = new Map();
+const adjacencyList = new Map();    
 let nodes = [];
 const graphContainer = document.getElementById('graph-container');
+
+function runForceSimulation() {
+    if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId); // Stop any previous simulation
+    }
+
+    nodes.forEach(node => {
+        node.forceX = 0;
+        node.forceY = 0;
+    });
+
+    function simulationStep() {
+        // 1. Calculate Repulsive Forces (every node pushes every other node)
+        for (let i = 0; i < nodes.length; i++) {
+            for (let j = i + 1; j < nodes.length; j++) {
+                const nodeA = nodes[i];
+                const nodeB = nodes[j];
+                const dx = nodeA.x - nodeB.x;
+                const dy = nodeA.y - nodeB.y;
+                const distanceSquared = dx * dx + dy * dy;
+                if (distanceSquared > 0) {
+                    const force = REPULSION_STRENGTH / distanceSquared;
+                    const forceX = (dx / Math.sqrt(distanceSquared)) * force;
+                    const forceY = (dy / Math.sqrt(distanceSquared)) * force;
+                    nodeA.forceX += forceX;
+                    nodeA.forceY += forceY;
+                    nodeB.forceX -= forceX;
+                    nodeB.forceY -= forceY;
+                }
+            }
+        }
+
+        // 2. Calculate Attractive Forces (edges pull nodes together)
+        adjacencyList.forEach((neighbors, nodeId) => {
+            const nodeA = nodes.find(n => n.id === nodeId);
+            neighbors.forEach(neighborId => {
+                const nodeB = nodes.find(n => n.id === neighborId);
+                const dx = nodeB.x - nodeA.x;
+                const dy = nodeB.y - nodeA.y;
+                const forceX = dx * ATTRACTION_STRENGTH;
+                const forceY = dy * ATTRACTION_STRENGTH;
+                nodeA.forceX += forceX;
+                nodeA.forceY += forceY;
+                nodeB.forceX -= forceX;
+                nodeB.forceY -= forceY;
+            });
+        });
+
+        // 3. Apply forces to move nodes
+        let totalMovement = 0;
+        nodes.forEach(node => {
+            node.forceX *= DAMPING_FACTOR;
+            node.forceY *= DAMPING_FACTOR;
+            node.x += node.forceX;
+            node.y += node.forceY;
+            
+            // Keep nodes within the container bounds
+            const containerRect = graphContainer.getBoundingClientRect();
+            node.x = Math.max(25, Math.min(containerRect.width - 25, node.x));
+            node.y = Math.max(25, Math.min(containerRect.height - 25, node.y));
+            totalMovement += Math.abs(node.forceX) + Math.abs(node.forceY);
+        });
+        
+        // 4. Re-render the graph with the new positions
+        updateNodePositions();
+
+        // 5. Continue simulation if nodes are still moving
+        if (totalMovement > 1) {
+            animationFrameId = requestAnimationFrame(simulationStep);
+        }
+    }
+    simulationStep();
+}
+
 function updateGraphInfo(operation, timeComplexity, spaceComplexity) {
     const opEl = document.getElementById('graph-operation');
     const timeEl = document.getElementById('graph-complexity');
@@ -61,6 +139,31 @@ function drawEdge(fromNode, toNode) {
     graphContainer.appendChild(edge);
 }
 
+function updateNodePositions() {
+    // Update node positions
+    nodes.forEach(node => {
+        const nodeElement = document.getElementById(`graph-node-${node.id}`);
+        if (nodeElement) {
+            nodeElement.style.left = `${node.x}px`;
+            nodeElement.style.top = `${node.y}px`;
+        }
+    });
+
+    // Update edge positions by clearing and redrawing only the edges
+    const edges = graphContainer.querySelectorAll('.graph-edge');
+    edges.forEach(edge => edge.remove());
+
+    adjacencyList.forEach((neighbors, nodeId) => {
+        const fromNodeElement = document.getElementById(`graph-node-${nodeId}`);
+        neighbors.forEach(neighborId => {
+            if (nodeId < neighborId) {
+                const toNodeElement = document.getElementById(`graph-node-${neighborId}`);
+                drawEdge(fromNodeElement, toNodeElement);
+            }
+        });
+    });
+}
+
 function renderGraph() {
     if (!graphContainer) return;
     graphContainer.innerHTML = '';
@@ -69,19 +172,8 @@ function renderGraph() {
         nodeElement.className = 'graph-node';
         nodeElement.id = `graph-node-${node.id}`;
         nodeElement.textContent = node.id;
-        nodeElement.style.left = `${node.x}px`;
-        nodeElement.style.top = `${node.y}px`;
-        makeDraggable(nodeElement);  
+        // The positions will be set by the simulation loop
         graphContainer.appendChild(nodeElement);
-    });
-    adjacencyList.forEach((neighbors, nodeId) => {
-        const fromNodeElement = document.getElementById(`graph-node-${nodeId}`);
-        neighbors.forEach(neighborId => {
-            const toNodeElement = document.getElementById(`graph-node-${neighborId}`);
-            if (nodeId < neighborId) {
-                drawEdge(fromNodeElement, toNodeElement);
-            }
-        });
     });
 }
 
@@ -113,12 +205,28 @@ function makeDraggable(element) {
             node.x = newLeft;
             node.y = newTop;
         }
-        renderGraph();
+        //renderGraph();
+        runForceSimulation();
     }
     function closeDragElement() {
         document.onmouseup = null;
         document.onmousemove = null;
     }
+}
+
+function initializeGraph() {
+    // This function sets everything up in the correct order.
+    // 1. Create the DOM elements for the nodes
+    renderGraph();
+    // 2. Make the newly created nodes draggable
+    nodes.forEach(node => {
+        const nodeElement = document.getElementById(`graph-node-${node.id}`);
+        if (nodeElement) {
+            makeDraggable(nodeElement, node.id);
+        }
+    });
+    // 3. Run the physics simulation to arrange them
+    runForceSimulation();
 }
 
 
@@ -177,8 +285,7 @@ export function generateRandomGraph() {
      
     adjacencyList.get(nodeA).push(nodeB);
     adjacencyList.get(nodeB).push(nodeA);
-    renderGraph();
-     
+    initializeGraph();
     updateGraphInfo('Generated New Graph', '', `V=8, E=8`);
 }
 
