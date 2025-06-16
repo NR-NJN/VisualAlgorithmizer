@@ -47,7 +47,12 @@ Below are a few operations that have been incorporated into the website. The sta
 <img width="889" alt="bst_postorder" src="https://github.com/user-attachments/assets/0284c337-9150-4f6f-a8dd-5a609d952d0a" />
 
 ---
+## Graph Operations
+**Depth First Search**
 
+<img width="1153" alt="dfs" src="https://github.com/user-attachments/assets/3abfd570-d0b6-466c-b774-a7a9d36e39a9" />
+
+---
 ## Running
 As of now you can only clone it to run it on node locally
 ```
