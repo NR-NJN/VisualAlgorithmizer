@@ -787,36 +787,84 @@ input:focus ~ .form-highlight, textarea:focus ~ .form-highlight {
 
  
 footer {
-    background-color: var(--darker-bg);
-    padding: 50px 5%;
+    background-color: var(--dark-bg); 
+    padding: 60px 20px;
+    text-align: center;
+    border-top: 1px solid var(--border-color);
 }
 
-.footer-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
+.footer-content h3 {
+    font-size: 1.8rem;
+    color: var(--light-text);
+    margin-bottom: 20px;
 }
 
-.social-links {
-    display: flex;
-    gap: 20px;
+.footer-content p {
+    color: var(--medium-text);
+    max-width: 600px;
+    margin: 0 auto 30px auto;
+    line-height: 1.7;
 }
 
-.social-icon {
-    color: var(--gray-text);
+.footer-links .btn {
+    margin: 0 10px;
+    background-color: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.footer-links .btn:hover {
+    background-color: var(--primary-color);
+    color: var(--dark-bg);
+}
+
+.footer-link {
+    color: var(--gray-text); 
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0 15px;
+    text-decoration: none;
     transition: color 0.3s ease;
 }
 
-.social-icon:hover {
+.footer-link:hover {
     color: var(--primary-color);
 }
 
-.copyright {
-    margin-top: 20px;
-    color: var(--gray-text);
-    text-align: center;
+.social-links {
+    margin: 40px 0;
 }
+
+.social-links a {
+    color: var(--medium-text);
+    font-size: 1.5rem;
+    margin: 0 15px;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-links a:hover {
+    color: var(--primary-color);
+    transform: translateY(-5px);
+}
+
+.copyright {
+    color: var(--medium-text);
+    font-size: 0.9rem;
+}
+
+.copyright .email-link {
+    color: var(--medium-text);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.copyright .email-link:hover {
+    color: var(--primary-color);
+}
+
+
 
  
 @keyframes glitch-anim {

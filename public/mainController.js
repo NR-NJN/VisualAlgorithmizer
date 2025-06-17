@@ -1,11 +1,9 @@
 import {
     initAOS,
-    //setupCursor,
     setupNavigation,
     initTypewriter,
     initMatrixAnimation,
     setupFormHighlights,
-    setupContactForm,
     setupSmoothScrolling
 } from './commonUI.js';
 
@@ -51,7 +49,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initTypewriter('.typing-text', "BUT DSA ALWAYS CATCHES UP");  
     initMatrixAnimation('matrix-canvas');
     setupFormHighlights();
-    setupContactForm('contactForm');
     setupSmoothScrolling();
 
      

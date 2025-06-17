@@ -120,22 +120,6 @@ export function setupFormHighlights() {
     });
 }
 
-export function setupContactForm(formId) {
-    const contactForm = document.getElementById(formId);
-    if (!contactForm) return;
-
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const formElements = contactForm.elements;
-        for (let i = 0; i < formElements.length; i++) {
-            if (formElements[i].type !== 'submit') {
-                formElements[i].value = '';
-            }
-        }
-        alert('Message sent successfully!');
-    });
-}
-
 export function setupSmoothScrolling() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
