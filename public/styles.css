@@ -243,6 +243,40 @@ section {
     z-index: -1;
 }
 
+.hero-title, .typing-text {
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #fff;
+    
+    
+    text-shadow:
+        0 0 5px #fff,
+        0 0 10px #fff,
+        0 0 20px var(--primary-color); 
+    
+    transition: text-shadow 0.3s ease;
+}
+
+.hero-title {
+    font-size: 3.5rem; 
+    margin-bottom: 0.5rem; 
+}
+
+.typing-text {
+    font-size: 2rem; 
+    color: var(--light-text); 
+    letter-spacing: 2px;
+}
+
+.hero-title:hover {
+    text-shadow:
+        0 0 7px #fff,
+        0 0 15px #fff,
+        0 0 30px var(--primary-color);
+    transform: scale(1.01); 
+}
+
 .matrix-rain {
     position: absolute;
     top: 0;
@@ -291,12 +325,6 @@ section {
     text-shadow: -2px 0 var(--secondary-color);
     clip: rect(44px, 450px, 56px, 0);
     animation: glitch-anim2 5s infinite linear alternate-reverse;
-}
-
-.typing-text {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-    min-height: 60px;
 }
 
 .cta-buttons {

@@ -45,8 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (typeof gsap !== 'undefined') {  
         gsap.registerPlugin(ScrollTrigger);
     }
-    setupNavigation();
-    initTypewriter('.typing-text', "BUT DSA ALWAYS CATCHES UP");  
+    setupNavigation();  
     initMatrixAnimation('matrix-canvas');
     setupFormHighlights();
     setupSmoothScrolling();
