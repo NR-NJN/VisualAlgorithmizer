@@ -251,7 +251,6 @@ function initializeGraph() {
 
 
 export function generateRandomGraph() {
-    //const graphContainer = document.getElementById('graph-container');
     const loader = document.getElementById('graph-loader');
     const loadingText = document.getElementById('graph-loading-text');
 
@@ -260,7 +259,7 @@ export function generateRandomGraph() {
     adjacencyList.clear();
     nodes = [];
 
-     const numNodes = 5;
+     const numNodes = 8;
     const nodeIds = Array.from({ length: numNodes }, (_, i) => String.fromCharCode(65 + i));  
 
      
