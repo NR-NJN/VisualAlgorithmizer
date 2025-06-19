@@ -84,6 +84,10 @@ section {
     flex-direction: column;
     justify-content: center;
 }
+.section-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
 
 .container {
     max-width: 1200px;
@@ -130,25 +134,61 @@ section {
     margin-left: 30px;
 }
 
-.nav-links a {
-    color: var(--light-text);
+.nav-links a,
+.learn-more-link {
     font-weight: 500;
-    position: relative;
+    position: relative; 
+    text-decoration: none; 
+    transition: color 0.3s ease; 
 }
 
-.nav-links a:after {
+.nav-links a {
+    padding-bottom: 5px; 
+}
+
+.nav-links a:after,
+.learn-more-link::after {
     content: '';
     position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -5px;
+    width: 0; /* Starts hidden (width 0) */
+    height: 2px; /* Thickness of the underline */
     left: 0;
-    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-    transition: width 0.3s ease;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)); /* Your existing gradient */
+    transition: width 0.3s ease; /* Animate the width for the hover effect */
+}
+
+.nav-links a::after {
+    bottom: -5px;
 }
 
 .nav-links a:hover:after {
     width: 100%;
+}
+
+.learn-more-link {
+    display: inline-block; /* Essential for its independent layout and pseudo-element */
+    margin-top: 15px;
+    font-size: 1.1rem;
+    padding-bottom: 5px; /* Adds space for the underline */
+}
+
+.learn-more-link::after {
+    bottom: 0;
+}
+
+.nav-links a:hover,
+.learn-more-link:hover {
+    color: var(--primary-color); /* Change text color on hover */
+}
+
+.nav-links a:hover::after,
+.learn-more-link:hover::after {
+    width: 100%; /* Expand the underline to full width on hover */
+}
+
+/* Optional: remove transform from .learn-more-link:hover if it was causing issues */
+.learn-more-link:hover {
+    transform: translateX(0); /* Ensure no unintended transforms are left */
 }
 
 .burger {

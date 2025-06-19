@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:,">
+    <title>About Arrays - VisualAlgorithmizer</title>
+   
+    <link rel="stylesheet" href="../styles.css">
+   
+    <link rel="stylesheet" href="info-page.css">
+</head>
+<body>
+    <nav class="navbar">
+        
+        <div class="logo">
+            <a href="../main.html" class="logo-text">DSVisualizer</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../main.html#arrays">Back to Visualizer</a></li>
+        </ul>
+    </nav>
+
+    <section class="info-content">
+        <div class="container">
+            <h1>The Array Data Structure</h1>
+            <p>An array is a fundamental linear data structure used in computer science. It consists of a collection of elements, all of the same data type, stored in contiguous (side-by-side) memory locations[5]. This structure allows for efficient access to elements using an index, which is a number that corresponds to an element's position in the collection. Most programming languages, use zero-based indexing, where the first element is at index 0, the second at index 1, and so on.</p>
+
+            <h2>Array Operations</h2>
+
+            <h3>Traversal</h3>
+            <p>Array traversal is the process of visiting each element in an array exactly once to perform an operation. This is one of the most basic and common operations. A standard forward iteration, starting from the first element 0 and moving sequentially to the last, is the most common traversal method. Traversal is essential for tasks like printing elements, calculating their sum, or searching for a value.</p>
+
+            <h3>Searching</h3>
+            <p>Searching an array involves finding the position of a specific element. This makes use of the array traversal method in of itself. This is the most straightforward search method. It sequentially checks each element of the array from the beginning until the target value is found or the end of the array is reached. While simple to implement, it can be inefficient for large arrays.</p>
+            
+            <h3>Sorting</h3>
+            <p>Sorting involves rearranging the elements of an array into a specific order, typically ascending or descending (over here, I have only demonstrated ascending, but its the same logic and time difference for descending). 
+                Each sorting algorithm has different trade-offs in terms of efficiency and complexity. The algorithms visualized are:</p>
+            <p>Always remember; every sorting algorithm will, at the very least take O(n) time. A sorting procedure will never be faster than that</p>
+            <ul>
+                <li><strong>Bubble Sort:</strong> Bubble Sort is a simple sorting algorithm that works by repeatedly stepping through the list to be sorted,
+                    comparing adjacent elements, and swapping them if they are in the wrong order. This process is repeated until no swaps are needed, 
+                    which indicates that the list is sorted. The algorithm gets its name from the way larger the elements sort of bubble up to the top of 
+                    the list as the process continues. Bubble Sort is not efficient for large datasets due to its O(n²) time 
+                    complexity in the average and worst cases, meaning the execution time increases dramatically with the size of the data. However, it can 
+                    be useful for small datasets or for demonstrating basic sorting concepts. The best-case scenario occurs when the array is already sorted,
+                    resulting in a time complexity of O(n). Bubble Sort is also an in-place algorithm, meaning it sorts the data within the original array 
+                    without needing significant extra memory</li>
+                <li><strong>Selection Sort:</strong> Selection sort is an in-place comparison sorting algorithm that separates an array into sorted and 
+                    unsorted sections. Starting with an empty sorted section, the algorithm 
+                    iteratively finds the minimum element in the unsorted part and swaps it to the beginning of the unsorted section, thereby adding it to the sorted part. 
+                    This continues until the entire array is sorted. While straightforward to implement and suitable for small datasets or learning, its consistent O(n²) 
+                    time complexity makes it less efficient for large datasets </li>
+                <li><strong>Insertion Sort:</strong> Insertion sort is a simple sorting algorithm that builds the final sorted array one item at
+                    a time. It works by conceptually dividing the input into a sorted and an unsorted sub-array. Initially, the first element is 
+                    considered sorted. Then, the algorithm iterates through the unsorted portion, taking the next element and inserting it into its 
+                    correct position within the sorted sub-array. This process involves comparing the current element with the elements to its left in 
+                    the sorted portion and shifting larger elements to the right to create space for the insertion. This continues until the element finds 
+                    its correct place, maintaining the sorted order of the growing sorted sub-array. The algorithm proceeds like this, element by element, 
+                    until the entire array is sorted. While it's pretty simple implement, and efficient for small data sets or partially sorted data,
+                     insertion sort's efficiency significantly decreases for large lists due to its worst-case and average-case time complexity of O(n²), 
+                     where n is the number of elements. Despite this, it offers advantages like being in-place and stable</li>
+                <li><strong>Merge Sort:</strong> Merge sort is an efficient sorting algorithm that follows the divide-and-conquer strategy, 
+                    making it suitable for sorting arrays. It begins by recursively dividing the input array into two halves until each subarray contains only 
+                    one element, which is considered inherently sorted. This is the divide phase. Once the array is broken down to its fundamental 
+                    elements, the algorithm enters the conquer phase by merging pairs of these single-element arrays. This merging process involves 
+                    comparing elements from the two subarrays and arranging them in sorted order, creating a larger, sorted subarray. This merging 
+                    continues, combining adjacent sorted subarrays, until a single, fully sorted array is produced. Merge sort is known for its consistent
+                     performance, maintaining a time complexity of O(n log n) in best, average, and worst cases, and it's a stable sort, preserving the 
+                     relative order of equal elements. It's a widely used algorithm due to its efficiency with large datasets and suitability for 
+                     scenarios where stability is important</li>
+                <li><strong>Quick Sort:</strong> Quicksort is a highly efficient sorting algorithm that utilizes a divide-and-conquer approach to sort 
+                    arrays. It operates by first selecting a pivot element from the array. The algorithm then partitions the remaining elements into two 
+                    sub-arrays based on their relationship to the pivot: elements smaller than the pivot are placed in one sub-array, and elements larger 
+                    than the pivot are placed in the other. The pivot element is then placed in its correct sorted position between these two sub-arrays. 
+                    This partitioning process is the core of Quicksort, effectively placing one element in its final sorted position in each step. 
+                    The algorithm then recursively applies the same steps to the two sub-arrays, selecting new pivots and partitioning them further. 
+                    This continues until the sub-arrays are reduced to a single element each, which is inherently sorted. The final sorted array is then 
+                    effectively built by combining the sorted sub-arrays and the positioned pivot elements. Quicksort is often considered one of the 
+                    fastest sorting algorithms, particularly for large datasets, with an average-case time complexity of O(n log n). While its worst-case 
+                    complexity is O(n²), which can occur with poor pivot selection, randomizing the pivot choice helps mitigate this risk in practice. 
+                    Its in-place nature also makes it memory-efficient, requiring only minimal extra space for recursion stack management</li>
+            </ul>
+        </div>
+    </section>
+
+</body>
+</html>
