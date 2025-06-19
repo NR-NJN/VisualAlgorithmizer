@@ -150,11 +150,11 @@ section {
 .learn-more-link::after {
     content: '';
     position: absolute;
-    width: 0; /* Starts hidden (width 0) */
-    height: 2px; /* Thickness of the underline */
+    width: 0;  
+    height: 2px;  
     left: 0;
-    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)); /* Your existing gradient */
-    transition: width 0.3s ease; /* Animate the width for the hover effect */
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));  
+    transition: width 0.3s ease;  
 }
 
 .nav-links a::after {
@@ -166,10 +166,10 @@ section {
 }
 
 .learn-more-link {
-    display: inline-block; /* Essential for its independent layout and pseudo-element */
+    display: inline-block;  
     margin-top: 15px;
     font-size: 1.1rem;
-    padding-bottom: 5px; /* Adds space for the underline */
+    padding-bottom: 5px;  
 }
 
 .learn-more-link::after {
@@ -178,17 +178,17 @@ section {
 
 .nav-links a:hover,
 .learn-more-link:hover {
-    color: var(--primary-color); /* Change text color on hover */
+    color: var(--primary-color);  
 }
 
 .nav-links a:hover::after,
 .learn-more-link:hover::after {
-    width: 100%; /* Expand the underline to full width on hover */
+    width: 100%;  
 }
 
-/* Optional: remove transform from .learn-more-link:hover if it was causing issues */
+ 
 .learn-more-link:hover {
-    transform: translateX(0); /* Ensure no unintended transforms are left */
+    transform: translateX(0);  
 }
 
 .burger {

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:,"> 
+
+    <title>About Linked Lists - DSVisualizer</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../info-page.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="../main.html" class="logo-text">DSVisualizer</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../main.html#linked-lists">Back to Visualizer</a></li>
+        </ul>
+    </nav>
+
+    <section class="info-content">
+        <div class="container">
+            <h1>The Linked List Data Structure</h1>
+            <p>A linked list is a linear data structure, much like an array, but it stores elements non-contiguously in memory. Instead of contiguous blocks, a linked list consists of a sequence of "nodes," where each node contains both data and a reference (or "pointer") to the next node in the sequence. The first node is called the "head," and the last node's pointer typically points to `null` or `None`, signifying the end of the list.</p>
+            <p>Unlike arrays, linked lists are dynamic in size and excel at insertions and deletions because elements do not need to be shifted. However, accessing an element by its index is less efficient, as it requires traversing the list from the beginning.</p>
+
+            <h2>Linked List Operations</h2>
+
+            <h3>Traversal</h3>
+            <p>Linked list traversal involves visiting each node in the list exactly once, starting from the head and following the `next` pointers until the end of the list (a `null` pointer) is reached. This operation is fundamental for searching, printing all elements, or performing an action on each node.</p>
+
+            <h3>Insertion</h3>
+            <p>Insertion adds a new node to the linked list. This can typically occur at three positions:</p>
+            <ul>
+                <li><strong>At the Head:</strong> The new node becomes the new head, and its `next` pointer points to the old head. This is very efficient (O(1)).</li>
+                <li><strong>At the Tail:</strong> The new node is added after the current last node. The current last node's `next` pointer is updated to point to the new node, which then points to `null`. This requires traversing to the end of the list (O(n)).</li>
+                <li><strong>At a Specific Position:</strong> A new node is inserted between two existing nodes. This involves updating the `next` pointer of the preceding node to point to the new node, and the new node's `next` pointer to point to the subsequent node. This also typically requires traversal to find the position (O(n)).</li>
+            </ul>
+
+            <h3>Deletion</h3>
+            <p>Deletion removes a node from the linked list. Similar to insertion, deletion can occur at various positions:</p>
+            <ul>
+                <li><strong>From the Head:</strong> The head pointer is simply moved to point to the second node. The original head node is then effectively removed. This is an O(1) operation.</li>
+                <li><strong>From the Tail:</strong> This requires finding the second-to-last node and setting its `next` pointer to `null`. This is an O(n) operation as it requires traversing almost the entire list.</li>
+                <li><strong>From a Specific Position:</strong> The `next` pointer of the node preceding the one to be deleted is updated to point directly to the node *after* the one being deleted, effectively bypassing and removing the target node. This is an O(n) operation due to traversal.</li>
+            </ul>
+        </div>
+    </section>
+
+</body>
+</html>
