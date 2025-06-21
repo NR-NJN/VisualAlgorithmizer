@@ -2,7 +2,7 @@ import {
     initAOS,
     setupNavigation,
     initTypewriter,
-    initMatrixAnimation,
+    initParticleAnimation,
     setupFormHighlights,
     setupSmoothScrolling
 } from './commonUI.js';
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
         gsap.registerPlugin(ScrollTrigger);
     }
     setupNavigation();  
-    initMatrixAnimation('matrix-canvas');
+    initParticleAnimation('particle-canvas');
     setupFormHighlights();
     setupSmoothScrolling();
 
