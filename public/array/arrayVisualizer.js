@@ -324,7 +324,7 @@ async function partition(low, high) {
     let i = low - 1;
     for (let j = low; j < high; j++) {
         if (!isSorting) return -1;
-        // Re-query elements inside the loop to get their current order
+         
         elements = Array.from(arrayContainer.querySelectorAll('.array-element'));
 
         if (elements[j]) elements[j].classList.add('compared');
@@ -333,7 +333,7 @@ async function partition(low, high) {
         if (arrayData[j] < pivotValue) {
             i++;
             if (i !== j) {
-                // Find elements by their new logical positions in the DOM
+                 
                 const el_i_value = arrayData[i];
                 const el_j_value = arrayData[j];
                 const el_i = elements.find(el => parseInt(el.textContent) === el_i_value && !el.classList.contains('pivot'));
@@ -391,7 +391,7 @@ async function partition(low, high) {
 async function quickSortRecursive(low, high, lowMarker, highMarker) {
     if (!isSorting) return;
     
-    // Update marker positions at the start of each recursive call
+     
     const elements = Array.from(arrayContainer.querySelectorAll('.array-element'));
     if (lowMarker && elements[low]) {
         gsap.to(lowMarker, { left: elements[low].offsetLeft + (elements[low].offsetWidth / 2) - 10, duration: 0.4 });
@@ -410,7 +410,7 @@ async function quickSortRecursive(low, high, lowMarker, highMarker) {
         if (!isSorting) return;
         await quickSortRecursive(pi + 1, high, lowMarker, highMarker);
     } else {
-        // Mark single elements as sorted if they are a partition of one
+         
         if (elements[low]) {
             elements[low].classList.add('sorted');
         }
