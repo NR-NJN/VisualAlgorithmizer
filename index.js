@@ -8,6 +8,4 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'main.html'));
 });
 
-app.listen(port, () => {
-    console.log(`App listening on port ${port}!`);
-});
+export default app;
