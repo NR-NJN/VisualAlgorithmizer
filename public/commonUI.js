@@ -119,7 +119,7 @@ export function initParticleAnimation(canvasId) {
             const y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
             const directionX = (Math.random() * 0.4) - 0.2;
             const directionY = (Math.random() * 0.4) - 0.2;
-            // Use your site's secondary color for the lines
+            
             const color = 'rgba(153, 69, 255, 0.8)';
             particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
         }
