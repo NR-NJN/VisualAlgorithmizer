@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src * data:; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; script-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline'; font-src 'self' https://cdnjs.cloudflare.com;">
+    <link rel="icon" href="data:,">
+
+    <title>About Binary Search Trees - DSVisualizer</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../info-page.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="../main.html" class="logo-text">VisualAlgorithmizer</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../main.html#trees">Back to Visualizer</a></li>
+        </ul>
+    </nav>
+
+    <section class="info-content">
+        <div class="container">
+            <h1>The Binary Search Tree (BST)</h1>
+            <p>A Binary Search Tree is a fundamental data structure organized in a hierarchical tree format. It's a specific type of binary tree 
+                where each node has at most two children, referred to as the left child and the right child. The key property of a BST is that 
+                for any given node, all values in its left subtree are less than the node's value, and all values in its right subtree are greater 
+                than the node's value. This ordering allows for efficient search, insertion, and deletion operations, with an average time 
+                complexity of O(log n).</p>
+
+            <h2>Binary Search Tree Operations</h2>
+
+            <h3>Insertion</h3>
+            <p>New nodes are always inserted as leaf nodes. The insertion process starts at the root and traverses the tree by comparing the new 
+                value with the value of the current node. If the new value is smaller, it proceeds to the left child, and if it's larger, it proceeds 
+                to the right child. This continues until an empty spot is found where the new node can be added, maintaining 
+                the BST property.</p>
+
+            <h3>Deletion</h3>
+            <p>Deleting a node from a BST is more complex as the tree's structure must be maintained. There are three cases:</p>
+            <ul>
+                <li><strong>Node is a leaf:</strong> The node can be directly removed.</li>
+                <li><strong>Node has one child:</strong> The node is replaced by its single child.</li>
+                <li><strong>Node has two children:</strong> The node is replaced by its inorder successor which is the smallest node in its right subtree 
+                    or its inorder predecessor the largest node in its left subtree. The successor is then deleted from its original position.</li>
+            </ul>
+
+            <h3>Traversal</h3>
+            <p>Traversal is the process of visiting all nodes in the tree in a specific order. There are three primary depth-first traversal methods 
+                visualized in this project:</p>
+            <ul>
+                <li><strong>In-order Traversal (Left, Root, Right):</strong> Visits the left subtree, then the root node, then the right subtree. 
+                    A key feature of a BST is that an inorder traversal will visit the nodes in ascending sorted order.</li>
+                <li><strong>Preorder Traversal (Root, Left, Right):</strong> Visits the root node first, then the left subtree, then the right subtree. 
+                    This is useful for creating a copy of the tree.</li>
+                <li><strong>Postorder Traversal (Left, Right, Root):</strong> Visits the left subtree, then the right subtree, and finally the root node. 
+                    This is often used to delete all nodes in a tree.</li>
+            </ul>
+        </div>
+    </section>
+
+</body>
+</html>
