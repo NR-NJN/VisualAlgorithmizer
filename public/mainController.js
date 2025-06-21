@@ -16,27 +16,27 @@ import {
     animateInsertionSort,
     animateMergeSort,
     animateQuickSort 
-} from './arrayVisualizer.js';
+} from './array/arrayVisualizer.js';
 
 import {
     generateRandomLinkedList,
     animateListTraversal,
     animateListInsertion,
     animateListDeletion
-} from './linkedListVisualizer.js';
+} from './linked-list/linkedListVisualizer.js';
 
 import {
     generateRandomTree,
     animateTreeInsertion,
     animateTreeDeletion,
     animateTreeTraversal
-} from './treeVisualizer.js';
+} from './bst/treeVisualizer.js';
 
 import {
     generateRandomGraph,
     animateBfs,
     animateDfs
-} from './graphVisualizer.js';
+} from './graph/graphVisualizer.js';
 
 
 document.addEventListener('DOMContentLoaded', function() {

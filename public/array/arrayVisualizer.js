@@ -31,10 +31,8 @@ export function renderArray() {
 export function generateRandomArray(size = 10, min = 1, max = 99) {
     isSorting = false;
 
-    // Use a small timeout to allow any active async loops to read the flag
-    // and terminate before we proceed with the reset.
     setTimeout(() => {
-        // Stop any active GSAP animations to prevent them from finishing on new elements
+        
         if (typeof gsap !== 'undefined') {
             gsap.killTweensOf('.array-element');
         }
@@ -43,7 +41,7 @@ export function generateRandomArray(size = 10, min = 1, max = 99) {
             arrayData.push(Math.floor(Math.random() * (max - min + 1)) + min);
         }
 
-        renderArray(); // Renders the new array and clears old styles
+        renderArray(); 
         updateArrayInfo('Array initialized', 'O(1)', 'O(n)');
     }, 100);
 }
@@ -344,9 +342,9 @@ async function partition(low, high) {
                         .to(el_j, { x: el_i.offsetLeft - el_j.offsetLeft, duration: 0.5, ease: 'power2.inOut' }, "<")
                         .to([el_i, el_j], { y: 0, duration: 0.3, ease: 'circ.in' });
                     
-                    // Physically swap the DOM nodes instead of re-rendering
+                     
                     swapDOMElements(el_i, el_j);
-                    // Reset GSAP transforms after physical swap
+                     
                     gsap.set([el_i, el_j], { clearProps: "transform" });
 
                     [arrayData[i], arrayData[j]] = [arrayData[j], arrayData[i]];
@@ -387,7 +385,7 @@ async function quickSortRecursive(low, high, lowMarker, highMarker) {
     if (!isSorting) return;
     const elements = arrayContainer.querySelectorAll('.array-element');
 
-    // Animate markers to their new positions
+     
     if (lowMarker && elements[low]) {
         gsap.to(lowMarker, { left: elements[low].offsetLeft + (elements[low].offsetWidth / 2) - 10, duration: 0.4 });
     }
@@ -398,9 +396,9 @@ async function quickSortRecursive(low, high, lowMarker, highMarker) {
 
     if (low < high) {
         let pi = await partition(low, high);
-        if (!isSorting) return; // Check after partitioning
+        if (!isSorting) return;  
         await quickSortRecursive(low, pi - 1, lowMarker, highMarker);
-        if (!isSorting) return; // Check after the left-side recursion
+        if (!isSorting) return;  
         await quickSortRecursive(pi + 1, high, lowMarker, highMarker);
     }
 }
@@ -418,7 +416,7 @@ function swapDOMElements(el1, el2) {
 }
 
 export async function animateQuickSort() {
-    if (isSorting) return; // Prevent starting a new sort if one is already running
+    if (isSorting) return; 
     isSorting = true;
 
     updateArrayInfo('Quick Sort', 'O(n log n) avg', 'O(log n)');
@@ -427,7 +425,7 @@ export async function animateQuickSort() {
         return;
     }
     
-    // Clear previous highlights
+     
     arrayContainer.querySelectorAll('.array-element').forEach(el => el.classList.remove('found', 'sorted', 'current', 'compared', 'pivot'));
 
     const lowMarker = document.createElement('div');
@@ -439,16 +437,16 @@ export async function animateQuickSort() {
         arrayContainer.appendChild(lowMarker);
         arrayContainer.appendChild(highMarker);
 
-        // Start the recursive sort
+         
         await quickSortRecursive(0, arrayData.length - 1, lowMarker, highMarker);
         
-        if (isSorting) { // Only run completion logic if it wasn't interrupted
+        if (isSorting) {  
             const finalElements = arrayContainer.querySelectorAll('.array-element');
             finalElements.forEach(el => el.classList.add('sorted'));
             updateArrayInfo('Quick Sort Complete', 'O(n log n) avg', 'O(log n)');
         }
     } finally {
-        // This block runs regardless of how the try block exits
+         
         isSorting = false;
         if (lowMarker.parentNode) arrayContainer.removeChild(lowMarker);
         if (highMarker.parentNode) arrayContainer.removeChild(highMarker);

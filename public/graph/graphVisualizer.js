@@ -9,7 +9,7 @@ let animationFrameId = null;
 
 const adjacencyList = new Map();    
 let nodes = [];
-//const graphContainer = document.getElementById('graph-container');
+ 
 
 function runForceSimulation() {
     const graphContainer = document.getElementById('graph-container');
