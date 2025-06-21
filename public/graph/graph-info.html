@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Meta tags to prevent common development errors -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src * data:; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; script-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline'; font-src 'self' https://cdnjs.cloudflare.com;">
+    <link rel="icon" href="data:,">
+
+    <title>About Graphs - DSVisualizer</title>
+    <!-- Link to your CSS files -->
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../info-page.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="../main.html" class="logo-text">DSVisualizer</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../main.html#graphs">Back to Visualizer</a></li>
+        </ul>
+    </nav>
+
+    <section class="info-content">
+        <div class="container">
+            <h1>The Graph Data Structure</h1>
+            <p>A graph is a non-linear data structure consisting of a set of vertices or nodes and a set of edges that connect such pairs. 
+                Unlike linear data structures such as arrays, linked lists or hierarchical ones like trees, graphs represent complex relationships where any node 
+                can be connected to any other node. They are incredibly versatile and used to model real world scenarios like social networks, road maps, 
+                and electrical circuits.</p>
+            
+
+            <h2>Graph Algorithms</h2>
+
+            <h3>Breadth-First Search (BFS)</h3>
+            <p>Breadth-first search is a graph traversal algorithm that explores a graph level by level, starting from a designated source node. 
+                It systematically visits all the vertices at a certain distance from the source before moving on to vertices that are further away, 
+                effectively finding the shortest path in an unweighted graph. BFS utilizes a queue to manage the order of exploration, ensuring that 
+                nodes are visited in order of their distance from the starting point. This makes it particularly useful for finding the shortest path or 
+                determining connectivity between nodes in a graph</p>
+            
+
+            <h3>Depth-First Search (DFS)</h3>
+            <p>Depth-First Search (DFS) is a graph traversal algorithm that explores a graph by going as deep as possible along each branch before 
+                backtracking. Starting from a chosen root node, DFS explores as far as it can along one path before moving to the next available path,
+                 effectively traversing the graph in a depthward manner. It uses a stack, explicitly or implicitly through recursion to keep track of 
+                 the path and backtrack when a dead end is reached. DFS is useful for tasks like finding connected components, detecting cycles, and 
+                 solving mazes</p>
+            
+        </div>
+    </section>
+
+</body>
+</html>
