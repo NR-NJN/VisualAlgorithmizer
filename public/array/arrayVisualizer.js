@@ -320,33 +320,37 @@ async function partition(low, high) {
     let elements = arrayContainer.querySelectorAll('.array-element');
     const pivotValue = arrayData[high];
     if (elements[high]) elements[high].classList.add('pivot');
-    
-    let i = low - 1;
 
+    let i = low - 1;
     for (let j = low; j < high; j++) {
         if (!isSorting) return -1;
-        elements = arrayContainer.querySelectorAll('.array-element');
+        // Re-query elements inside the loop to get their current order
+        elements = Array.from(arrayContainer.querySelectorAll('.array-element'));
+
         if (elements[j]) elements[j].classList.add('compared');
         await new Promise(resolve => setTimeout(resolve, 400));
 
         if (arrayData[j] < pivotValue) {
             i++;
             if (i !== j) {
-                const el_i = elements[i];
-                const el_j = elements[j];
+                // Find elements by their new logical positions in the DOM
+                const el_i_value = arrayData[i];
+                const el_j_value = arrayData[j];
+                const el_i = elements.find(el => parseInt(el.textContent) === el_i_value && !el.classList.contains('pivot'));
+                const el_j = elements.find(el => parseInt(el.textContent) === el_j_value && !el.classList.contains('pivot'));
 
                 if (el_i && el_j) {
+                    const i_offsetLeft = el_i.offsetLeft;
+                    const j_offsetLeft = el_j.offsetLeft;
+
                     await gsap.timeline()
                         .to([el_i, el_j], { y: -50, duration: 0.3, ease: 'circ.out' })
-                        .to(el_i, { x: el_j.offsetLeft - el_i.offsetLeft, duration: 0.5, ease: 'power2.inOut' }, "<")
-                        .to(el_j, { x: el_i.offsetLeft - el_j.offsetLeft, duration: 0.5, ease: 'power2.inOut' }, "<")
+                        .to(el_i, { x: j_offsetLeft - i_offsetLeft, duration: 0.5, ease: 'power2.inOut' }, "<")
+                        .to(el_j, { x: i_offsetLeft - j_offsetLeft, duration: 0.5, ease: 'power2.inOut' }, "<")
                         .to([el_i, el_j], { y: 0, duration: 0.3, ease: 'circ.in' });
-                    
-                     
-                    swapDOMElements(el_i, el_j);
-                     
-                    gsap.set([el_i, el_j], { clearProps: "transform" });
 
+                    swapDOMElements(el_i, el_j);
+                    gsap.set([el_i, el_j], { clearProps: "transform" });
                     [arrayData[i], arrayData[j]] = [arrayData[j], arrayData[i]];
                 }
             }
@@ -356,100 +360,106 @@ async function partition(low, high) {
 
     const pivotNewIndex = i + 1;
     if (pivotNewIndex !== high) {
-        elements = arrayContainer.querySelectorAll('.array-element');
-        const el_pivot = elements[high];
-        const el_swap = elements[pivotNewIndex];
+        elements = Array.from(arrayContainer.querySelectorAll('.array-element'));
+        const el_pivot = elements.find(el => el.classList.contains('pivot'));
+        const el_swap_value = arrayData[pivotNewIndex];
+        const el_swap = elements.find(el => parseInt(el.textContent) === el_swap_value && !el.classList.contains('pivot'));
 
         if (el_pivot && el_swap) {
+            const pivot_offsetLeft = el_pivot.offsetLeft;
+            const swap_offsetLeft = el_swap.offsetLeft;
+
             await gsap.timeline()
                 .to([el_pivot, el_swap], { y: -50, duration: 0.3, ease: 'circ.out' })
-                .to(el_pivot, { x: el_swap.offsetLeft - el_pivot.offsetLeft, duration: 0.5, ease: 'power2.inOut' }, "<")
-                .to(el_swap, { x: el_swap.offsetLeft - el_pivot.offsetLeft, duration: 0.5, ease: 'power2.inOut' }, "<")
+                .to(el_pivot, { x: swap_offsetLeft - pivot_offsetLeft, duration: 0.5, ease: 'power2.inOut' }, "<")
+                .to(el_swap, { x: pivot_offsetLeft - swap_offsetLeft, duration: 0.5, ease: 'power2.inOut' }, "<")
                 .to([el_pivot, el_swap], { y: 0, duration: 0.3, ease: 'circ.in' });
-
+            
             swapDOMElements(el_pivot, el_swap);
             gsap.set([el_pivot, el_swap], { clearProps: "transform" });
-
             [arrayData[pivotNewIndex], arrayData[high]] = [arrayData[high], arrayData[pivotNewIndex]];
         }
     }
-    
+
     elements = arrayContainer.querySelectorAll('.array-element');
     elements.forEach(el => el.classList.remove('pivot', 'compared'));
     if (elements[pivotNewIndex]) elements[pivotNewIndex].classList.add('sorted');
-
+    
     return pivotNewIndex;
 }
 
 async function quickSortRecursive(low, high, lowMarker, highMarker) {
     if (!isSorting) return;
-    const elements = arrayContainer.querySelectorAll('.array-element');
-
-     
+    
+    // Update marker positions at the start of each recursive call
+    const elements = Array.from(arrayContainer.querySelectorAll('.array-element'));
     if (lowMarker && elements[low]) {
         gsap.to(lowMarker, { left: elements[low].offsetLeft + (elements[low].offsetWidth / 2) - 10, duration: 0.4 });
     }
     if (highMarker && elements[high]) {
         gsap.to(highMarker, { left: elements[high].offsetLeft + (elements[high].offsetWidth / 2) - 10, duration: 0.4 });
     }
+
     await new Promise(resolve => setTimeout(resolve, 400));
 
     if (low < high) {
         let pi = await partition(low, high);
-        if (!isSorting) return;  
+        if (pi === -1 || !isSorting) return; 
+
         await quickSortRecursive(low, pi - 1, lowMarker, highMarker);
-        if (!isSorting) return;  
+        if (!isSorting) return;
         await quickSortRecursive(pi + 1, high, lowMarker, highMarker);
+    } else {
+        // Mark single elements as sorted if they are a partition of one
+        if (elements[low]) {
+            elements[low].classList.add('sorted');
+        }
     }
+
+            
 }
 
+
 function swapDOMElements(el1, el2) {
-    const parent = el1.parentNode;
-    const next_el1 = el1.nextSibling;
-    const next_el2 = el2.nextSibling;
-
-    if (next_el1) parent.insertBefore(el2, next_el1);
-    else parent.appendChild(el2);
-
-    if (next_el2) parent.insertBefore(el1, next_el2);
-    else parent.appendChild(el1);
+    if (!el1 || !el2 || !el1.parentNode || !el2.parentNode) return;
+    const temp = document.createElement("div");
+    el1.parentNode.insertBefore(temp, el1);
+    el2.parentNode.insertBefore(el1, el2);
+    temp.parentNode.insertBefore(el2, temp);
+    temp.parentNode.removeChild(temp);
 }
 
 export async function animateQuickSort() {
-    if (isSorting) return; 
+    if (isSorting) return;
     isSorting = true;
-
     updateArrayInfo('Quick Sort', 'O(n log n) avg', 'O(log n)');
     if (!arrayContainer) {
         isSorting = false;
         return;
     }
-    
-     
+
     arrayContainer.querySelectorAll('.array-element').forEach(el => el.classList.remove('found', 'sorted', 'current', 'compared', 'pivot'));
 
     const lowMarker = document.createElement('div');
     lowMarker.className = 'marker marker-low';
     const highMarker = document.createElement('div');
     highMarker.className = 'marker marker-high';
-    
+
     try {
         arrayContainer.appendChild(lowMarker);
         arrayContainer.appendChild(highMarker);
 
-         
         await quickSortRecursive(0, arrayData.length - 1, lowMarker, highMarker);
-        
-        if (isSorting) {  
+
+        if (isSorting) {
             const finalElements = arrayContainer.querySelectorAll('.array-element');
             finalElements.forEach(el => el.classList.add('sorted'));
             updateArrayInfo('Quick Sort Complete', 'O(n log n) avg', 'O(log n)');
         }
     } finally {
-         
         isSorting = false;
-        if (lowMarker.parentNode) arrayContainer.removeChild(lowMarker);
-        if (highMarker.parentNode) arrayContainer.removeChild(highMarker);
+        if (lowMarker && lowMarker.parentNode) arrayContainer.removeChild(lowMarker);
+        if (highMarker && highMarker.parentNode) arrayContainer.removeChild(highMarker);
     }
 }
 
