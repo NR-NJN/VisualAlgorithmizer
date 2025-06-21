@@ -58,8 +58,36 @@ Below are a few operations that have been incorporated into the website. The sta
 <img width="1152" alt="bfs" src="https://github.com/user-attachments/assets/3e523105-3528-4265-9a0b-91297a7dab0b" />
 
 ---
-## Running
-As of now you can only clone it to run it on node locally
-```
-node index.js
-```
+### Prerequisites
+
+Before you begin, ensure you have Node.js installed on your machine. This project relies on the Node.js runtime environment.
+
+You can download the latest Long-Term Support (LTS) version from [nodejs.org](https://nodejs.org/en/download/).
+
+### Installation and Setup
+
+Follow these commands in your terminal to set up the project.
+
+1.  **Clone the repository**
+    ```bash
+    git clone https://github.com/NR-NJN/VisualAlgorithmizer.git
+    ```
+
+2.  **Install dependencies**
+    ```bash
+    npm install
+    ```
+
+### Launching the Application
+
+Once the dependencies are installed, you can start the local web server.
+
+1.  **Run the server**
+    ```bash
+    node index.js
+    ```
+
+2.  **View in your browser**
+    
+    **http://localhost:3000**
+
