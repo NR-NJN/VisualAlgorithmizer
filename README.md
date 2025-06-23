@@ -84,7 +84,7 @@ Once the dependencies are installed, you can start the local web server.
 
 1.  **Run the server**
     ```bash
-    node index.js
+    node local-server.js
     ```
 
 2.  **View in your browser**
