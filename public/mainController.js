@@ -33,7 +33,7 @@ import {
 } from './bst/treeVisualizer.js';
 
 import {
-    generateRandomGraph,
+    setupGraphControls,
     animateBfs,
     animateDfs
 } from './graph/graphVisualizer.js';
@@ -95,8 +95,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const graphSection = document.getElementById('graphs');
     if (graphSection) {
-        generateRandomGraph();
-        document.getElementById('graph-reset-btn')?.addEventListener('click', generateRandomGraph);
+        setupGraphControls();
+        document.getElementById('graph-reset-btn')?.addEventListener('click', setupGraphControls);
         document.getElementById('graph-bfs-btn')?.addEventListener('click', animateBfs);
         document.getElementById('graph-dfs-btn')?.addEventListener('click', animateDfs);
     }

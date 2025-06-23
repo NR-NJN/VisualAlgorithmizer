@@ -11,19 +11,30 @@ const adjacencyList = new Map();
 let nodes = [];
  
 
+ 
+
+ 
 function runForceSimulation() {
     const graphContainer = document.getElementById('graph-container');
+    const loader = document.getElementById('graph-loader');
+    const loadingText = document.getElementById('graph-loading-text');
     if (!graphContainer) return;
+
+     
     if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);  
+        cancelAnimationFrame(animationFrameId);
     }
 
-    nodes.forEach(node => {
-        node.forceX = 0;
-        node.forceY = 0;
-    });
-
+     
     function simulationStep() {
+        let totalMovement = 0;
+
+         
+        nodes.forEach(node => {
+            node.forceX = 0;
+            node.forceY = 0;
+        });
+
          
         for (let i = 0; i < nodes.length; i++) {
             for (let j = i + 1; j < nodes.length; j++) {
@@ -31,73 +42,67 @@ function runForceSimulation() {
                 const nodeB = nodes[j];
                 const dx = nodeA.x - nodeB.x;
                 const dy = nodeA.y - nodeB.y;
-                const distanceSquared = dx * dx + dy * dy;
-                if (distanceSquared > 0) {
-                    const force = REPULSION_STRENGTH / distanceSquared;
-                    const forceX = (dx / Math.sqrt(distanceSquared)) * force;
-                    const forceY = (dy / Math.sqrt(distanceSquared)) * force;
-                    nodeA.forceX += forceX;
-                    nodeA.forceY += forceY;
-                    nodeB.forceX -= forceX;
-                    nodeB.forceY -= forceY;
-                }
+                let distanceSquared = dx * dx + dy * dy;
+                if (distanceSquared === 0) distanceSquared = 0.1;  
+                const force = REPULSION_STRENGTH / distanceSquared;
+                const forceX = (dx / Math.sqrt(distanceSquared)) * force;
+                const forceY = (dy / Math.sqrt(distanceSquared)) * force;
+                nodeA.forceX += forceX;
+                nodeA.forceY += forceY;
+                nodeB.forceX -= forceX;
+                nodeB.forceY -= forceY;
             }
         }
 
          
         adjacencyList.forEach((neighbors, nodeId) => {
             const nodeA = nodes.find(n => n.id === nodeId);
+            if (!nodeA) return;
             neighbors.forEach(neighborId => {
                 const nodeB = nodes.find(n => n.id === neighborId);
+                if (!nodeB) return;
                 const dx = nodeB.x - nodeA.x;
                 const dy = nodeB.y - nodeA.y;
                 const forceX = dx * ATTRACTION_STRENGTH;
                 const forceY = dy * ATTRACTION_STRENGTH;
                 nodeA.forceX += forceX;
                 nodeA.forceY += forceY;
-                nodeB.forceX -= forceX;
-                nodeB.forceY -= forceY;
             });
         });
 
          
-        let totalMovement = 0;
         nodes.forEach(node => {
             node.forceX *= DAMPING_FACTOR;
             node.forceY *= DAMPING_FACTOR;
             node.x += node.forceX;
             node.y += node.forceY;
-            
+
              
             const containerRect = graphContainer.getBoundingClientRect();
             node.x = Math.max(25, Math.min(containerRect.width - 25, node.x));
             node.y = Math.max(25, Math.min(containerRect.height - 25, node.y));
+            
             totalMovement += Math.abs(node.forceX) + Math.abs(node.forceY);
         });
-        
-         
+
         updateNodePositions();
 
-         
+        
         if (totalMovement > 1) {
-            animationFrameId = requestAnimationFrame(simulationStep);
-        }
-        else {
             
-            const loader = document.getElementById('graph-loader');
-            const loadingText = document.getElementById('graph-loading-text');
-            if (loadingText) {
-                loadingText.classList.add('hidden');
-            }
-            if (loader) {
-                loader.classList.add('hidden');
-            }
-           
-            updateGraphInfo('Generated New Graph', '', `V=8, E=8`);
+            animationFrameId = requestAnimationFrame(simulationStep);
+        } else {
+             
+            if (loader) loader.classList.add('hidden');
+            if (loadingText) loadingText.classList.add('hidden');
+            updateGraphInfo('Generated New Graph', 'O(V+E)', `V=8, E=8`);
         }
     }
-    simulationStep();
+
+     
+    animationFrameId = requestAnimationFrame(simulationStep);
 }
+
 
 function updateGraphInfo(operation, timeComplexity, spaceComplexity) {
     const opEl = document.getElementById('graph-operation');
@@ -249,13 +254,34 @@ function initializeGraph() {
     runForceSimulation();
 }
 
+export function setupGraphControls() {
+    const generateBtn = document.getElementById('graph-reset-btn');
+    const bfsBtn = document.getElementById('graph-bfs-btn');
+    const dfsBtn = document.getElementById('graph-dfs-btn');
+    const resetBtn = document.getElementById('graph-reset-btn');
 
-export function generateRandomGraph() {
+    if (generateBtn) {
+        generateBtn.addEventListener('click', generateRandomGraph);
+    }
+    if (bfsBtn) {
+        bfsBtn.addEventListener('click', animateBfs);
+    }
+    if (dfsBtn) {
+        dfsBtn.addEventListener('click', animateDfs);
+    }
+    if (resetBtn) {
+        resetBtn.addEventListener('click', generateRandomGraph);
+    }
+}
+
+export async function generateRandomGraph() {
     const loader = document.getElementById('graph-loader');
     const loadingText = document.getElementById('graph-loading-text');
 
     if (loadingText) loadingText.classList.remove('hidden');
     if (loader) loader.classList.remove('hidden');
+    updateGraphInfo('Generating Graph...', '', '');
+    await new Promise(resolve => requestAnimationFrame(resolve));
     adjacencyList.clear();
     nodes = [];
 
@@ -267,7 +293,7 @@ export function generateRandomGraph() {
         adjacencyList.set(id, []);
         const position = findSafePosition();
         if (position) {
-            nodes.push({ id, x: position.x, y: position.y });
+            nodes.push({ id, x: position.x, y: position.y, forceX: 0, forceY: 0 });
         }
     });
 
@@ -310,7 +336,7 @@ export function generateRandomGraph() {
     adjacencyList.get(nodeA).push(nodeB);
     adjacencyList.get(nodeB).push(nodeA);
     initializeGraph();
-    updateGraphInfo('Generated New Graph', '', `V=8, E=8`);
+     
 }
 
 

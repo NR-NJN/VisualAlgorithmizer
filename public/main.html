@@ -182,21 +182,23 @@
     <section id="graphs" class="graphs">
         <h2 data-aos="fade-up">Graph Visualizations</h2>
         <h3><a href="graph/graph-info.html" class="learn-more-link" data-aos="fade-up" data-aos-delay="100">Details under the hood</a></h3>
-        <p id="graph-loading-text" class="loading-text hidden">Generating graph, please wait...</p>
         <div class="visualization-container" data-aos="fade-up">
             <div class="controls">
                 <div class="control-group">
+                    <button id="graph-reset-btn" class="action-btn">Generate Graph</button>
                     <button id="graph-bfs-btn" class="action-btn">BFS</button>
                     <button id="graph-dfs-btn" class="action-btn">DFS</button>
-                    <button id="graph-reset-btn" class="action-btn">Reset</button>
+                    
                 </div>
             </div>
             
-            <div class="graph-loader hidden" id="graph-loader"></div>
+            
+                <div class="graph-container" id="graph-container">
+                    <p id="graph-loading-text" class="loading-text hidden">Generating graph, please wait...</p>
+                    <div id="graph-loader" class="graph-loader hidden"></div>
+                </div>
+            
     
-            <div class="graph-container" id="graph-container">
-        
-            </div>
             
             <div class="visualization-info">
                 <div class="info-panel">
