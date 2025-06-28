@@ -32,11 +32,13 @@ import {
     animateTreeTraversal
 } from './bst/treeVisualizer.js';
 
-import {
-    setupGraphControls,
-    animateBfs,
-    animateDfs
+
+import { 
+    setupTraversalControls 
 } from './graph/graphVisualizer.js';
+import { 
+    setupPathVisualizerControls 
+} from './graph/pathVisualizer.js';
 
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -95,11 +97,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const graphSection = document.getElementById('graphs');
     if (graphSection) {
-        setupGraphControls();
-        document.getElementById('graph-reset-btn')?.addEventListener('click', setupGraphControls);
-        document.getElementById('graph-bfs-btn')?.addEventListener('click', animateBfs);
-        document.getElementById('graph-dfs-btn')?.addEventListener('click', animateDfs);
+        setupTraversalControls();
+        document.getElementById('graph-reset-btn').click(); 
     }
+
+    const pathSection = document.getElementById('pathfinding');
+    if (pathSection) {
+        setupPathVisualizerControls();
+        document.getElementById('generate-weighted-graph-btn').click(); 
+    }
+
 
      
 });

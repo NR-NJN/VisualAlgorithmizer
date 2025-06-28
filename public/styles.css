@@ -816,6 +816,89 @@ input, textarea {
     transition: all 0.3s ease;
 }
 
+.control-label {
+    color: var(--light-text);
+    font-size: 0.95rem;
+    margin-right: 5px;
+    white-space: nowrap;  
+}
+
+.control-input {
+    min-width: 80px;  
+    appearance: none; 
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23f0f0f0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>'); 
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 16px;
+    padding-right: 30px; 
+}
+
+
+#path-distances-table {
+    padding: 10px;
+    border-radius: 8px;
+    background-color: rgba(153, 69, 255, 0.05); 
+    border-left: 3px solid var(--secondary-color);
+    margin-top: 15px;
+    min-height: 80px; 
+}
+
+#path-distances-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+#path-distances-table th,
+#path-distances-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border-color);
+    text-align: left;
+}
+
+#path-distances-table th {
+    color: var(--secondary-color);
+    font-weight: 600;
+}
+
+#path-distances-table td {
+    color: var(--light-text);
+}
+
+ 
+.graph-edge .weight {
+    position: absolute;
+    background-color: var(--dark-bg);  
+    color: var(--warning-color);  
+    font-size: 0.85rem;
+    padding: 2px 5px;
+    border-radius: 3px;
+    transform: translate(-50%, -50%);  
+    z-index: 2;  
+    white-space: nowrap;
+}
+
+ 
+.graph-node.visited-dijkstra {
+    background-color: var(--warning-color);  
+    color: var(--dark-bg);
+    transform: scale(1.1);
+}
+
+.graph-node.shortest-path {
+    background-color: var(--success-color);  
+    color: var(--dark-bg);
+}
+
+.graph-edge.shortest-path {
+    background-color: var(--success-color);
+    border-color: var(--success-color);
+}
+.graph-edge.shortest-path::after {
+    border-left-color: var(--success-color);
+}
+
 textarea {
     min-height: 150px;
     resize: vertical;
@@ -1231,6 +1314,60 @@ footer {
         width: 50px;
         height: 50px;
         font-size: 1rem;
+    }
+
+    .control-label {
+    color: var(--light-text);
+    margin: 0 5px 0 15px;
+    }
+
+    .control-input {
+        min-width: 80px;
+        background-image: url('data:image/svg+xml;utf8,<svg fill="%23f0f0f0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+        background-repeat: no-repeat;
+        background-position: right 8px center;
+        background-size: 16px;
+        padding-right: 30px;
+    }
+
+    #path-distances-table table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+    }
+
+    #path-distances-table th, 
+    #path-distances-table td {
+        padding: 8px;
+        border-bottom: 1px solid var(--border-color);
+        text-align: left;
+    }
+
+    #path-distances-table th { color: var(--secondary-color); }
+
+    .graph-edge .weight {
+        position: absolute;
+        background-color: var(--dark-bg);
+        color: var(--warning-color);
+        font-size: 0.85rem;
+        padding: 2px 5px;
+        border-radius: 3px;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+    }
+
+ 
+    #path-graph-container .graph-node.visited-dijkstra {
+        background-color: var(--primary-color);
+        border: 2px solid var(--light-text);
+    }
+    #path-graph-container .graph-node.shortest-path {
+        background-color: var(--success-color);
+        color: var(--dark-bg);
+    }
+    #path-graph-container .graph-edge.shortest-path {
+        background-color: var(--success-color);
+        z-index: 1;
     }
 }
 
