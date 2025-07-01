@@ -129,7 +129,7 @@ export function renderTree() {
 
     const maxNodesAtBottom = Math.pow(2, height - 1);
     const estimatedWidth = maxNodesAtBottom * 80; 
-    treeContainer.style.width = `${Math.max(estimatedWidth, 300)}px`;
+    //treeContainer.style.width = `${Math.max(estimatedWidth, 300)}px`;
 
     const nodeElementsMap = new Map();
 
@@ -158,8 +158,9 @@ export function renderTree() {
         }
     }
     
-    const initialX = parseFloat(treeContainer.style.width) / 2;
-    const initialHorizontalSpacing = parseFloat(treeContainer.style.width) / 2.5;  
+    const containerWidth = treeContainer.getBoundingClientRect().width;
+    const initialX = containerWidth / 2;
+    const initialHorizontalSpacing = containerWidth / 2.5;  
     renderNodeRecursive(treeData, 0, initialX, 20, initialHorizontalSpacing);
     drawTreeLines(treeData, nodeElementsMap);  
     

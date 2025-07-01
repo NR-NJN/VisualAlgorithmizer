@@ -136,44 +136,37 @@
     </section>
 
    
-    <section id="trees" class="trees">
-        <h2 data-aos="fade-up">Binary Tree Visualizations</h2>
-        <a href="bst/tree-info.html" class="learn-more-link" data-aos="fade-up" data-aos-delay="100">Details under the hood</a>
-        <div class="visualization-container" data-aos="fade-up">
-            <div class="controls">
-                <div class="control-group">
-                    <button id="tree-insert-btn" class="action-btn">Insert</button>
-                    <button id="tree-delete-btn" class="action-btn">Delete</button>
-                    <button id="tree-traverse-btn" class="action-btn">Traverse</button>
-                    <button id="tree-reset-btn" class="action-btn">Reset</button>
-                </div>
-                <div class="control-group">
-                    <input type="number" id="tree-value-input" placeholder="Value" min="1" max="99">
-                    <select id="tree-traverse-select">
-                        <option value="inorder">In-order</option>
-                        <option value="preorder">Pre-order</option>
-                        <option value="postorder">Post-order</option>
-                    </select>
-                </div>
-            </div>
-            
-            <div class="tree-container" id="tree-container">
+    <section id="trees">
+    <h2 class="section-header">Binary Search Tree</h2>
+    <h3><a href="bst/tree-info.html" class="learn-more-link" data-aos="fade-up" data-aos-delay="100">Details under the hood</a></h3>
+    <div class="visualization-container" id="tree-visualizer">
+        <div class="controls">
+            <div class="control-group">
+                <input type="number" id="tree-value-input" class="control-input" placeholder="Value">
+                <button id="tree-insert-btn" class="action-btn">Insert</button>
+                <button id="tree-delete-btn" class="action-btn">Delete</button>
                 
+                <select id="tree-traverse-select" class="control-input">
+                    <option value="inorder">In-Order</option>
+                    <option value="preorder">Pre-Order</option>
+                    <option value="postorder">Post-Order</option>
+                </select>
+                <button id="tree-traverse-btn" class="action-btn">Traverse</button>
+                
+                <button id="tree-reset-btn" class="action-btn">Generate New Tree</button>
             </div>
-            
-            <div class="visualization-info">
-                <div class="info-panel">
-                    <h3>Current Operation:</h3>
-                    <p id="tree-operation">No operation in progress</p>
-                </div>
-                <div class="info-panel">
-                    <h3>Time Complexity:</h3>
-                    <p id="tree-complexity">-</p>
-                </div>
-                <div class="info-panel">
-                    <h3>Space Complexity:</h3>
-                    <p id="tree-space">-</p>
-                </div>
+        </div>
+        
+        <div id="tree-container" class="tree-container">
+             
+        </div>
+
+        <div class="visualization-info" id="tree-info">
+            <div class="info-panel">
+                <h3>Operation: <span id="tree-operation">Ready</span></h3>
+                <p>Time Complexity: <span id="tree-complexity"></span></p>
+                <p>Space Complexity: <span id="tree-space"></span></p>
+            </div>
             </div>
         </div>
     </section>

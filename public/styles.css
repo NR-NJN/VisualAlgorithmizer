@@ -595,21 +595,11 @@ input:focus, select:focus {
     animation: fadeOut 1s ease forwards;
 }
 
- 
-#trees {  
-    width: 100%;
-    min-height: 70vh;  
-    display: flex;
-    justify-content: center;  
-    align-items: flex-start;  
-    padding-top: 30px;    
-    overflow-x: auto;  
-}
 
 .tree-container {
     min-height: 450px;  
-    width: 90%;       
-    max-width: 1200px;
+    width: 100%;       
+    max-width: none;
     overflow-x: auto;    
     position: relative;  
     background-color: rgba(10, 239, 255, 0.05);  
