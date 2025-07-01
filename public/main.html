@@ -190,8 +190,7 @@
             
             
                 <div class="graph-container" id="graph-container">
-                    <p id="graph-loading-text" class="loading-text hidden">Generating graph, please wait...</p>
-                    <div id="graph-loader" class="graph-loader hidden"></div>
+                    
                 </div>
             
     
@@ -228,13 +227,13 @@
                 <label for="end-node-select" class="control-label">End:</label>
                 <select id="end-node-select" class="control-input"></select>
 
-                <button id="visualize-dijkstra-btn" class="action-btn">Visualize Dijkstra</button>
+                <button id="visualize-dijkstra-btn" class="action-btn">Dijkstra</button>
+                <button id="visualize-bellman-ford-btn" class="action-btn">Bellman-Ford</button>
             </div>
         </div>
         
         <div id="path-graph-container" class="graph-container">
-            <p id="path-loading-text" class="loading-text hidden">Generating graph...</p>
-            <div id="path-loader" class="graph-loader hidden"></div>
+            
         </div>
 
         <div class="visualization-info" id="path-info">

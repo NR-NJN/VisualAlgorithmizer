@@ -4,7 +4,79 @@ let isVisualizing = false;
 const ANIMATION_DELAY = 150;
 const pathGraph = new GraphEngine('path-graph-container');  
 
- 
+async function visualizeBellmanFord() {
+    if (isVisualizing) return;
+    isVisualizing = true;
+    
+    updatePathInfo('Bellman-Ford', 'O(V * E)', 'O(V)');
+    resetPathVisualization(); // Ensures a clean slate
+
+    const nodes = pathGraph.nodes;
+    const adjacencyList = pathGraph.adjacencyList;
+    const startNodeId = document.getElementById('start-node-select').value;
+    const endNodeId = document.getElementById('end-node-select').value;
+
+    const startNode = nodes.find(n => n.id === startNodeId);
+    if (!startNode) return;
+    startNode.distance = 0;
+    updateDistancesTable();
+
+    const edges = [];
+    adjacencyList.forEach((neighbors, uId) => {
+        neighbors.forEach(edge => {
+            edges.push({ source: uId, target: edge.node, weight: edge.weight });
+        });
+    });
+
+    for (let i = 0; i < nodes.length - 1; i++) {
+        let changed = false;
+        for (const edge of edges) {
+            const u = nodes.find(n => n.id === edge.source);
+            const v = nodes.find(n => n.id === edge.target);
+            if (u.distance !== Infinity && u.distance + edge.weight < v.distance) {
+                v.distance = u.distance + edge.weight;
+                v.prev = u.id;
+                changed = true;
+                
+                const vNodeElem = document.getElementById(`path-graph-container-node-${v.id}`);
+                if(vNodeElem) vNodeElem.classList.add('current');
+                await new Promise(resolve => setTimeout(resolve, ANIMATION_DELAY / 2));
+                if(vNodeElem) vNodeElem.classList.remove('current');
+            }
+        }
+        updateDistancesTable();
+        if (!changed) break;
+    }
+
+    for (const edge of edges) {
+        const u = nodes.find(n => n.id === edge.source);
+        const v = nodes.find(n => n.id === edge.target);
+        if (u.distance !== Infinity && u.distance + edge.weight < v.distance) {
+            alert('Negative weight cycle detected!');
+            isVisualizing = false;
+            return;
+        }
+    }
+    
+    const path = [];
+    let currentId = endNodeId;
+    while (currentId) {
+        path.unshift(currentId);
+        const node = nodes.find(n => n.id === currentId);
+        currentId = node ? node.prev : null;
+    }
+    
+    const pathResultEl = document.getElementById('path-result');
+    if (pathResultEl && path[0] === startNodeId) {
+        pathResultEl.textContent = `Path: ${path.join(' → ')} (Cost: ${nodes.find(n => n.id === endNodeId).distance})`;
+        path.forEach(nodeId => document.getElementById(`path-graph-container-node-${nodeId}`)?.classList.add('shortest-path'));
+    } else if(pathResultEl) {
+        pathResultEl.textContent = `No path found from ${startNodeId} to ${endNodeId}.`;
+    }
+
+    isVisualizing = false;
+}
+
 async function visualizeDijkstra() {
     if (isVisualizing) return;
     isVisualizing = true;
@@ -105,19 +177,16 @@ function updateDistancesTable() {
 }
 
 function resetPathVisualization(resetInfo = true) {
-    const allDomNodes = document.querySelectorAll('#path-graph-container .graph-node');
-    allDomNodes.forEach(n => n.classList.remove('visited-dijkstra', 'current', 'shortest-path'));
-    
-    // Reset node data
+    document.querySelectorAll('#path-graph-container .graph-node').forEach(el => {
+        el.classList.remove('visited-dijkstra', 'visited-bellman-ford', 'current', 'shortest-path');
+    });
     pathGraph.nodes.forEach(node => {
         node.distance = Infinity;
         node.prev = null;
     });
-    
-    // Reset UI elements
     updateDistancesTable();
     const pathResultEl = document.getElementById('path-result');
-    if(pathResultEl) pathResultEl.textContent = 'No path visualized yet.'; 
+    if(pathResultEl) pathResultEl.textContent = 'No path visualized yet.';
 }
 
 function updatePathInfo(operation, timeComplexity = '', spaceComplexity = '') {
@@ -154,8 +223,10 @@ export function setupPathVisualizerControls() {
         const nodes = await pathGraph.generateGraph(true);
         populateNodeSelects(nodes);
         resetPathVisualization();
+        updatePathInfo('Ready');
     });
 
     document.getElementById('visualize-dijkstra-btn').addEventListener('click', visualizeDijkstra);
-    document.getElementById('generate-weighted-graph-btn').addEventListener('click', () => resetPathVisualization(true));
+    
+    document.getElementById('visualize-bellman-ford-btn').addEventListener('click', visualizeBellmanFord);
 }

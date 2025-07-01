@@ -889,6 +889,11 @@ input, textarea {
     border-left-color: var(--success-color);
 }
 
+#path-graph-container .graph-node.visited-bellman-ford {
+    background-color: var(--secondary-color); 
+    border: 2px solid var(--light-text);
+}
+
 textarea {
     min-height: 150px;
     resize: vertical;
