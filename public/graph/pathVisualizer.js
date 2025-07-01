@@ -9,43 +9,37 @@ async function visualizeDijkstra() {
     if (isVisualizing) return;
     isVisualizing = true;
     
-     
     const startNodeSelect = document.getElementById('start-node-select');
     const endNodeSelect = document.getElementById('end-node-select');
-    
     if (!startNodeSelect || !endNodeSelect) {
         console.error("Could not find start/end node select elements.");
         isVisualizing = false;
         return;
     }
-
     const startNodeId = startNodeSelect.value;
     const endNodeId = endNodeSelect.value;
-
     if (!startNodeId || !endNodeId) {
         alert("Please generate a graph and select start/end nodes.");
         isVisualizing = false;
         return;
     }
     
-     
     const nodes = pathGraph.nodes;
     const adjacencyList = pathGraph.adjacencyList;
-
     updatePathInfo('Dijkstra\'s Algorithm', 'O(E log V)', 'O(V)');
-    resetPathVisualization(false);  
+    
+    resetPathVisualization();
 
     const startNode = nodes.find(n => n.id === startNodeId);
     if (!startNode) return;
     startNode.distance = 0;
 
-    const pq = [{ id: startNode.id, distance: 0 }];  
+    const pq = [{ id: startNode.id, distance: 0 }];
     const visited = new Set();
     
     while (pq.length > 0) {
         pq.sort((a, b) => a.distance - b.distance);
         const { id: uId, distance: uDist } = pq.shift();
-
         if (visited.has(uId)) continue;
         visited.add(uId);
 
@@ -63,10 +57,8 @@ async function visualizeDijkstra() {
         adjacencyList.get(uId).forEach(edge => {
             const vId = edge.node;
             if (visited.has(vId)) return;
-            
             const vNode = nodes.find(n => n.id === vId);
             const newDist = uDist + edge.weight;
-            
             if (newDist < vNode.distance) {
                 vNode.distance = newDist;
                 vNode.prev = uId;
@@ -75,7 +67,7 @@ async function visualizeDijkstra() {
         });
     }
 
-     
+
     const path = [];
     let currentId = endNodeId;
     while (currentId) {
@@ -83,7 +75,6 @@ async function visualizeDijkstra() {
         const node = nodes.find(n => n.id === currentId);
         currentId = node.prev;
     }
-    
     const pathResultEl = document.getElementById('path-result');
     if (pathResultEl && path[0] === startNodeId) {
         for (let i = 0; i < path.length; i++) {
@@ -97,6 +88,7 @@ async function visualizeDijkstra() {
 
     isVisualizing = false;
 }
+
 
  
 function updateDistancesTable() {
@@ -113,33 +105,30 @@ function updateDistancesTable() {
 }
 
 function resetPathVisualization(resetInfo = true) {
-    if (isVisualizing) return;
+    const allDomNodes = document.querySelectorAll('#path-graph-container .graph-node');
+    allDomNodes.forEach(n => n.classList.remove('visited-dijkstra', 'current', 'shortest-path'));
     
-     
-    document.querySelectorAll('#path-graph-container .graph-node').forEach(el => {
-        el.classList.remove('current', 'visited-dijkstra', 'shortest-path');
-    });
-
-     
+    // Reset node data
     pathGraph.nodes.forEach(node => {
         node.distance = Infinity;
         node.prev = null;
     });
-
+    
+    // Reset UI elements
     updateDistancesTable();
     const pathResultEl = document.getElementById('path-result');
-    if(pathResultEl) pathResultEl.textContent = 'No path visualized yet.';
-    
-    if (resetInfo) {
-        updatePathInfo('Ready');
-    }
+    if(pathResultEl) pathResultEl.textContent = 'No path visualized yet.'; 
 }
 
 function updatePathInfo(operation, timeComplexity = '', spaceComplexity = '') {
-    document.getElementById('path-algorithm-name').textContent = operation;
-    document.getElementById('path-time-complexity').textContent = timeComplexity;
-    document.getElementById('path-space-complexity').textContent = spaceComplexity;
+    const opEl = document.getElementById('path-algorithm-name');
+    const timeEl = document.getElementById('path-time-complexity');
+    const spaceEl = document.getElementById('path-space-complexity');
+    if (opEl) opEl.textContent = operation;
+    if (timeEl) timeEl.textContent = timeComplexity;
+    if (spaceEl) spaceEl.textContent = spaceComplexity;
 }
+
 
 function populateNodeSelects(nodes) {
      
@@ -162,11 +151,11 @@ function populateNodeSelects(nodes) {
  
 export function setupPathVisualizerControls() {
     document.getElementById('generate-weighted-graph-btn').addEventListener('click', async () => {
-        const nodes = await pathGraph.generateGraph(true);  
+        const nodes = await pathGraph.generateGraph(true);
         populateNodeSelects(nodes);
         resetPathVisualization();
     });
 
     document.getElementById('visualize-dijkstra-btn').addEventListener('click', visualizeDijkstra);
-    
+    document.getElementById('generate-weighted-graph-btn').addEventListener('click', () => resetPathVisualization(true));
 }
