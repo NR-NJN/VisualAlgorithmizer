@@ -123,6 +123,7 @@ export class GraphEngine {
             const nodeA = this.nodes.find(n => n.id === nodeId);
             neighbors.forEach(edge => {
                 const nodeB = this.nodes.find(n => n.id === edge.node);
+                
                 if (nodeA && nodeB && nodeA.id < nodeB.id) {   
                     const dx = nodeB.x - nodeA.x;
                     const dy = nodeB.y - nodeA.y;
