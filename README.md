@@ -2,6 +2,7 @@
 This website was created as a quick refresher and revision system for my NYU Algorithms course. As I progress I will be adding more and more features/structures with higher levels of functionality to the wesbite<br>
 You can find the website here : https://visualalgorithmizer.vercel.app/
 
+**Open this on a desktop, as the graph-links tend to break on mobile**
 
 Below are a few operations that have been incorporated into the website. The static screenshot does not capture the animations, but this should be enough to show off some basic features
 ## Array Operations
