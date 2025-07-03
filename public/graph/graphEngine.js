@@ -64,34 +64,41 @@ export class GraphEngine {
     }
 
     _findSafePosition() {
-        if (!this.container) return null;
-        for (let attempts = 0; attempts < 50; attempts++) {
-            const rect = this.container.getBoundingClientRect();
-            const x = Math.random() * (rect.width - 100) + 40;
-            const y = Math.random() * (rect.height - 100) + 40;
-            let isSafe = true;
-            for (const node of this.nodes) {
-                if (Math.hypot(node.x - x, node.y - y) < MIN_DISTANCE) {
-                    isSafe = false;
-                    break;
-                }
+        if (!this.container) return { x: 100, y: 100 }; // Return a default if container not found
+
+    const rect = this.container.getBoundingClientRect();
+    for (let attempts = 0; attempts < 50; attempts++) {
+        const x = Math.random() * (rect.width - 100) + 40;
+        const y = Math.random() * (rect.height - 100) + 40;
+        let isSafe = true;
+        for (const node of this.nodes) {
+            if (Math.hypot(node.x - x, node.y - y) < MIN_DISTANCE) {
+                isSafe = false;
+                break;
             }
-            if (isSafe) return { x, y };
         }
-        return null;
+        if (isSafe) return { x, y };
+    }
+    
+    // --- THE FIX ---
+    // Instead of returning null, return a fallback position in the center.
+    // This ensures a node is ALWAYS created.
+    console.warn("Could not find a safe position, placing node in center.");
+    return { x: rect.width / 2, y: rect.height / 2 };
     }
     
     _render() {
         if (!this.container) return;
-        this.container.innerHTML = '';   
+        this.container.innerHTML = ''; // Clear everything once
 
-          
+    // --- THE FIX ---
+    // The typo is fixed. This now correctly re-adds the necessary loader
+    // elements, which are hidden by default via CSS.
         this.container.innerHTML = `
             <p class="loading-text hidden">Working...</p>
             <div class="graph-loader hidden"></div>
         `;
 
-          
         this.nodes.forEach(node => {
             const nodeEl = document.createElement('div');
             nodeEl.className = 'graph-node';
@@ -104,54 +111,61 @@ export class GraphEngine {
     }
     
     _updatePositions() {
-        if (!this.container) return;
-        
-          
-        this.nodes.forEach(node => {
-            const nodeEl = document.getElementById(`${this.container.id}-node-${node.id}`);
-            if (nodeEl) {
-                nodeEl.style.left = `${node.x}px`;
-                nodeEl.style.top = `${node.y}px`;
+    if (!this.container) return;
+
+    // 1. Update node positions (this part remains the same)
+    this.nodes.forEach(node => {
+        const nodeEl = document.getElementById(`${this.container.id}-node-${node.id}`);
+        if (nodeEl) {
+            nodeEl.style.left = `${node.x}px`;
+            nodeEl.style.top = `${node.y}px`;
+        }
+    });
+
+    // 2. Get the new container for the weights list
+    // Note: We only look for this inside the path visualizer's container
+    const weightsContainer = document.querySelector('#path-visualizer #edge-weights-list');
+    if (weightsContainer) {
+        weightsContainer.innerHTML = ''; // Clear the old weights list
+    }
+
+    // 3. Remove old edges and ALL floating weights from the canvas
+    this.container.querySelectorAll('.graph-edge, .weight').forEach(el => el.remove());
+
+    // 4. Draw new edges and populate the weights list
+    this.adjacencyList.forEach((neighbors, nodeId) => {
+        const nodeA = this.nodes.find(n => n.id === nodeId);
+        neighbors.forEach(edge => {
+            const nodeB = this.nodes.find(n => n.id === edge.node);
+
+            if (nodeA && nodeB && nodeA.id < nodeB.id) { // Draw undirected edges once
+                // Draw the edge line (this part is the same)
+                const dx = nodeB.x - nodeA.x;
+                const dy = nodeB.y - nodeA.y;
+                const distance = Math.hypot(dx, dy);
+                const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+                const edgeEl = document.createElement('div');
+                edgeEl.id = `${this.container.id}-edge-${nodeA.id}-${nodeB.id}`;
+                edgeEl.className = 'graph-edge';
+                edgeEl.style.width = `${distance}px`;
+                edgeEl.style.left = `${nodeA.x + 25}px`;
+                edgeEl.style.top = `${nodeA.y + 25}px`;
+                edgeEl.style.transformOrigin = '0 0';
+                edgeEl.style.transform = `rotate(${angle}deg)`;
+                this.container.appendChild(edgeEl);
+
+                // --- NEW LOGIC ---
+                // If a weights container exists, create and append the new list item
+                if (weightsContainer && edge.weight > 1) {
+                    const weightItem = document.createElement('p');
+                    weightItem.className = 'weight-item';
+                    weightItem.innerHTML = `<span class="edge-label">Edge ${nodeA.id}—${nodeB.id}:</span><span class="edge-value">${edge.weight}</span>`;
+                    weightsContainer.appendChild(weightItem);
+                }
             }
         });
-
-          
-        this.container.querySelectorAll('.graph-edge, .weight').forEach(el => el.remove());
-
-          
-        this.adjacencyList.forEach((neighbors, nodeId) => {
-            const nodeA = this.nodes.find(n => n.id === nodeId);
-            neighbors.forEach(edge => {
-                const nodeB = this.nodes.find(n => n.id === edge.node);
-                
-                if (nodeA && nodeB && nodeA.id < nodeB.id) {   
-                    const dx = nodeB.x - nodeA.x;
-                    const dy = nodeB.y - nodeA.y;
-                    const distance = Math.hypot(dx, dy);
-                    const angle = Math.atan2(dy, dx) * 180 / Math.PI;
-
-                    const edgeEl = document.createElement('div');
-                    edgeEl.id = `${this.container.id}-edge-${nodeA.id}-${nodeB.id}`;
-                    edgeEl.className = 'graph-edge';
-                    edgeEl.style.width = `${distance}px`;
-                    edgeEl.style.left = `${nodeA.x + 25}px`;
-                    edgeEl.style.top = `${nodeA.y + 25}px`;
-                    edgeEl.style.transformOrigin = '0 0';
-                    edgeEl.style.transform = `rotate(${angle}deg)`;
-                    this.container.appendChild(edgeEl);
-
-                    if (edge.weight > 1) {   
-                        const weightEl = document.createElement('span');
-                        weightEl.className = 'weight';
-                        weightEl.textContent = edge.weight;
-                        weightEl.style.left = `${(nodeA.x + nodeB.x) / 2 + 25}px`;
-                        weightEl.style.top = `${(nodeA.y + nodeB.y) / 2 + 25}px`;
-                        this.container.appendChild(weightEl);
-                    }
-                }
-            });
-        });
-    }
+    });
+}
 
     _runForceSimulation() {
         const simulationStep = () => {

@@ -894,6 +894,41 @@ input, textarea {
     border: 2px solid var(--light-text);
 }
 
+.weights-list-container {
+    width: 100%;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: rgba(10, 239, 255, 0.05); /* Match your theme */
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap to the next line */
+    gap: 15px; /* Space between weight items */
+    justify-content: center;
+}
+
+.weight-item {
+    background-color: var(--dark-bg);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    color: var(--light-text);
+    border: 1px solid var(--border-color);
+    white-space: nowrap; /* Prevents text from breaking */
+}
+
+.weight-item .edge-label {
+    color: var(--light-text);
+    opacity: 0.8;
+}
+
+.weight-item .edge-value {
+    color: var(--warning-color); /* Use a highlight color for the number */
+    font-weight: 600;
+    margin-left: 5px;
+}
+
 textarea {
     min-height: 150px;
     resize: vertical;
