@@ -22,13 +22,17 @@
     <section class="info-content">
         <div class="container">
             <h1>The Linked List Data Structure</h1>
-            <p>A linked list is a linear data structure, much like an array, but it stores elements non-contiguously in memory. Instead of contiguous blocks, a linked list consists of a sequence of nodes, where each node contains both data and a reference to the next node in the sequence. The first node is called the head, and the last node's pointer typically points to null or None, signifying the end of the list.</p>
-            <p>Unlike arrays, linked lists are dynamic in size and excel at insertions and deletions because elements do not need to be shifted. However, accessing an element by its index is less efficient, as it requires traversing the list from the beginning.</p>
+            <p>A linked list is a linear data structure, much like an array, but it stores elements non-contiguously in memory. Instead of contiguous blocks, 
+                a linked list consists of a sequence of nodes, where each node contains both data and a reference to the next node in the sequence. The first 
+                node is called the head, and the last node's pointer typically points to null or None, signifying the end of the list.</p>
+            <p>Unlike arrays, linked lists are dynamic in size and excel at insertions and deletions because elements do not need to be shifted. However, 
+                accessing an element by its index is less efficient, as it requires traversing the list from the beginning.</p>
 
-            <h2>Linked List Operations</h2>
+            <h2>Linked List Operations User Guide</h2>
 
             <h3>Traversal</h3>
-            <p>Linked list traversal involves visiting each node in the list exactly once, starting from the head and following the next pointers until 
+            <p><strong>Press the traverse button to perform a linked list traversal operation.</strong><br>
+                Linked list traversal involves visiting each node in the list exactly once, starting from the head and following the next pointers until 
                 the end of the list, which is a null pointer, is reached. This operation is fundamental for searching, printing all elements, or 
                 performing an action on each node. Though both arrays and linked lists take O(n) time for traversal, linked lists are generally slower with 
                 this operation. This is due to the fact that arrays are contiguously located in memory, hence the CPU can prefetch the subsequent elements
@@ -38,7 +42,8 @@
             </p>
 
             <h3>Insertion</h3>
-            <p>Insertion adds a new node to the linked list. This can typically occur at three positions:</p>
+            <p><strong>Type in the value in the value text box and the position in the position text box [indexed from 0], then press the Insert button to insert a node.</strong><br>
+                Insertion adds a new node to the linked list. This can typically occur at three positions:</p>
             <ul>
                 <li><strong>At the Head:</strong> The new node becomes the new head, and its next pointer points to the old head. 
                     This is very efficient (O(1)).</li>
@@ -50,12 +55,16 @@
             </ul>
 
             <h3>Deletion</h3>
-            <p>Deletion removes a node from the linked list. Similar to insertion, deletion can occur at various positions:</p>
+            <p><strong>Type in the position of the node you want to delete and then press the Delete button. The value text box has no effect on this operation.</strong><br>
+                Deletion removes a node from the linked list. Similar to insertion, deletion can occur at various positions:</p>
             <ul>
                 <li><strong>From the Head:</strong> The head pointer is simply moved to point to the second node. The original head node is then effectively removed. This is an O(1) operation.</li>
                 <li><strong>From the Tail:</strong> This requires finding the second last node and setting its next pointer to null. This is an O(n) operation as it requires traversing almost the entire list.</li>
                 <li><strong>From a Specific Position:</strong> The next pointer of the node preceding the one to be deleted is updated to point directly to the node after the one being deleted, effectively bypassing and removing the target node. This is an O(n) operation due to traversal.</li>
             </ul>
+
+            <h3>Reset</h3>
+            <p><strong>This is not a linked list operation. Press this button to generate a new linked list with pseudo random numbers.</strong></p>
         </div>
     </section>
 
