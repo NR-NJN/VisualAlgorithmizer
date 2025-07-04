@@ -64,7 +64,7 @@ export class GraphEngine {
     }
 
     _findSafePosition() {
-        if (!this.container) return { x: 100, y: 100 }; // Return a default if container not found
+        if (!this.container) return { x: 100, y: 100 };  
 
     const rect = this.container.getBoundingClientRect();
     for (let attempts = 0; attempts < 50; attempts++) {
@@ -80,20 +80,13 @@ export class GraphEngine {
         if (isSafe) return { x, y };
     }
     
-    // --- THE FIX ---
-    // Instead of returning null, return a fallback position in the center.
-    // This ensures a node is ALWAYS created.
     console.warn("Could not find a safe position, placing node in center.");
     return { x: rect.width / 2, y: rect.height / 2 };
     }
     
     _render() {
         if (!this.container) return;
-        this.container.innerHTML = ''; // Clear everything once
-
-    // --- THE FIX ---
-    // The typo is fixed. This now correctly re-adds the necessary loader
-    // elements, which are hidden by default via CSS.
+        this.container.innerHTML = '';  
         this.container.innerHTML = `
             <p class="loading-text hidden">Working...</p>
             <div class="graph-loader hidden"></div>
@@ -112,8 +105,6 @@ export class GraphEngine {
     
     _updatePositions() {
     if (!this.container) return;
-
-    // 1. Update node positions (this part remains the same)
     this.nodes.forEach(node => {
         const nodeEl = document.getElementById(`${this.container.id}-node-${node.id}`);
         if (nodeEl) {
@@ -121,25 +112,22 @@ export class GraphEngine {
             nodeEl.style.top = `${node.y}px`;
         }
     });
-
-    // 2. Get the new container for the weights list
-    // Note: We only look for this inside the path visualizer's container
+ 
     const weightsContainer = document.querySelector('#path-visualizer #edge-weights-list');
     if (weightsContainer) {
-        weightsContainer.innerHTML = ''; // Clear the old weights list
+        weightsContainer.innerHTML = '';  
     }
-
-    // 3. Remove old edges and ALL floating weights from the canvas
+     
     this.container.querySelectorAll('.graph-edge, .weight').forEach(el => el.remove());
 
-    // 4. Draw new edges and populate the weights list
+     
     this.adjacencyList.forEach((neighbors, nodeId) => {
         const nodeA = this.nodes.find(n => n.id === nodeId);
         neighbors.forEach(edge => {
             const nodeB = this.nodes.find(n => n.id === edge.node);
 
-            if (nodeA && nodeB && nodeA.id < nodeB.id) { // Draw undirected edges once
-                // Draw the edge line (this part is the same)
+            if (nodeA && nodeB && nodeA.id < nodeB.id) {  
+                 
                 const dx = nodeB.x - nodeA.x;
                 const dy = nodeB.y - nodeA.y;
                 const distance = Math.hypot(dx, dy);
@@ -153,9 +141,7 @@ export class GraphEngine {
                 edgeEl.style.transformOrigin = '0 0';
                 edgeEl.style.transform = `rotate(${angle}deg)`;
                 this.container.appendChild(edgeEl);
-
-                // --- NEW LOGIC ---
-                // If a weights container exists, create and append the new list item
+                
                 if (weightsContainer && edge.weight > 1) {
                     const weightItem = document.createElement('p');
                     weightItem.className = 'weight-item';

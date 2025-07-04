@@ -9,7 +9,7 @@ async function visualizeBellmanFord() {
     isVisualizing = true;
     
     updatePathInfo('Bellman-Ford', 'O(V * E)', 'O(V)');
-    resetPathVisualization(); // Ensures a clean slate
+    resetPathVisualization(); 
 
     const nodes = pathGraph.nodes;
     const adjacencyList = pathGraph.adjacencyList;

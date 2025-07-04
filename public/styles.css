@@ -898,13 +898,13 @@ input, textarea {
     width: 100%;
     margin-top: 20px;
     padding: 15px;
-    background-color: rgba(10, 239, 255, 0.05); /* Match your theme */
+    background-color: rgba(10, 239, 255, 0.05); 
     border: 1px solid var(--border-color);
     border-radius: 8px;
     
     display: flex;
-    flex-wrap: wrap; /* Allows items to wrap to the next line */
-    gap: 15px; /* Space between weight items */
+    flex-wrap: wrap; 
+    gap: 15px;
     justify-content: center;
 }
 
@@ -915,7 +915,7 @@ input, textarea {
     font-size: 0.9rem;
     color: var(--light-text);
     border: 1px solid var(--border-color);
-    white-space: nowrap; /* Prevents text from breaking */
+    white-space: nowrap; 
 }
 
 .weight-item .edge-label {
@@ -924,7 +924,7 @@ input, textarea {
 }
 
 .weight-item .edge-value {
-    color: var(--warning-color); /* Use a highlight color for the number */
+    color: var(--warning-color); 
     font-weight: 600;
     margin-left: 5px;
 }
