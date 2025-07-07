@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src * data:; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; script-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline'; font-src 'self' https://cdnjs.cloudflare.com;">
+    <link rel="icon" href="data:,">
+
+    <title>About Graphs - DSVisualizer</title>
+
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../info-page.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="../main.html" class="logo-text">DSVisualizer</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="../main.html#graphs">Back to Visualizer</a></li>
+        </ul>
+    </nav>
+
+    <section class="info-content">
+        <div class="container">
+            <h1>The Graph Data Structure</h1>
+            <p>This is a continuation of the graph algorithms, but since they are more complex and different, they have been separated out to a different panel of the webpage</p>
+            
+
+            <h2>Shortest Path User Guide</h2>
+
+            <h3>Dijkstra Algorithm</h3>
+            <p><strong>With a generated graph, press the Dijkstra button to perform a full Dijkstra algorithm run on the graph. The weights are listed
+                at the bottom and a table with the shortest paths is updated below the canvas.<br>
+            </strong>
+                Dijkstra's algorithm is a greedy algorithm used to find the shortest path from a starting source node to all other nodes in a weighted graph. 
+                It works by iteratively selecting the unvisited node with the smallest distance from the source, then updating the distances of its unvisited 
+                neighbors if a shorter path is found through the current node. This process continues until all reachable nodes have been visited and their shortest 
+                distances from the source are determined. Dijkstra's algorithm is efficient for graphs with non negative edge weights and is widely used in 
+                applications like network routing and GPS navigation</p>
+            
+
+            <h3>Bellman Ford Algorithm</h3>
+            <p><strong>With a generated graph, press the Bellman Ford button to perform a full shortest path search. The weights are located at the bottom
+                of the canvas, and the table is updated below it as well. I have sped up the animation for this algorithm to match its speed with Dijkstra.<br>
+            </strong>
+                The Bellman Ford algorithm is a shortest path algorithm that calculates the shortest distances from a single source vertex to all other 
+                vertices in a weighted graph. It's particularly useful because it can handle graphs with negative edge weights, a capability that many other shortest 
+                path algorithms like Dijkstra's algorithm lack. The algorithm works by repeatedly relaxing all the edges in the graph |V|-1 times, updating shortest 
+                path estimates as shorter paths are discovered. A significant advantage of Bellman Ford is its ability to 
+                detect negative weight cycles in a graph, which if present, indicate that no shortest path exists, as one can infinitely decrease the path length by 
+                traversing the cycle. However, since it scans every vertex regardless, it is significantly slower than Dijkstra</p>
+            
+        </div>
+    </section>
+
+</body>
+</html>
